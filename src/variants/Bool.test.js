@@ -29,18 +29,18 @@ test('new Bool() Errors', () => {
 
 test('Bool validators', () => {
   const v = new Bool()
-  expect(v._validator.isBoolean(1)).toEqual(false)
-  expect(v._validator.isBoolean(0)).toEqual(false)
-  expect(v._validator.isBoolean(null)).toEqual(false)
-  expect(v._validator.isBoolean('aString')).toEqual(false)
-  expect(v._validator.isBoolean(true)).toEqual(true)
-  expect(v._validator.isBoolean(false)).toEqual(true)
+  expect(v._validator.isBool(1)).toEqual(false)
+  expect(v._validator.isBool(0)).toEqual(false)
+  expect(v._validator.isBool(null)).toEqual(false)
+  expect(v._validator.isBool('aString')).toEqual(false)
+  expect(v._validator.isBool(true)).toEqual(true)
+  expect(v._validator.isBool(false)).toEqual(true)
   expect(v.isValid(true)).toEqual({ pass: true, value: true, fails: 'none' })
   expect(v.isValid(false)).toEqual({ pass: true, value: false, fails: 'none' })
-  expect(v.isValid(5)).toEqual({ pass: false, value: 5, fails: 'isBoolean' })
+  expect(v.isValid(5)).toEqual({ pass: false, value: 5, fails: 'isBool' })
   expect(v.isValid('x')).toEqual({
     pass: false,
     value: 'x',
-    fails: 'isBoolean'
+    fails: 'isBool'
   })
 })

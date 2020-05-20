@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 import { Spotting, SurfaceFire } from '../index.js'
 
-import * as DagJest from '../../util/matchers.js'
+import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })

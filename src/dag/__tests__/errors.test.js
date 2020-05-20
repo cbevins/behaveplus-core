@@ -1,6 +1,7 @@
 /* eslint-disable no-new */
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { BpxFilterMap, BpxMethodMap } from '../../index.js'
+import { MethodMap } from '../../equations/index.js'
+import { BpxVariantMap } from '../../genome/index.js'
 import { Dag } from '../Dag.js'
 
 test('Error - duplicate genome key', () => {
@@ -8,45 +9,48 @@ test('Error - duplicate genome key', () => {
     [
       'surface.primary.fuel.fire.slope.ratio',
       [
-        ['Filter.SlopeSteepness'],
+        ['Variant.SlopeSteepness'],
         [['finally', 'Dag.bind', 'site.slope.steepness.ratio']]
       ]
     ],
     [
       'surface.primary.fuel.fire.slope.ratio',
       [
-        ['Filter.SlopeSteepness'],
+        ['Variant.SlopeSteepness'],
         [['finally', 'Dag.bind', 'site.slope.steepness.ratio']]
       ]
     ]
   ]
   expect(() => {
-    new Dag(null, 'badDag', bad, new BpxFilterMap(), BpxMethodMap)
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
   }).toThrow(
     "GenomeArray Node 'surface.primary.fuel.fire.slope.ratio' was previously defined"
   )
 })
 
-test('Error - bad Filter key', () => {
+test('Error - bad Variant key', () => {
   const bad = [
     [
       'surface.primary.fuel.fire.slope.ratio',
-      [['Filter.Junk'], [['finally', 'Dag.bind', 'site.slope.steepness.ratio']]]
+      [
+        ['Variant.Junk'],
+        [['finally', 'Dag.bind', 'site.slope.steepness.ratio']]
+      ]
     ]
   ]
   expect(() => {
-    new Dag(null, 'badDag', bad, new BpxFilterMap(), BpxMethodMap)
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
   }).toThrow(
-    "GenomeArray Node 'surface.primary.fuel.fire.slope.ratio' has unknown filter 'Junk'"
+    "GenomeArray Node 'surface.primary.fuel.fire.slope.ratio' has unknown variant 'Junk'"
   )
 })
 
 test('Error - no updater options', () => {
   const bad = [
-    ['surface.primary.fuel.fire.slope.ratio', [['Filter.SlopeSteepness'], []]]
+    ['surface.primary.fuel.fire.slope.ratio', [['Variant.SlopeSteepness'], []]]
   ]
   expect(() => {
-    new Dag(null, 'badDag', bad, new BpxFilterMap(), BpxMethodMap)
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
   }).toThrow(
     "GenomeArray Node 'surface.primary.fuel.fire.slope.ratio' has no updater method options"
   )
@@ -57,7 +61,7 @@ test('Error - bad configKey', () => {
     [
       'surface.primary.fuel.fire.windSpeedAdjustmentFactor',
       [
-        ['Filter.WindSpeedAdjustmentFraction'],
+        ['Variant.WindSpeedAdjustmentFraction'],
         [
           [
             'when',
@@ -79,7 +83,7 @@ test('Error - bad configKey', () => {
     ]
   ]
   expect(() => {
-    new Dag(null, 'badDag', bad, new BpxFilterMap(), BpxMethodMap)
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
   }).toThrow(
     "GenomeArray Node 'surface.primary.fuel.fire.windSpeedAdjustmentFactor' updater 0 has unknown config Node 'BAD.configure.fuel.windSpeedAdjustmentFactor'"
   )
@@ -90,7 +94,7 @@ test('Error - bad methodKey', () => {
     [
       'surface.primary.fuel.fire.windSpeedAdjustmentFactor',
       [
-        ['Filter.WindSpeedAdjustmentFraction'],
+        ['Variant.WindSpeedAdjustmentFraction'],
         [
           [
             'finally',
@@ -104,7 +108,7 @@ test('Error - bad methodKey', () => {
     ]
   ]
   expect(() => {
-    new Dag(null, 'badDag', bad, new BpxFilterMap(), BpxMethodMap)
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
   }).toThrow(
     "GenomeArray Node 'surface.primary.fuel.fire.windSpeedAdjustmentFactor' updater 0 has unknown method 'BAD.windSpeedAdjustmentFactor"
   )

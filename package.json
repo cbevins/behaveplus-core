@@ -68,7 +68,15 @@
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest",
       "^.+\\.mjs?$": "babel-jest"
-    }
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/src/dag/delayed__tests__",
+      "<rootDir>/src/equations/delayed__tests__",
+      "<rootDir>/src/explorer/delayed__tests__",
+      "<rootDir>/src/genome/delayed__tests__",
+      "<rootDir>/src/utils/delayed__tests__",
+      "<rootDir>/src/variants/delayed__tests__"
+    ]
   },
   "dependencies": {}
 }

@@ -29,19 +29,19 @@ YouTube _How to Build a Modern JS Project_
   - Change to parent directory of soon-to-be project
 
     ```
-    c:\cbevins\dev\node> git clone https://github.com/cbevins/wildfire-variant.git
-    c:\cbevins\dev\node>cd wildfire-variant
-    c:\cbevins\dev\node\wildfire-variant> npm init -y
-    c:\cbevins\dev\node\wildfire-variant> code .
+    c:\cbevins\dev\node> git clone https://github.com/cbevins/behaveplus-core.git
+    c:\cbevins\dev\node>cd behaveplus-core
+    c:\cbevins\dev\node\behaveplus-core> npm init -y
+    c:\cbevins\dev\node\behaveplus-core> code .
     ```
 
   - Create src folder and index.js ...
 
     ```
-    c:\cbevins\dev\node\wildfire-variant> mkdir src
-    c:\cbevins\dev\node\wildfire-variant> cd src
-    c:\cbevins\dev\node\wildfire-variant\src> touch index.js
-    c:\cbevins\dev\node\wildfire-variant\src> code .
+    c:\cbevins\dev\node\behaveplus-core> mkdir src
+    c:\cbevins\dev\node\behaveplus-core> cd src
+    c:\cbevins\dev\node\behaveplus-core\src> touch index.js
+    c:\cbevins\dev\node\behaveplus-core\src> code .
     ```
 
   - Enable Eslint and Prettier extensions in VSCode

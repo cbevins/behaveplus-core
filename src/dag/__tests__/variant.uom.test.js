@@ -1,5 +1,5 @@
 /* eslint-disable no-undef, no-prototype-builtins */
-import * as Variant from 'wildfire-variant'
+import * as Variant from '../../variants/index.js'
 
 test('Arc object', () => {
   expect(Variant.Arc.name).toEqual('Arc')
@@ -13,7 +13,7 @@ test('Arc object', () => {
 })
 
 test('Area object', () => {
-  expect(Variant.Area.name).toEqual('Area')
+  expect(Variant.Area.name).toEqual('Distance^2')
   expect(Variant.Area.base).toEqual('ft2')
 
   expect(Variant.Area.baseFromUom(1, 'ft2')).toEqual(1)
@@ -27,8 +27,8 @@ test('Area object', () => {
 })
 
 test('Area instance', () => {
-  const area = new Quantity(Variant.Area)
-  expect(area.uomName()).toEqual('Area')
+  const area = new Variant.Quantity(Variant.Area)
+  expect(area.uomName()).toEqual('Distance^2')
   expect(area.uomBase()).toEqual('ft2')
 
   expect(area.baseFromUom(1, 'ft2')).toEqual(1)
@@ -71,7 +71,7 @@ test('Distance object', () => {
 })
 
 test('Load object', () => {
-  expect(Variant.Load.name).toEqual('Load')
+  expect(Variant.Load.name).toEqual('Mass/Area')
   expect(Variant.Load.base).toEqual('lb/ft2')
 
   expect(Variant.Load.baseFromUom(1, 'lb/ft2')).toEqual(1)
@@ -82,8 +82,8 @@ test('Load object', () => {
 })
 
 test('Load instance', () => {
-  const load = new Quantity(Variant.Load)
-  expect(load.uomName()).toEqual('Load')
+  const load = new Variant.Quantity(Variant.Load)
+  expect(load.uomName()).toEqual('Mass/Area')
   expect(load.uomBase()).toEqual('lb/ft2')
   expect(load.uomKeys()).toEqual(['lb/ft2', 'ton/ac', 'kg/m2', 'T/ha'])
   expect(typeof load.baseAsUom).toEqual('function')
@@ -97,7 +97,7 @@ test('Load instance', () => {
 
   expect(() => {
     load.baseFromUom(1, 'no/such/units')
-  }).toThrow("Quantity 'Load' has no units-of-measure 'no/such/units'")
+  }).toThrow("Quantity 'Mass/Area' has no units-of-measure 'no/such/units'")
 })
 
 test('Mass object', () => {
@@ -115,7 +115,7 @@ test('Mass object', () => {
 })
 
 test('Mass Quantity instance', () => {
-  const mass = new Quantity(Variant.Mass)
+  const mass = new Variant.Quantity(Variant.Mass)
   expect(mass.uomName()).toEqual('Mass')
   expect(mass.uom().name).toEqual('Mass')
   expect(mass.uomBase()).toEqual('lb')
@@ -129,7 +129,7 @@ test('Mass Quantity instance', () => {
 })
 
 test('Mass Quantity conversion', () => {
-  const mass = new Quantity(Variant.Mass)
+  const mass = new Variant.Quantity(Variant.Mass)
   expect(mass.convert(2000, 'lb', 'lb')).toEqual(2000)
   expect(mass.convert(2000, 'lb', 'base')).toEqual(2000)
   expect(mass.convert(2000, 'lb', 'ton')).toEqual(1)
@@ -191,7 +191,7 @@ test('Time object', () => {
 })
 
 test('Velocity object', () => {
-  expect(Variant.Velocity.name).toEqual('Velocity')
+  expect(Variant.Velocity.name).toEqual('Distance/Time')
   expect(Variant.Velocity.base).toEqual('ft/min')
 
   expect(Variant.Velocity.baseFromUom(1, 'ft/min')).toEqual(1)

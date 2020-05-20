@@ -10,8 +10,8 @@
  * - a class derived from Variant.Option() requires an array of options argument
  * - a class derived from Variant.Quantity() requires a Uom reference argument
  */
-import * as Variant from 'wildfire-variant'
-import * as Lib from 'wildfire-behaveplus-equation'
+import * as Variant from '../variants/index.js'
+import * as Lib from '../equations/index.js'
 import * as Config from './BpxConfigOptions.js'
 
 export class AirTemperature extends Variant.Quantity {

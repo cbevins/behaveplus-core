@@ -5,7 +5,7 @@ export const NodeMapSize = 1208
 export const MethodMapSize = 228
 
 export function Dag (dagKey) {
-  const root = new D.Root(BpxGenome, BpxFilterMap, BpxMethodMap)
+  const root = new D.Root(BpxGenome, BpxVariantMap, BpxMethodMap)
   return root.addDag(dagKey)
 }
 

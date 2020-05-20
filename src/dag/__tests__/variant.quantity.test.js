@@ -1,10 +1,18 @@
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest, BpxConfigPalette } from '../../index.js'
+import { Root } from '../index.js'
+import {
+  BpxConfigPalette,
+  BpxGenome,
+  BpxVariantMap
+} from '../../genome/index.js'
 
+import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig
 expect.extend({ sig })
 
-const dag = Bpx.Dag('caseWise')
+const root = new Root(BpxGenome, BpxVariantMap, BpxVariantMap)
+const dag = root.addDag('caseWise')
+
 dag.runConfigs(BpxConfigPalette.MinimalInput)
 const ros = dag.get('surface.primary.fuel.fire.spreadRate')
 const catalogKey = dag.get('surface.primary.fuel.model.catalogKey')
@@ -40,7 +48,7 @@ test('1: Quantity displayValue()', () => {
   expect(ros.displayAmount()).toEqual('1.94')
 
   // Set the FireSpreadRate Variant display to 4 fixed decimals
-  const rosVariant = dag.filter.map.get('FireSpreadRate')
+  const rosVariant = dag.variant.map.get('FireSpreadRate')
   rosVariant.setDisplayFixed(4)
   expect(ros.displayString()).toEqual('1.9366 ft/min')
 

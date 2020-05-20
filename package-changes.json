@@ -51,7 +51,5 @@
       "^.+\\.mjs?$": "babel-jest"
     }
   },
-  "dependencies": {
-    "wildfire-variant": "file:../wildfire-variant"
-  }
+  "dependencies": {}
 }

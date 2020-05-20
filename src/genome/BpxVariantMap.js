@@ -1,16 +1,16 @@
 /**
- * The BpxFilterMap maps Variant keys from the BpxGenome
+ * The BpxVariantMap maps Variant keys from the BpxGenome
  * to their BpxVariant class constructor
  *
  * Each Dag has its own instance of the BpxVariantMap so that it can have
  * its own set of value display decorators (precision, decimals, uoms, etc)
  */
-import * as WildfireVariant from 'wildfire-variant'
+import * as Variant from '../variants/index.js'
 import * as BpxVariant from './BpxVariants.js'
 
 export const BpxVariantArray = [
   ['AirTemperature', new BpxVariant.AirTemperature()],
-  // \todo Add Booleans with specialized display strings, i.e.,
+  // \todo Add Bools with specialized display strings, i.e.,
   ['ChaparralTypeOption', new BpxVariant.ChaparralTypeOption()],
   ['CompassAzimuth', new BpxVariant.CompassAzimuth()],
   ['ConfigChaparralTotalLoad', new BpxVariant.ConfigChaparralTotalLoad()],
@@ -124,6 +124,6 @@ export const BpxVariantArray = [
 
 export class BpxVariantMap extends Map {
   constructor () {
-    super([...WildfireVariant.VariantArray, ...BpxVariantArray])
+    super([...Variant.VariantArray, ...BpxVariantArray])
   }
 }

@@ -1,4 +1,4 @@
-import * as Variant from 'wildfire-variant'
+import * as Variant from './src/variants/index.js'
 
 function testBlob () {
   const blob = new Variant.Blob({ first: 'Collin', last: 'Bevins' })
