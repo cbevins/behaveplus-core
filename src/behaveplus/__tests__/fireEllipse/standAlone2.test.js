@@ -1,18 +1,15 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import {
-  Bpx,
-  BpxConfigPalette,
-  DagJest,
-  FireEllipse,
-  SurfaceFire
-} from '../../../index.js'
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
+import * as FireEllipse from '../../../equations/FireEllipse.js'
+import * as SurfaceFire from '../../../equations/SurfaceFire.js'
+import { ConfigDefault } from '../../BpxConfigPalette.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
 test('1: Stand-alone fire ellipse', () => {
-  const dag = Bpx.Dag('fireEllipseStandAlone')
+  const dag = BpxDag('fireEllipseStandAlone')
   dag.runConfigs(ConfigDefault)
 
   // Inputs

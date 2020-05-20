@@ -5,10 +5,6 @@
  * - Weighted Behave fuel models '10' (60%) and '124' (40%)
  * - Covers surface.primary.*, surface.secondary.*, and surface.weighted.*
  */
-import { BpxConfigPalette } from '../../../index.js'
-
-export const Configs = ConfigFm010Fm124Config
-export const Inputs = ConfigFm010Fm124Input
 
 // Key should be prefixed with 'surface.primary.fuel.', 'surface.secondary.fuel.',
 // 'surface.weighted', etc

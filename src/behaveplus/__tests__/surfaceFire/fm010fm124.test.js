@@ -1,17 +1,23 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag, NodeMapSize, MethodMapSize } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
+import {
+  ConfigFm010Fm124Config,
+  ConfigFm010Fm124Input
+} from '../../BpxConfigPalette.js'
 import * as Test from './testData.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 test('1: Fm010, FM124, and Weighted results validated against BP6', () => {
-  const dag = Bpx.Dag('surfaceFire')
-  expect(dag.node.map.size).toEqual(Bpx.NodeMapSize)
-  expect(dag.method.map.size).toEqual(Bpx.MethodMapSize)
+  const dag = BpxDag('surfaceFire')
+  expect(dag.node.map.size).toEqual(NodeMapSize)
+  expect(dag.method.map.size).toEqual(MethodMapSize)
 
   // Step 1 - configuration
-  dag.runConfigs(Test.Configs) // Standard configuration
+  dag.runConfigs(ConfigFm010Fm124Config) // Standard configuration
 
   // Step 2 - selection
   dag.runSelected(Test.primarySelections())
@@ -21,7 +27,7 @@ test('1: Fm010, FM124, and Weighted results validated against BP6', () => {
   // Get required inputs and ensure they are included in the provided input array
   const requiredInputs = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(requiredInputs, 'Required Inputs:'))
-  const testInputs = Test.Inputs // Array of [<nodeKey>-<true>] pairs
+  const testInputs = ConfigFm010Fm124Input // Array of [<nodeKey>-<true>] pairs
   const testList = testInputs.map(input => dag.get(input[0])) // Simple array of input Node references
   requiredInputs.forEach(requiredInput => {
     // console.log(requiredInput.node.key)

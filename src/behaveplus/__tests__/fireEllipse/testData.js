@@ -5,7 +5,8 @@
  * - Weighted Behave fuel models '10' (60%) and '124' (40%)
  * - Covers surface.primary.*, surface.secondary.*, and surface.weighted.*
  */
-import { Bpx, SurfaceFire } from '../../../index.js'
+import { Module } from '../../BpxConfigOptions.js'
+import * as SurfaceFire from '../../../equations/SurfaceFire.js'
 
 export const Configs = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
@@ -38,7 +39,7 @@ export const Configs = [
     ][0]
   ],
   ['configure.fuel.windSpeedAdjustmentFactor', ['input', 'estimated'][0]],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',

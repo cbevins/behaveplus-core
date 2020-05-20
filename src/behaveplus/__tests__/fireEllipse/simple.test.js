@@ -1,15 +1,17 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
 import * as Test from './testData.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 test('1: Bpx FireEllipse', () => {
-  const dag = Bpx.Dag('fireEllipse')
+  const dag = BpxDag('fireEllipse')
 
   // Step 1 - configuration
-  dag.runConfigs(Test.Configs)
+  dag.runConfigs(Test.Configs) // Standard configuration
 
   // Step 2 - selection
   dag.runSelected(Test.fireEllipseSelections())
