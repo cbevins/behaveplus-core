@@ -7,7 +7,7 @@ expect.extend({ value, sig })
 
 test('1: Slope direction and steepness', () => {
   const dag = Bpx.Dag('slope')
-  dag.runConfigs(BpxConfigPalette.Default)
+  dag.runConfigs(ConfigDefault)
 
   const cfgSlp = dag.get('configure.slope.steepness')
   const aspect = dag.get('site.slope.direction.aspect')
@@ -189,7 +189,7 @@ test('1: Slope direction and steepness', () => {
 
 test('2: Slope from map', () => {
   const dag = Bpx.Dag('slopeFromMap')
-  dag.runConfigs(BpxConfigPalette.Default)
+  dag.runConfigs(ConfigDefault)
   dag.runConfigs([
     ['configure.slope.steepness', ['ratio', 'degrees', 'map'][2]]
   ])

@@ -1,6 +1,6 @@
-import { Bpx } from '../index.js'
+import { Module } from './BpxConfigOptions.js'
 
-export const Default = [
+export const ConfigDefault = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
   ['configure.fire.firelineIntensity', ['firelineIntensity', 'flameLength'][0]],
   [
@@ -31,7 +31,7 @@ export const Default = [
       'westernAspen'
     ][0]
   ],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',
@@ -39,7 +39,8 @@ export const Default = [
   ],
   ['configure.wind.speed', ['at10m', 'at20ft', 'atMidflame'][0]]
 ]
-export const MinimalInput = [
+
+export const ConfigMinimalInput = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
   ['configure.fire.firelineIntensity', ['firelineIntensity', 'flameLength'][0]],
   [
@@ -70,7 +71,7 @@ export const MinimalInput = [
     ][0]
   ],
   ['configure.fuel.windSpeedAdjustmentFactor', ['input', 'estimated'][0]],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',
@@ -79,7 +80,7 @@ export const MinimalInput = [
   ['configure.wind.speed', ['at10m', 'at20ft', 'atMidflame'][2]]
 ]
 
-export const Fm010Fm124Config = [
+export const ConfigFm010Fm124Config = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
   ['configure.fire.firelineIntensity', ['firelineIntensity', 'flameLength'][1]],
   [
@@ -110,7 +111,7 @@ export const Fm010Fm124Config = [
     ][1]
   ],
   ['configure.fuel.windSpeedAdjustmentFactor', ['input', 'estimated'][0]],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',
@@ -119,7 +120,7 @@ export const Fm010Fm124Config = [
   ['configure.wind.speed', ['at10m', 'at20ft', 'atMidflame'][2]]
 ]
 
-export const Fm010Fm124Input = [
+export const ConfigFm010Fm124Input = [
   ['site.fire.time.sinceIgnition', [60]],
   ['site.fire.vector.fromNorth', [45]],
   ['site.map.scale', [24000]],

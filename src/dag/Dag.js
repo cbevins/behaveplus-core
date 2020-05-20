@@ -71,16 +71,14 @@ export class Dag {
    * @return An array of all required Config Nodes in topological order.
    */
   requiredConfigNodes () {
-    return this.sorted.required.variant(
-      node => node.method.key === 'Dag.config'
-    )
+    return this.sorted.required.filter(node => node.method.key === 'Dag.config')
   }
 
   /**
    * @return An array of all required input Nodes in topological order.
    */
   requiredInputNodes () {
-    return this.sorted.required.variant(node =>
+    return this.sorted.required.filter(node =>
       ['Dag.input', 'Dag.dangler'].includes(node.method.key)
     )
   }
@@ -96,9 +94,7 @@ export class Dag {
    * @returns An array of all required, updatable (non-Config) Node references in topological order.
    */
   requiredUpdateNodes () {
-    return this.sorted.required.variant(
-      node => node.method.key !== 'Dag.config'
-    )
+    return this.sorted.required.filter(node => node.method.key !== 'Dag.config')
   }
 
   /**
@@ -128,7 +124,7 @@ export class Dag {
   runIndicesRecursive (inputValues, possible) {
     const [nodeKeyOrRef, specValue] = inputValues.shift()
     const node = Private.asNodeRef(this, nodeKeyOrRef)
-    const remaining = possible.variant(idx => node.value.run[idx] === specValue)
+    const remaining = possible.filter(idx => node.value.run[idx] === specValue)
     return inputValues.length && remaining.length
       ? this.runIndicesRecursive(inputValues, remaining)
       : remaining
@@ -165,7 +161,7 @@ export class Dag {
    *  @return An array of all selected Nodes in topological order.
    */
   selectedNodes () {
-    return this.sorted.required.variant(node => node.status.isSelected)
+    return this.sorted.required.filter(node => node.status.isSelected)
   }
 
   /**

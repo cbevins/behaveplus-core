@@ -7,8 +7,8 @@
  */
 import { BpxConfigPalette } from '../../../index.js'
 
-export const Configs = BpxConfigPalette.Fm010Fm124Config
-export const Inputs = BpxConfigPalette.Fm010Fm124Input
+export const Configs = ConfigFm010Fm124Config
+export const Inputs = ConfigFm010Fm124Input
 
 // Key should be prefixed with 'surface.primary.fuel.', 'surface.secondary.fuel.',
 // 'surface.weighted', etc

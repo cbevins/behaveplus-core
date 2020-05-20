@@ -1,7 +1,8 @@
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 import { Root } from '../index.js'
+import { MethodMap } from '../../equations/index.js'
 import {
-  BpxConfigPalette,
+  ConfigMinimalInput,
   BpxGenome,
   BpxVariantMap
 } from '../../genome/index.js'
@@ -10,10 +11,10 @@ import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig
 expect.extend({ sig })
 
-const root = new Root(BpxGenome, BpxVariantMap, BpxVariantMap)
-const dag = root.addDag('caseWise')
+const root = new Root(BpxGenome, BpxVariantMap, MethodMap)
+const dag = root.addDag('casewise')
 
-dag.runConfigs(BpxConfigPalette.MinimalInput)
+dag.runConfigs(ConfigMinimalInput)
 const ros = dag.get('surface.primary.fuel.fire.spreadRate')
 const catalogKey = dag.get('surface.primary.fuel.model.catalogKey')
 const deadMoisture = dag.get('site.moisture.dead.category')

@@ -6,7 +6,7 @@ const value = DagJest.value
 expect.extend({ value, sig })
 
 const dag = Bpx.Dag('fireEllipseStandAlone')
-dag.runConfigs(BpxConfigPalette.Default)
+dag.runConfigs(ConfigDefault)
 dag.runConfigs([
   ['configure.module', 'fireEllipse'],
   ['configure.fire.firelineIntensity', 'firelineIntensity'],

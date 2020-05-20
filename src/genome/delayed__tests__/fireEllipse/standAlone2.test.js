@@ -13,7 +13,7 @@ expect.extend({ value, sig })
 
 test('1: Stand-alone fire ellipse', () => {
   const dag = Bpx.Dag('fireEllipseStandAlone')
-  dag.runConfigs(BpxConfigPalette.Default)
+  dag.runConfigs(ConfigDefault)
 
   // Inputs
   const spreadRate = 10

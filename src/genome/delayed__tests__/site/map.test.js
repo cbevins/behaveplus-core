@@ -20,7 +20,7 @@ const Results = [
 
 test('1: Map test', () => {
   const dag = Bpx.Dag('map')
-  dag.runConfigs(BpxConfigPalette.MinimalInput)
+  dag.runConfigs(ConfigMinimalInput)
 
   dag.runSelected(Results.map(node => [node[0], true]))
   const requiredInputs = dag.requiredInputNodes()

@@ -1,11 +1,14 @@
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Dag as D, BpxGenome, BpxVariantMap, BpxMethodMap } from '../index.js'
+import { Root } from '../dag/index.js'
+import { BpxGenome } from './BpxGenome.js'
+import { BpxVariantMap } from './BpxVariantMap.js'
+import { MethodMap } from '../equations/index.js'
 
 export const NodeMapSize = 1208
 export const MethodMapSize = 228
 
-export function Dag (dagKey) {
-  const root = new D.Root(BpxGenome, BpxVariantMap, BpxMethodMap)
+export function BpxDag (dagKey) {
+  const root = new Root(BpxGenome, BpxVariantMap, MethodMap)
   return root.addDag(dagKey)
 }
 

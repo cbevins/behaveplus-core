@@ -46,7 +46,7 @@ test('Simple configuration, selection, inputs, batch', () => {
   )
 
   // Step 1b - try minimal configuration
-  dag.runConfigs(BpxConfigPalette.MinimalInput)
+  dag.runConfigs(ConfigMinimalInput)
 
   // Step 2 - selection
   expect(dag.node.map.has('surface.weighted.fire.spreadRate')).toEqual(true)

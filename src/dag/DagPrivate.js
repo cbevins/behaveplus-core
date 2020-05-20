@@ -297,7 +297,7 @@ export function resetStatusRequired (dag) {
     }
   })
   // Store the topologically-ordered required Nodes in the Dag
-  dag.sorted.required = dag.sorted.nodes.variant(
+  dag.sorted.required = dag.sorted.nodes.filter(
     node => node.status.isEnabled && node.status.isRequired
   )
 }
