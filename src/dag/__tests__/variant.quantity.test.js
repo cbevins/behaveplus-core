@@ -5,7 +5,7 @@ import {
   ConfigMinimalInput,
   BpxGenome,
   BpxVariantMap
-} from '../../genome/index.js'
+} from '../../behaveplus/index.js'
 
 import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig

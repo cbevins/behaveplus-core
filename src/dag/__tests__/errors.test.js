@@ -1,7 +1,7 @@
 /* eslint-disable no-new */
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 import { MethodMap } from '../../equations/index.js'
-import { BpxVariantMap } from '../../genome/index.js'
+import { BpxVariantMap } from '../../behaveplus/index.js'
 import { Dag } from '../Dag.js'
 
 test('Error - duplicate genome key', () => {

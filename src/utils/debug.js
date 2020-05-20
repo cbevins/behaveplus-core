@@ -1,12 +1,5 @@
-import { Root } from '../dag/index.js'
-import {
-  ConfigMinimalInput,
-  BpxGenome,
-  BpxVariantMap
-} from '../genome/index.js'
-import { MethodMap } from '../equations/index.js'
+import { Genome } from '../../dist/bundle.esm.js'
 
-const root = new Root(BpxGenome, BpxVariantMap, MethodMap)
-const dag = root.addDag('casewise')
+const root = new Genome.BpxDag('caseWise')
 
 console.log('debug finished')
