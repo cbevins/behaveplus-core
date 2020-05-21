@@ -1,8 +1,7 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx } from '../../index.js'
+import { BpxDag } from '../../behavePlus/BpxDag.js'
 import * as Pathways from '../Pathways.js'
 
-const dag = Bpx.Dag()
+const dag = BpxDag()
 dag.runConfigs([['configure.module', 'surfaceFire']])
 // dag.runSelected([['surface.primary.fuel.model.behave.parms.depth', true]])
 dag.runSelected([['surface.weighted.fire.spreadRate', true]])

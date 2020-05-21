@@ -1,5 +1,4 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-// import { LoopIterator } from '../LoopIterator.js'
+import { LoopIterator } from './LoopIterator.js'
 
 test.skip('LoopIterator requires babel, jest regeneratorRuntime', () => {
   const a = [...new LoopIterator(1, 10, 1)]

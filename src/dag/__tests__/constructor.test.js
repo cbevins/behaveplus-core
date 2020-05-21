@@ -1,15 +1,16 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest, BpxConfigPalette } from '../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag, NodeMapSize, MethodMapSize } from '../../behavePlus/BpxDag.js'
+import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
 
 test('Bpx.Dag constructor', () => {
-  const dag = Bpx.Dag('simple')
+  const dag = BpxDag('simple')
   expect(dag.id.root.shared.genomeArray instanceof Array).toEqual(true)
-  expect(typeof dag.id.root.shared.filterMapConstructor === 'function').toEqual(
-    true
-  )
+  expect(
+    typeof dag.id.root.shared.variantMapConstructor === 'function'
+  ).toEqual(true)
   expect(dag.id.root.shared.methodMap instanceof Map).toEqual(true)
-  expect(dag.node.map.size).toEqual(Bpx.NodeMapSize)
-  expect(dag.method.map.size).toEqual(Bpx.MethodMapSize)
+  expect(dag.node.map.size).toEqual(NodeMapSize)
+  expect(dag.method.map.size).toEqual(MethodMapSize)
   expect(
     dag.node.map.has(
       'surface.primary.fuel.bed.dead.particle.class1.ovendryLoad'
@@ -18,7 +19,7 @@ test('Bpx.Dag constructor', () => {
 })
 
 test('Simple configuration, selection, inputs, batch', () => {
-  const dag = Bpx.Dag('simple')
+  const dag = BpxDag('simple')
 
   const configWaf = dag.node.map.get('configure.fuel.windSpeedAdjustmentFactor')
   expect(configWaf.value.current).toEqual('input')
@@ -65,7 +66,7 @@ test('Simple configuration, selection, inputs, batch', () => {
   ])
   expect(ros.status.isSelected).toEqual(true)
   expect(dist.status.isSelected).toEqual(true)
-  expect(dag.sorted.nodes.length).toEqual(Bpx.NodeMapSize)
+  expect(dag.sorted.nodes.length).toEqual(NodeMapSize)
   const selectedNodes = dag.selectedNodes()
   // console.log(DagJest.batchList(dag.dag.nodes))
 
@@ -109,7 +110,7 @@ test('Simple configuration, selection, inputs, batch', () => {
 })
 
 test('Node lists1', () => {
-  const dag = Bpx.Dag('simple')
+  const dag = BpxDag('simple')
 
   // return this.sorted.required.filter(node => node.method.key !== 'Dag.config')
   let batchNodes = dag.requiredUpdateNodes()

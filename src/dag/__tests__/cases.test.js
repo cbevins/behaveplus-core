@@ -1,11 +1,12 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest, BpxConfigPalette } from '../../index.js'
+import { BpxDag } from '../../behavePlus/BpxDag.js'
+import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
 
+import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const dag = Bpx.Dag('caseWise')
+const dag = BpxDag('caseWise')
 dag.runConfigs(ConfigMinimalInput)
 const ros = dag.get('surface.primary.fuel.fire.spreadRate')
 const catalogKey = dag.get('surface.primary.fuel.model.catalogKey')
@@ -19,7 +20,7 @@ test('1: Casewise test', () => {
 
   const requiredInputs = dag.requiredInputNodes()
   expect(requiredInputs.length).toEqual(5)
-  console.log(DagJest.arrayList(requiredInputs))
+  // console.log(DagJest.arrayList(requiredInputs, 'Required Inputs:'))
   expect(requiredInputs).toContain(catalogKey)
   expect(requiredInputs).toContain(deadMoisture)
   expect(requiredInputs).toContain(liveMoisture)

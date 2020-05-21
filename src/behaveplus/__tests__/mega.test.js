@@ -175,7 +175,7 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
   ])
   const inputNodes = dag.requiredInputNodes()
   // displayUnrequiredNodes(dag)
-  console.log(DagJest.arrayList(inputNodes, 'Combined Inputs'))
+  // console.log(DagJest.arrayList(inputNodes, 'Combined Inputs'))
   expect(inputNodes.length).toEqual(32)
   expect(inputNodes).toContain(primaryKey)
   expect(inputNodes).toContain(liveMoisture)
