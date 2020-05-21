@@ -99,3 +99,9 @@ test('1: sizeClass() tests for full code coverage', () => {
 
   expect(FuelParticle.sizeClass(15)).toEqual(5)
 })
+
+test('Coverage tests', () => {
+  expect(FuelParticle.cylindricalDiameter(1200)).toEqual(4 / 1200)
+
+  expect(() => FuelParticle.selectByDomain('junk', 1, 2, 3, 4)).toThrow()
+})

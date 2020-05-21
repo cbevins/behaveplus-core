@@ -42,6 +42,22 @@ test('1: Flame length - Fireline Intensity - Flame Height', () => {
     const fliKwpm = fliBtu * 3.46414
     expect(fliKwpm).sig(crownFireIntensity[idx], 5)
   })
+
+  expect(CrownSpotting.firebrandObjectPrototype()).toEqual({
+    zdrop: 0,
+    xdrop: 0,
+    xdrift: 0,
+    xspot: 0,
+    layer: 0
+  })
+
+  expect(
+    CrownSpotting.fireIntensityAlbini(
+      /* flame= */ 5,
+      /* utop= */ 5,
+      /* htop= */ 10
+    )
+  ).toBeCloseTo(14333.3258, 1)
 })
 
 test('2: AlbiniDist comparison', () => {

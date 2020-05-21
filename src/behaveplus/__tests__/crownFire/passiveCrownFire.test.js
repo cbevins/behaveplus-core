@@ -128,6 +128,7 @@ const Results3 = [
   ['crown.fire.initiation.type', 'Passive', null], // changed
   ['crown.fire.initiation.isActiveCrownFire', false, null], // changed
   ['crown.fire.initiation.isConditionalCrownFire', false, null],
+  ['crown.fire.initiation.isCrownFire', true, null],
   ['crown.fire.initiation.isPassiveCrownFire', true, null], // changed
   ['crown.fire.initiation.isSurfaceFire', false, null],
   ['crown.fire.initiation.oActive', 3599.1528163069893, 12]

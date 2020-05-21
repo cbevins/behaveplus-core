@@ -2,7 +2,7 @@
 import { BpxDag, NodeMapSize, MethodMapSize } from '../../behavePlus/BpxDag.js'
 import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
 
-test('Bpx.Dag constructor', () => {
+test('BpxDag constructor', () => {
   const dag = BpxDag('simple')
   expect(dag.id.root.shared.genomeArray instanceof Array).toEqual(true)
   expect(
@@ -16,6 +16,63 @@ test('Bpx.Dag constructor', () => {
       'surface.primary.fuel.bed.dead.particle.class1.ovendryLoad'
     )
   ).toEqual(true)
+})
+
+test('Dag branch coverage and isEnabled tests', () => {
+  const dag = BpxDag('branchCoverage')
+
+  const airT = dag.get('site.temperature.air')
+  const tl1h = dag.get('site.moisture.dead.tl1h')
+  const fuel1 = dag.get('configure.fuel.primary')
+
+  expect(dag.runIndices([[airT, '95']])).toEqual([])
+
+  dag.setSelected([[airT, true]])
+  let selectedNodes = dag.selectedNodes()
+  expect(selectedNodes).toEqual([])
+
+  dag.runSelected([[airT, true]])
+  selectedNodes = dag.selectedNodes()
+  expect(selectedNodes).toEqual([airT])
+
+  dag.clearSelected(false)
+  expect(dag.selectedNodes()).toEqual([])
+
+  airT.status.isEnabled = false
+  dag.runSelected([[airT, true]])
+  selectedNodes = dag.selectedNodes()
+  expect(selectedNodes).toEqual([])
+
+  dag.runSelected([
+    [airT, true],
+    [tl1h, true]
+  ])
+  selectedNodes = dag.selectedNodes()
+  expect(selectedNodes).toEqual([tl1h])
+
+  airT.status.isEnabled = true
+  dag.runSelected([
+    [airT, true],
+    [tl1h, true]
+  ])
+  selectedNodes = dag.selectedNodes()
+  expect(selectedNodes.includes(tl1h)).toEqual(true)
+  expect(selectedNodes.includes(airT)).toEqual(true)
+
+  expect(() => dag.get('junk')).toThrow()
+
+  fuel1.status.isEnabled = false
+  expect(fuel1.value.current).toEqual('catalog')
+  dag.runConfigs([[fuel1, 'behave']])
+  expect(fuel1.value.current).toEqual('catalog')
+  fuel1.status.isEnabled = true
+  dag.runConfigs([[fuel1, 'behave']])
+  expect(fuel1.value.current).toEqual('behave')
+
+  expect(() => dag.setSelected([[1, true]])).toThrow()
+  expect(() => dag.setSelected([['junk', true]])).toThrow()
+  const x = {}
+  expect(() => dag.setSelected([[x, true]])).toThrow()
 })
 
 test('Simple configuration, selection, inputs, batch', () => {

@@ -137,7 +137,7 @@ export function dist (htop, fikwpm, utop, diam) {
   if (flame <= 0) {
     return [0, 0, 0, 0, 0]
   }
-  // if (ido===2) fikwpm = BpxLibCrownSpotting.fireIntensityAlbini(flame, utop, htop)
+  // if (ido===2) fikwpm = fireIntensityAlbini(flame, utop, htop)
 
   // hf = normalized flame height above the canopy top (dl)
   const hf = htop > 0 ? flame / htop : 0

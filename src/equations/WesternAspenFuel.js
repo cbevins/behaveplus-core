@@ -78,14 +78,6 @@ export function interpolate (curingLevel, valueAtLevel) {
   return valueAtLevel[5]
 }
 
-export function aspenTypes () {
-  return Object.keys(Table)
-}
-
-export function domain () {
-  return 'westernAspen'
-}
-
 export function deadMext () {
   return 0.25
 }

@@ -360,3 +360,20 @@ test('4: Torching tree species', () => {
     )
   })
 })
+
+test('Coverage', () => {
+  expect(Spotting.locations()).toEqual([
+    'midslopeWindward',
+    'valleyBottom',
+    'midslopeLeeward',
+    'ridgeTop'
+  ])
+
+  const treeHt = 100
+  const flameHt = 10
+  const flameDur = 5
+  const ht = 4.24 * Math.pow(flameDur, 0.332) * flameHt + 0.5 * treeHt
+  expect(Spotting.torchingTreesFirebrandHt(treeHt, flameHt, flameDur)).toEqual(
+    ht
+  )
+})

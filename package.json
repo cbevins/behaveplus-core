@@ -90,7 +90,8 @@
       "!**/coverage/**",
       "!**/delayed__tests__/",
       "!app.js",
-      "!rollup.config.js"
+      "!rollup.config.js",
+      "!**/Contain.js"
     ]
   },
   "dependencies": {

@@ -128,6 +128,7 @@ const Results3 = [
   ['crown.fire.initiation.type', 'Active', null],
   ['crown.fire.initiation.isActiveCrownFire', true, null],
   ['crown.fire.initiation.isConditionalCrownFire', false, null],
+  ['crown.fire.initiation.isCrownFire', true, null],
   ['crown.fire.initiation.isPassiveCrownFire', false, null],
   ['crown.fire.initiation.isSurfaceFire', false, null],
   ['crown.fire.initiation.oActive', 1311.5956871074688, 12]

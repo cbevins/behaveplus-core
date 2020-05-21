@@ -64,6 +64,9 @@ export class Dag {
    * @return A reference to the Node with the Node.node.key matching `nodeKey`
    */
   get (nodeKey) {
+    if (!this.node.map.has(nodeKey)) {
+      throw new Error(`Dag.get('${nodeKey}) has no such Node`)
+    }
     return this.node.map.get(nodeKey)
   }
 

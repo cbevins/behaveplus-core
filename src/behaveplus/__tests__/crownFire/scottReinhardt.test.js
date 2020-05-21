@@ -134,6 +134,7 @@ const ResultsA = [
   // BP6 and S&R values Table 6: Crowning Index
   ['crown.fire.initiation.oActive', 70.859763 * fWind * 88, 2],
   ['crown.fire.initiation.oActive', 70 * fWind * 88, 1],
+  ['crown.fire.initiation.crowningIndex', (70 * fWind * 88) / 54.680665, 1],
   ['surface.primary.fuel.fire.reactionIntensity', 452.22003 * fRxi, 6],
   ['surface.primary.fuel.bed.heatSink', 2869.902303 * fHeatDens, 6]
 ]

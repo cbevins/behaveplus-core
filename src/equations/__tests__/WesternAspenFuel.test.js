@@ -356,3 +356,15 @@ test('4 Western Aspen catalog', () => {
   expect(liveStemLoad.value.current).toEqual(ppsf * 0.333)
   expect(liveStemSavr.value.current).toEqual(2310)
 })
+
+test('Coverage', () => {
+  expect(WesternAspen.fuelTypes()).toEqual([
+    'aspenShrub',
+    'aspenTallForb',
+    'aspenLowForb',
+    'mixedShrub',
+    'mixedForb'
+  ])
+
+  expect(WesternAspen.deadMext()).toEqual(0.25)
+})

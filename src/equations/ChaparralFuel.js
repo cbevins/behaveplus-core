@@ -12,7 +12,6 @@ import * as Calc from './Calc.js'
 export const TypeChamise = 'chamise'
 export const TypeMixedBrush = 'mixedBrush'
 export const Types = [TypeChamise, TypeMixedBrush]
-// export const Types = ['chamise', 'mixedBrush']
 
 /**
  * Estimates the chaparral age (years since last burned)
@@ -33,13 +32,6 @@ export function age (depth, type) {
 }
 
 /**
- * @returns {string} Fuel model domain 'chaparral'
- */
-export function domain () {
-  return 'chaparral'
-}
-
-/**
  * Estimates the chaparral fuel depth from its age and type.
  *
  * @param {number} age
@@ -49,13 +41,7 @@ export function domain () {
 export function fuelDepth (age, type) {
   // Prevent values of age < 1 from increasing the depth!
   const x = Math.log(Math.max(age, 1.1)) / 3.912023
-  if (type === TypeChamise) {
-    return 7.5 * x * x
-  }
-  if (type === TypeMixedBrush) {
-    return 10 * x * x
-  }
-  return 0.01
+  return type === TypeChamise ? 7.5 * x * x : 10 * x * x // type === TypeMixedBrush
 }
 
 /**

@@ -466,3 +466,20 @@ test('5 Chaparral fuel catalog with observed total load', () => {
   expect(appliedTotalLoad.value.current).toEqual(1)
   expect(deadLoad.value.current).toBeCloseTo(0.5, 8)
 })
+
+test('Coverage', () => {
+  const age = 20
+  const x = Math.log(Math.max(age, 1.1)) / 3.912023
+  expect(Chaparral.fuelDepth(age, Chaparral.TypeChamise)).toEqual(7.5 * x * x)
+  expect(Chaparral.fuelDepth(age, Chaparral.TypeMixedBrush)).toEqual(10 * x * x)
+
+  expect(Chaparral.deadFractionAverageMortality(age)).toEqual(
+    0.0694 * Math.exp(0.0402 * age)
+  )
+
+  expect(Chaparral.deadFractionSevereMortality(age)).toEqual(
+    0.1094 * Math.exp(0.0385 * age)
+  )
+
+  expect(Chaparral.deadExtinctionMoisture()).toEqual(0.3)
+})
