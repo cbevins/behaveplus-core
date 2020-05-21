@@ -125,23 +125,24 @@ function createNode (genome) {
 }
 
 export function generateArray (start, stop, step) {
+  if (start === stop) {
+    return [start]
+  }
   if (step === 0) {
     return [start, stop]
   }
   step = Math.abs(step)
   const ar = []
+  const end = start < stop ? stop + step / 2 : stop - step / 2
   if (start < stop) {
-    const end = stop + step / 2
     for (let v = start; v <= end; v += step) {
       ar.push(v)
     }
-  } else if (start > stop) {
-    const end = stop - step / 2
+  } else {
+    // if (start > stop) {
     for (let v = start; v >= end; v -= step) {
       ar.push(v)
     }
-  } else {
-    ar.push(start)
   }
   return ar
 }

@@ -252,4 +252,7 @@ test('Node lists1', () => {
 test('generateArray()', () => {
   expect(generateArray(1, 10, 1)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   expect(generateArray(10, -2, 2)).toEqual([10, 8, 6, 4, 2, 0, -2])
+  expect(generateArray(13, 13, 2)).toEqual([13])
+  expect(generateArray(13, 15, 0)).toEqual([13, 15])
+  expect(generateArray(15, 13, 0)).toEqual([15, 13])
 })
