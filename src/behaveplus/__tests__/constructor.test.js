@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { BpxDag, NodeMapSize, MethodMapSize } from '../../behavePlus/index.js'
-import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
-import { generateArray } from '../DagPrivate.js'
+import { BpxDag, NodeMapSize, MethodMapSize } from '../BpxDag.js'
+import { ConfigMinimalInput } from '../BpxConfigPalette.js'
+import { generateArray } from '../../dag/DagPrivate.js'
 
 test('BpxDag constructor', () => {
   const dag = BpxDag('simple')

@@ -1,5 +1,5 @@
-import { BpxDag } from '../../behavePlus/index.js'
-import * as Pathways from '../Pathways.js'
+import { BpxDag } from '../BpxDag.js'
+import * as Pathways from '../../dag/Pathways.js'
 
 const dag = BpxDag()
 dag.runConfigs([['configure.module', 'surfaceFire']])

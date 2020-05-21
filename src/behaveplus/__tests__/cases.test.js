@@ -1,5 +1,5 @@
-import { BpxDag } from '../../behavePlus/index.js'
-import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
+import { BpxDag } from '../BpxDag.js'
+import { ConfigMinimalInput } from '../BpxConfigPalette.js'
 
 import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig
