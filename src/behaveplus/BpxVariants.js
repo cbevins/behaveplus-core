@@ -189,11 +189,6 @@ export class FirePowerRatio extends Variant.Quantity {
     super(Variant.Ratio)
   }
 }
-export class FirePropagatingFlux extends Variant.Quantity {
-  constructor () {
-    super(Variant.HeatFlux)
-  }
-}
 export class FirePropagatingFluxRatio extends Variant.Quantity {
   constructor () {
     super(Variant.Ratio)

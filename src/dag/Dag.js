@@ -5,11 +5,17 @@ import * as Private from './DagPrivate.js'
  * Root class contains shared data for multiple Dags.
  */
 export class Root {
-  constructor (genomeArray, variantMapConstructor, methodMap) {
+  constructor (
+    genomeArray,
+    variantMapConstructor,
+    methodMap,
+    translationMap = null
+  ) {
     this.shared = {
       genomeArray: genomeArray,
       variantMapConstructor: variantMapConstructor,
-      methodMap: methodMap
+      methodMap: methodMap,
+      translationMap: translationMap
     }
     this.dag = {}
   }
@@ -20,7 +26,8 @@ export class Root {
       dagKey,
       this.shared.genomeArray,
       new this.shared.variantMapConstructor(),
-      this.shared.methodMap
+      this.shared.methodMap,
+      this.shared.translationMap
     )
     return this.dag[dagKey]
   }
@@ -33,16 +40,24 @@ export class Root {
  * Note: all non-public methods are in DagPrivate.js
  */
 export class Dag {
-  constructor (root, dagKey, genomeArray, variantMap, methodMap) {
-    this.variant = { map: variantMap }
-    this.node = { map: new Map() }
-    this.method = { map: methodMap }
-    this.result = { mode: 'orthogonal', nodes: [] }
+  constructor (
+    root,
+    dagKey,
+    genomeArray,
+    variantMap,
+    methodMap,
+    translationMap = null
+  ) {
     this.id = { root: root, self: dagKey }
+    this.method = { map: methodMap }
+    this.node = { map: new Map() }
+    this.result = { mode: 'orthogonal', nodes: [] }
     this.sorted = {
       nodes: [], // includes disabled Nodes
       required: [] // includes only required && enabled Nodes
     }
+    this.translation = { map: translationMap }
+    this.variant = { map: variantMap }
     Private.clone(this, genomeArray, variantMap, methodMap)
     // Generate the sorted node list
     this.runConfigs([])

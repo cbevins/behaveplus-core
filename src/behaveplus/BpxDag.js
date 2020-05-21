@@ -1,6 +1,7 @@
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 import { Root } from '../dag/index.js'
 import { BpxGenome } from './BpxGenome.js'
+import { BpxTranslationMap } from './BpxTranslationMap.js'
 import { BpxVariantMap } from './BpxVariantMap.js'
 import { MethodMap } from '../equations/index.js'
 
@@ -8,7 +9,7 @@ export const NodeMapSize = 1208
 export const MethodMapSize = 228
 
 export function BpxDag (dagKey) {
-  const root = new Root(BpxGenome, BpxVariantMap, MethodMap)
+  const root = new Root(BpxGenome, BpxVariantMap, MethodMap, BpxTranslationMap)
   return root.addDag(dagKey)
 }
 
@@ -50,12 +51,18 @@ const moduleEnabled = {
 }
 export const Modules = Object.keys(moduleEnabled)
 
+/**
+ * Enables/disables Nodes based on the module selection
+ * and reconfigures the Dag
+ * @param {Dag} dag
+ * @param {string} module One of the moduleEnabled keys
+ */
 export function configModule (dag, module) {
   const prefix = [...alwaysEnabled, ...moduleEnabled[module]]
   dag.node.map.forEach((node, key) => {
     let enabled = false
-    for (let idx = 0; idx < enable.length; idx += 1) {
-      if (key.startsWith(prefix)) {
+    for (let idx = 0; idx < prefix.length; idx += 1) {
+      if (key.startsWith(prefix[idx])) {
         enabled = true
         break
       }

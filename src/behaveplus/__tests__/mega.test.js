@@ -8,7 +8,7 @@
  * @version 0.1.0
  */
 import * as fs from 'fs'
-import { BpxDag } from '../BpxDag.js'
+import { BpxDag, configModule } from '../BpxDag.js'
 import * as DagJest from '../../utils/matchers.js'
 
 const sig = DagJest.sig
@@ -171,12 +171,14 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
     ['crown.fire.active.map.perimeter', true],
     ['crown.fire.active.isWindDriven', true],
     ['crown.fire.final.map.area', true],
-    ['crown.fire.initiation.type', true]
+    ['crown.fire.initiation.type', true],
+    ['mortality.rate', true],
+    ['ignition.lightningStrike.probability', true]
   ])
   const inputNodes = dag.requiredInputNodes()
   // displayUnrequiredNodes(dag)
   // console.log(DagJest.arrayList(inputNodes, 'Combined Inputs'))
-  expect(inputNodes.length).toEqual(32)
+  expect(inputNodes.length).toEqual(35)
   expect(inputNodes).toContain(primaryKey)
   expect(inputNodes).toContain(liveMoisture)
   expect(inputNodes).toContain(secondaryKey)
@@ -209,9 +211,49 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
   expect(inputNodes).toContain(spotLocation)
   expect(inputNodes).toContain(terrainDist)
   expect(inputNodes).toContain(terrainElev)
+  expect(inputNodes).toContain(dag.get('ignition.lightningStrike.charge'))
+  expect(inputNodes).toContain(dag.get('ignition.lightningStrike.fuel.type'))
+  expect(inputNodes).toContain(dag.get('ignition.lightningStrike.fuel.depth'))
 
-  const requiredNodes = dag.requiredNodes()
-  expect(requiredNodes.length).toEqual(1041)
+  let requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(1047)
+
+  // Try module-level configuration (uses enable/disable)
+  configModule(dag, 'surfaceFire')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(1043)
+
+  configModule(dag, 'fireEllipse')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(82)
+
+  configModule(dag, 'scorchHeight')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(16)
+
+  configModule(dag, 'treeMortality')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(8)
+
+  configModule(dag, 'surfaceSpotting')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(20)
+
+  configModule(dag, 'crownFire')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(308)
+
+  configModule(dag, 'crownSpotting')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(13)
+
+  configModule(dag, 'spottingDistance')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(45)
+
+  configModule(dag, 'ignitionProbability')
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(7)
 })
 
 function displayUnrequiredNodes (dag) {
