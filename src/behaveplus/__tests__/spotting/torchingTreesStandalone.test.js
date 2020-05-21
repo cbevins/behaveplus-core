@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 /**
  * @file Tests the Bpx spotting module DAG configurations
  * @copyright 2020 Systems for Environmental Management
@@ -6,13 +5,14 @@
  * @license OSL-3.0 Open Software License v. 3.0
  * @version 0.1.0
  */
-import { Bpx, DagJest } from '../../../index.js'
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const dag = Bpx.Dag('bpxSpotting')
+const dag = BpxDag('bpxSpotting')
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],
   ['configure.fire.firelineIntensity', ['firelineIntensity', 'flameLength'][1]],
