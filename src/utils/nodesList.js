@@ -24,6 +24,23 @@ function alphaOrder (fileName) {
   write(str, fileName)
 }
 
+/*
+  [ 'node.key', [['Variant.key'], [
+    ['when', 'configure.key', 'equals', 'configValue',
+        'Dag.input' ],
+    ['when', 'configure.key', 'equals', 'configValue',
+        'Dag.fixed', fixedValue ]
+    ['when', 'configure.key', 'equals', 'configValue',
+      'Method.name', 'parm.key.1', ... 'parm.key.n' ],
+    ['finally', 'Dag.fixed', 0]
+  ],
+ */
+// function genome () {
+//   dag.node.map.entries((node, key) => {
+//     const n = '[]'
+//   })
+// }
+
 function write (str, fileName) {
   fs.writeFile(fileName, str, function (err) {
     if (err) throw err
