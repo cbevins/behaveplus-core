@@ -1,4 +1,4 @@
-import { BpxDag } from '../../behavePlus/BpxDag.js'
+import { BpxDag } from '../../behavePlus/index.js'
 import * as Pathways from '../Pathways.js'
 
 const dag = BpxDag()

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { BpxDag, NodeMapSize, MethodMapSize } from '../../behavePlus/BpxDag.js'
+import { BpxDag, NodeMapSize, MethodMapSize } from '../../behavePlus/index.js'
 import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
 import { generateArray } from '../DagPrivate.js'
 
