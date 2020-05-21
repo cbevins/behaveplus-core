@@ -3,5 +3,4 @@ A total rewrite of the BehavePlus V6 Wildland Fire Modeling System core engine i
 
 # To Do
 - Add utility to dump GenomeArray.js
-- Add Travis-CI and coveralls pipelines
 - Remove deprecated projects
