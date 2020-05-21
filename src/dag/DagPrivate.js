@@ -124,6 +124,28 @@ function createNode (genome) {
   return new Node(nodeKey, variantKey, updaters)
 }
 
+export function generateArray (start, stop, step) {
+  if (step === 0) {
+    return [start, stop]
+  }
+  step = Math.abs(step)
+  const ar = []
+  if (start < stop) {
+    const end = stop + step / 2
+    for (let v = start; v <= end; v += step) {
+      ar.push(v)
+    }
+  } else if (start > stop) {
+    const end = stop - step / 2
+    for (let v = start; v >= end; v -= step) {
+      ar.push(v)
+    }
+  } else {
+    ar.push(start)
+  }
+  return ar
+}
+
 /**
  * Determines all the Dag's Nodes' applicable updater method
  * by iterating through all updater options until it finds one that meets the conditions.

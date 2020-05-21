@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { BpxDag, NodeMapSize, MethodMapSize } from '../../behavePlus/BpxDag.js'
 import { ConfigMinimalInput } from '../../behaveplus/BpxConfigPalette.js'
+import { generateArray } from '../DagPrivate.js'
 
 test('BpxDag constructor', () => {
   const dag = BpxDag('simple')
@@ -246,4 +247,9 @@ test('Node lists1', () => {
   selectedNodes = dag.selectedNodes()
   expect(selectedNodes.length).toEqual(1)
   expect(selectedNodes).toContain(depth)
+})
+
+test('generateArray()', () => {
+  expect(generateArray(1, 10, 1)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  expect(generateArray(10, -2, 2)).toEqual([10, 8, 6, 4, 2, 0, -2])
 })

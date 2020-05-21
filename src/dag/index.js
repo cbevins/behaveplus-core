@@ -1,3 +1,3 @@
 export { Dag, Root } from './Dag.js'
-// export { LoopIterator } from './LoopIterator.js'
+export { generateArray } from './DagPrivate.js'
 export * from './Pathways.js'
