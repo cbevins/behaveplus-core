@@ -1,8 +1,11 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../BpxDag.js'
+import { Module } from '../../BpxConfigOptions.js'
+import * as DagJest from '../../../utils/matchers.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 // These require the minimum set of inputs
 const Results1 = [
@@ -170,7 +173,7 @@ const Inputs3 = [
 ]
 
 test('1: Rothermel active crown fire - standAlone 1', () => {
-  const dag = Bpx.Dag('rothermelActive')
+  const dag = BpxDag('rothermelActive')
   const allInputs = [...Inputs1].map(rec => dag.get(rec[0]))
 
   // These require the minimum set of inputs
@@ -200,7 +203,7 @@ test('1: Rothermel active crown fire - standAlone 1', () => {
 })
 
 test('2: Rothermel active crown fire - standAlone 2', () => {
-  const dag = Bpx.Dag('rothermelActive')
+  const dag = BpxDag('rothermelActive')
   const allInputs = [...Inputs1, ...Inputs2].map(rec => dag.get(rec[0]))
 
   // Same configuration as test 1, but with more selected outputs
@@ -246,7 +249,7 @@ test('2: Rothermel active crown fire - standAlone 2', () => {
 })
 
 test('3: Rothermel active crown fire - linked to surfaceFire', () => {
-  const dag = Bpx.Dag('rothermelActive')
+  const dag = BpxDag('rothermelActive')
   const allInputs = [...Inputs1, ...Inputs2, ...Inputs3].map(rec =>
     dag.get(rec[0])
   )

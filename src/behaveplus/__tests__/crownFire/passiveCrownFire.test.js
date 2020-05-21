@@ -1,8 +1,11 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../BpxDag.js'
+import { Module } from '../../BpxConfigOptions.js'
+import * as DagJest from '../../../utils/matchers.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 const Configs = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
@@ -35,7 +38,7 @@ const Configs = [
       'westernAspen'
     ][0]
   ],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',
@@ -164,7 +167,7 @@ const Results5 = [
  * the wind is NOT blowing upslope, so S&R final results are invalid
  */
 test('1: Passive crown fire per BP6', () => {
-  const dag = Bpx.Dag('passiveCrownFire')
+  const dag = BpxDag('passiveCrownFire')
   dag.runConfigs(Configs)
 
   // Start with the basic surface fire behaviors to ensure correct values

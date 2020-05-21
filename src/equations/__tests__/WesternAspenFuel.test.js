@@ -1,12 +1,13 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, WesternAspen } from '../index.js'
-import { DagJest } from '../../jest/matchers.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../behaveplus/BpxDag.js'
+import * as DagJest from '../../utils/matchers.js'
+import * as WesternAspen from '../WesternAspenFuel.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const dag = new Bpx.Dag('westernAspen')
+const dag = new BpxDag('westernAspen')
 
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],
@@ -354,19 +355,4 @@ test('4 Western Aspen catalog', () => {
   expect(liveHerbLoad.value.current).toEqual(ppsf * 0.167)
   expect(liveStemLoad.value.current).toEqual(ppsf * 0.333)
   expect(liveStemSavr.value.current).toEqual(2310)
-})
-
-test('5 Primary and secondary Node names are identical', () => {
-  ;['primary', 'secondary'].forEach(fuel => {
-    const prefix = `surface.${fuel}.fuel.model.westernAspen.`
-    dag.get(prefix + 'parms.aspenType')
-    dag.get(prefix + 'parms.curingLevel')
-    dag.get(prefix + 'derived.depth')
-    dag.get(prefix + 'derived.dead.fine.ovendryLoad')
-    dag.get(prefix + 'derived.dead.small.ovendryLoad')
-    dag.get(prefix + 'derived.dead.fine.surfaceAreaToVolumeRatio')
-    dag.get(prefix + 'derived.live.herb.ovendryLoad')
-    dag.get(prefix + 'derived.live.stem.ovendryLoad')
-    dag.get(prefix + 'derived.live.stem.surfaceAreaToVolumeRatio')
-  })
 })

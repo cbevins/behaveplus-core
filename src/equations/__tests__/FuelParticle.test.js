@@ -1,12 +1,12 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, FuelParticle } from '../../../index.js'
-import { DagJest } from '../../jest/matchers.js'
+import { BpxDag } from '../../behaveplus/BpxDag.js'
+import * as DagJest from '../../utils/matchers.js'
+import * as FuelParticle from '../FuelParticle.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const dag = new Bpx.Dag('fuelParticle')
+const dag = new BpxDag('fuelParticle')
 
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],

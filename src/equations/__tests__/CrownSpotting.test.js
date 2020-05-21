@@ -6,7 +6,7 @@ const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const booleans = [true, false]
+const booleans = [true, false] //
 const locations = [
   'ridgeTop',
   'midslopeWindward',

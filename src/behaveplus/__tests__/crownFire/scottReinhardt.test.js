@@ -1,8 +1,11 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../BpxDag.js'
+import { Module } from '../../BpxConfigOptions.js'
+import * as DagJest from '../../../utils/matchers.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 // The S&R samples are all in SI
 // Here are multiplicaton factors to convert from base to metric
@@ -48,7 +51,7 @@ const Configs = [
       'westernAspen'
     ][0]
   ],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',
@@ -182,7 +185,7 @@ const ResultsB = [
  * the wind is NOT blowing upslope, so S&R final results are invalid
  */
 test('1: Scott & Reinhardt Stand A', () => {
-  const dag = Bpx.Dag('standA')
+  const dag = BpxDag('standA')
   dag.runConfigs(Configs)
 
   dag.runSelected(ResultsA.map(node => [node[0], true]))
@@ -201,7 +204,7 @@ test('1: Scott & Reinhardt Stand A', () => {
 })
 
 test('2: Scott & Reinhardt Stand B', () => {
-  const dag = Bpx.Dag('standB')
+  const dag = BpxDag('standB')
   dag.runConfigs(Configs)
 
   dag.runSelected(ResultsB.map(node => [node[0], true]))

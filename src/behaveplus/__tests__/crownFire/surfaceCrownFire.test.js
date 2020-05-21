@@ -1,8 +1,11 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../BpxDag.js'
+import { Module } from '../../BpxConfigOptions.js'
+import * as DagJest from '../../../utils/matchers.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 const Configs = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
@@ -35,7 +38,7 @@ const Configs = [
       'westernAspen'
     ][0]
   ],
-  ['configure.module', Bpx.Modules[0]],
+  ['configure.module', Module[0]],
   ['configure.slope.steepness', ['ratio', 'degrees', 'map'][0]],
   [
     'configure.wind.direction',
@@ -48,7 +51,7 @@ const Inputs1 = [
   ['site.moisture.dead.tl1h', [0.05]],
   ['site.moisture.dead.tl10h', [0.07]],
   ['site.moisture.dead.tl100h', [0.09]],
-  ['site.moisture.live.herb', [0.5]],
+  ['site.moisture.live.herb', [1.5]], // CHANGED FROM 0.5
   ['site.moisture.live.stem', [1.5]],
   ['site.slope.direction.aspect', [180]],
   ['site.slope.steepness.ratio', [0.25]],
@@ -60,11 +63,13 @@ const Inputs1 = [
 
 const Inputs2 = [
   ['site.canopy.crown.baseHeight', [10]],
-  ['site.canopy.crown.totalHeight', [100]],
-  ['site.canopy.fuel.bulkDensity', [0.02]]
+  ['site.canopy.crown.totalHeight', [90]], // CHANGED FROM 100
+  ['site.canopy.fuel.bulkDensity', [0.005]] // CHANGED FROM 0.02
 ]
 
-const Inputs3 = [['site.canopy.fuel.foliar.moistureContent', [0.5]]]
+const Inputs3 = [
+  ['site.canopy.fuel.foliar.moistureContent', [0.7]] // CHANGED FROM 0.5
+]
 
 const Inputs4 = []
 
@@ -82,89 +87,72 @@ const InputsUnused = [
 // Basic surface fire results to ensure correct values
 const surface = 'surface.primary.fuel.fire.' // or 'surface.weighted.fire.'
 const Results1 = [
-  [surface + 'spreadRate', 48.47042599399056, 10],
-  [surface + 'firelineIntensity', 2467.9286450361865, 10],
-  [surface + 'flameLength', 16.35631663317114, 12],
-  [surface + 'reactionIntensity', 12976.692888496578, 12],
-  [surface + 'heatPerUnitArea', 3054.970441574617, 12],
-  ['surface.primary.fuel.bed.heatSink', 319.216404, 9]
+  [surface + 'spreadRate', 8.574903, 6],
+  [surface + 'firelineIntensity', 102.375854, 6],
+  [surface + 'flameLength', 3.783584, 6],
+  [surface + 'reactionIntensity', 3042.822367, 6],
+  [surface + 'heatPerUnitArea', 716.340633, 9],
+  ['surface.primary.fuel.bed.heatSink', 423.102321, 6]
 ]
 
 // Rothermel crown fire results
 const Results2 = [
-  ['site.canopy.fuel.bulkDensity', 0.02, 12],
-  ['site.canopy.fuel.ovendryLoad', 1.8, 12],
-  ['site.canopy.fire.heatPerUnitArea', 14400, 12],
+  ['site.canopy.fuel.bulkDensity', 0.005, 12],
+  ['site.canopy.fuel.ovendryLoad', 0.4, 12],
+  ['site.canopy.fire.heatPerUnitArea', 3200, 12],
   ['crown.canopy.fuel.fire.noWindNoSlope.spreadRate', 0.67900860922904482, 12],
   ['crown.canopy.fuel.fire.slope.phi', 0, 12],
   ['crown.canopy.fuel.fire.wind.phi', 26.298112107312534, 12],
   ['crown.canopy.fuel.fire.phiEffectiveWind', 26.298112107312534, 12],
   ['crown.canopy.fuel.fire.spreadRate', 18.535653136564, 12],
   ['crown.canopy.fuel.fire.reactionIntensity', 5794.6954002291168, 12],
-  ['crown.fire.active.heatPerUnitArea', 17454.97044157461, 12],
+  ['crown.fire.active.firelineIntensity', 4040.950855, 9, 12],
+  ['crown.fire.active.flameLength', 50.740223, 7, 12],
+  ['crown.fire.active.heatPerUnitArea', 3916.340633, 9, 12],
+  ['crown.fire.active.isPlumeDominated', false, null],
+  ['crown.fire.active.isWindDriven', true, null],
   ['crown.fire.active.lengthToWidthRatio', 4.125, 12],
-  ['crown.fire.active.spreadRate', 61.909081476126, 12],
   ['crown.fire.active.powerOfTheWind', 47.96568165233, 12],
-  ['crown.fire.active.powerOfTheFire', 139.615140469098, 12],
-  ['crown.fire.active.powerRatio', 2.9107298314046, 12],
-  ['crown.fire.active.firelineIntensity', 18010.35312051372, 12],
-  ['crown.fire.active.flameLength', 137.418376789506, 12],
-  ['crown.fire.active.isPlumeDominated', true, null],
-  ['crown.fire.active.isWindDriven', false, null],
-  ['crown.fire.surface.heatPerUnitArea', 3054.970441574617, 12]
+  ['crown.fire.active.powerOfTheFire', 31.3252004271, 9, 12],
+  ['crown.fire.active.powerRatio', 0.653075, 6, 12],
+  ['crown.fire.active.spreadRate', 61.909081476126, 12],
+  ['crown.fire.surface.heatPerUnitArea', 716.340633, 9, 12]
 ]
 
 // Crown fire initiation results
 const Results3 = [
-  ['crown.fire.initiation.firelineIntensity', 112.938700503, 12],
-  ['crown.fire.initiation.spreadRate', 2.21813014553, 11],
-  ['crown.fire.initiation.rPrime', 30.7223522801, 5],
-  ['crown.fire.initiation.transitionRatio', 21.851930596532, 11],
-  ['crown.fire.initiation.activeRatio', 2.015115278658, 5],
-  ['crown.fire.initiation.canTransition', true, null],
-  ['crown.fire.initiation.type', 'Active', null],
-  ['crown.fire.initiation.isActiveCrownFire', true, null],
+  ['crown.fire.initiation.firelineIntensity', 166.466274, 9],
+  ['crown.fire.initiation.spreadRate', 13.943054, 7],
+  ['crown.fire.initiation.rPrime', 122.88966339231122],
+  ['crown.fire.initiation.transitionRatio', 0.614995, 6],
+  ['crown.fire.initiation.activeRatio', 0.5037777772935131, 12],
+  ['crown.fire.initiation.canTransition', false, null],
+  ['crown.fire.initiation.type', 'Surface', null],
+  ['crown.fire.initiation.isActiveCrownFire', false, null],
   ['crown.fire.initiation.isConditionalCrownFire', false, null],
   ['crown.fire.initiation.isPassiveCrownFire', false, null],
-  ['crown.fire.initiation.isSurfaceFire', false, null],
-  ['crown.fire.initiation.oActive', 1311.5956871074688, 12]
+  ['crown.fire.initiation.isSurfaceFire', true, null],
+  ['crown.fire.initiation.oActive', 3599.1528163069893, 12]
 ]
 
 // Final crown fire behavior results
 const Results4 = [
-  ['crown.fire.final.rSa', 26.512798896145366, 12],
-  ['crown.fire.final.crownFractionBurned', 1, 12],
-  ['crown.fire.final.spreadRate', 61.909081476126, 12],
-  ['crown.fire.final.firelineIntensity', 18010.35312051372, 12],
-  ['crown.fire.final.flameLength', 137.418376789506, 12]
-]
-
-// Final fire size, perimeter, distances
-const Results5 = [
-  ['crown.fire.active.size.length', 3714.544888567592, 12],
-  ['crown.fire.active.size.width', 900.49573056184, 12],
-  ['crown.fire.active.size.perimeter', 7249.28885253776, 12],
-  ['crown.fire.active.size.area', 2627103.302726261, 12],
-  ['crown.fire.active.map.length', 3714.544888567592 / 12000, 12],
-  ['crown.fire.active.map.width', 900.49573056184 / 12000, 12],
-  ['crown.fire.active.map.perimeter', 7249.28885253776 / 12000, 12],
-  ['crown.fire.active.map.area', 2627103.302726261 / 12000 / 12000, 12],
-  ['crown.fire.final.size.length', 3714.544888567592, 12],
-  ['crown.fire.final.size.width', 900.49573056184, 12],
-  ['crown.fire.final.size.perimeter', 7249.28885253776, 12],
-  ['crown.fire.final.size.area', 2627103.302726261, 12],
-  ['crown.fire.final.map.length', 3714.544888567592 / 12000, 12],
-  ['crown.fire.final.map.width', 900.49573056184 / 12000, 12],
-  ['crown.fire.final.map.perimeter', 7249.28885253776 / 12000, 12],
-  ['crown.fire.final.map.area', 2627103.302726261 / 12000 / 12000, 12]
+  ['crown.fire.final.rSa', 16.93053675249959, 12],
+  ['crown.fire.final.crownFractionBurned', 0, 12],
+  ['crown.fire.final.spreadRate', 8.574903, 6],
+  ['crown.fire.final.firelineIntensity', 102.375854, 9],
+  // NOTE that if this is a SURFACE fire,
+  // this flame length != the surface fire flame length
+  ['surface.primary.fuel.fire.flameLength', 3.783584, 6],
+  ['crown.fire.final.flameLength', 4.3768502, 6]
 ]
 
 /**
  * Note that for the Benchmark124 case,
  * the wind is NOT blowing upslope, so S&R final results are invalid
  */
-test('1: Active crown fire per BP6', () => {
-  const dag = Bpx.Dag('rothermelActive')
+test('1: Surface-only crown fire per BP6', () => {
+  const dag = BpxDag('passiveCrownFire')
   dag.runConfigs(Configs)
 
   // Start with the basic surface fire behaviors to ensure correct values
@@ -222,22 +210,6 @@ test('1: Active crown fire per BP6', () => {
 
   dag.runInputs(Inputs4)
   results = [...Results1, ...Results2, ...Results3, ...Results4]
-  results.forEach(result => {
-    const [key, value, prec] = result
-    expect(dag.get(key)).value(value, prec)
-  })
-
-  // Finally, verify distances and sizes
-  dag.runSelected(Results5.map(node => [node[0], true]))
-  requiredInputs = dag.requiredInputNodes()
-  expect(requiredInputs.length).toEqual(
-    Inputs1.length + Inputs2.length + Inputs3.length + Inputs5.length
-  )
-  expect(requiredInputs).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(requiredInputs).toContain(dag.get('site.map.scale'))
-
-  dag.runInputs(Inputs5)
-  results = [...Results1, ...Results2, ...Results3, ...Results4, ...Results5]
   results.forEach(result => {
     const [key, value, prec] = result
     expect(dag.get(key)).value(value, prec)

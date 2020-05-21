@@ -1,12 +1,12 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../behaveplus/BpxDag.js'
+import * as DagJest from '../../utils/matchers.js'
 
-import { DagJest } from '../__tests__/matchers.js'
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const dag = new Bpx.Dag('palmettoGallberry')
+const dag = new BpxDag('palmettoGallberry')
 
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],

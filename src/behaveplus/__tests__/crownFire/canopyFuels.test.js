@@ -1,8 +1,9 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
 
+const sig = DagJest.sig
 const value = DagJest.value
-expect.extend({ value })
+expect.extend({ value, sig })
 
 const prefix = 'surface.primary.fuel.'
 
@@ -48,7 +49,7 @@ const Results = [
 ]
 
 test('1: Crown Fire Canopy Fuels (FM 10) benchmarks', () => {
-  const dag = Bpx.Dag('surfaceFire')
+  const dag = BpxDag('surfaceFire')
   dag.runConfigs(Configs)
   dag.runSelected(Results.map(node => [node[0], true]))
 
