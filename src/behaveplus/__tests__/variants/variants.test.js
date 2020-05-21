@@ -1,24 +1,20 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import {
-  BpxVariantArray,
-  BpxVariantClass,
-  BpxVariantMap,
-  Chaparral,
-  Variants
-} from '../../../index.js'
+import { BpxVariantArray, BpxVariantMap } from '../../BpxVariantMap.js'
+import * as BpxVariant from '../../BpxVariants.js'
+import * as Chaparral from '../../../equations/ChaparralFuel.js'
+import * as Variant from '../../../variants/index.js'
 
 test('VariantMap accessed from index.js', () => {
-  const map = new Variants.VariantMap()
+  const map = new BpxVariantMap()
   expect(map instanceof Map).toEqual(true)
-  expect(map instanceof Variants.VariantMap).toEqual(true)
+  expect(map instanceof BpxVariantMap).toEqual(true)
   expect(map.has('Option')).toEqual(true)
   expect(map.has('Load')).toEqual(true)
 })
 
 test('BpxVariants classes locally defined', () => {
-  class AirTemperature extends Variants.Quantity {
+  class AirTemperature extends Variant.Quantity {
     constructor () {
-      super(Variants.Uom.Temperature)
+      super(Variant.Temperature)
     }
   }
   const air = new AirTemperature()
@@ -27,7 +23,7 @@ test('BpxVariants classes locally defined', () => {
   expect(Chaparral.Types).toEqual(['chamise', 'mixedBrush'])
   expect(Chaparral.fuelTypes()).toEqual(['chamise', 'mixedBrush'])
 
-  class ChaparralTypeOption extends Variants.Option {
+  class ChaparralTypeOption extends Variant.Option {
     constructor () {
       super(Chaparral.Types)
     }
@@ -36,19 +32,19 @@ test('BpxVariants classes locally defined', () => {
   expect(opt.options()).toEqual(['chamise', 'mixedBrush'])
 })
 
-test('BpxVariants accessed from BpxVariants.js', () => {
-  const air = new BpxVariantClass.AirTemperature()
+test('BpxVariants accessed from BpxVariant.js', () => {
+  const air = new BpxVariant.AirTemperature()
   expect(air.uomName()).toEqual('Temperature')
 
   expect(Chaparral.Types).toEqual(['chamise', 'mixedBrush'])
 
-  const opt = new BpxVariantClass.ChaparralTypeOption()
+  const opt = new BpxVariant.ChaparralTypeOption()
   expect(opt.options()).toEqual(['chamise', 'mixedBrush'])
 })
 
 test('Standard VariantMap', () => {
-  expect(Variants.VariantArray instanceof Array).toEqual(true)
-  const map = new Variants.VariantMap()
+  expect(Variant.VariantArray instanceof Array).toEqual(true)
+  const map = new Variant.VariantMap()
   expect(map instanceof Map).toEqual(true)
   expect(map.has('Arc')).toEqual(true)
   expect(map.has('Option')).toEqual(true)

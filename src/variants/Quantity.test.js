@@ -1,6 +1,22 @@
-import { Quantity, Distance } from './index.js'
+import { Quantity, Area, Distance, Energy, Time } from './index.js'
+import * as Parse from './UomHelper.js'
 
 const distanceKeys = ['ft', 'ch', 'in', 'mi', 'yd', 'm', 'cm', 'km']
+
+test('0: Exception tests', () => {
+  expect(() => Parse.baseAsUom2(1, 'onePart', Distance, Time)).toThrow(
+    "Expected a 2-dimensional Uom name, but got 'onePart'"
+  )
+  expect(() => Parse.baseFromUom2(1, 'onePart', Distance, Time)).toThrow()
+  expect(() => Parse.baseAsUom3(1, 'onePart', Energy, Area, Time)).toThrow()
+  expect(() =>
+    Parse.baseAsUom3(1, 'onePart/twoPart', Energy, Area, Time)
+  ).toThrow()
+  expect(() => Parse.baseFromUom3(1, 'onePart', Energy, Area, Time)).toThrow()
+  expect(() =>
+    Parse.baseFromUom3(1, 'onePart/twoPart', Energy, Area, Time)
+  ).toThrow()
+})
 
 test('1: new Quantity() default constructor', () => {
   const v = new Quantity(Distance)

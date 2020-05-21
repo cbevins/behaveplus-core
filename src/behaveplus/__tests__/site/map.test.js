@@ -1,5 +1,6 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest, BpxConfigPalette } from '../../../index.js'
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
+import { ConfigMinimalInput } from '../../BpxConfigPalette.js'
 
 const value = DagJest.value
 expect.extend({ value })
@@ -19,7 +20,7 @@ const Results = [
 ]
 
 test('1: Map test', () => {
-  const dag = Bpx.Dag('map')
+  const dag = BpxDag('map')
   dag.runConfigs(ConfigMinimalInput)
 
   dag.runSelected(Results.map(node => [node[0], true]))

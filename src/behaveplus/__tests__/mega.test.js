@@ -8,12 +8,13 @@
  * @version 0.1.0
  */
 import * as fs from 'fs'
-import { Bpx, DagJest } from '../../index.js'
+import { BpxDag } from '../BpxDag.js'
+import * as DagJest from '../../utils/matchers.js'
 
 const sig = DagJest.sig
 expect.extend({ sig })
 
-const dag = Bpx.Dag('megaTest')
+const dag = BpxDag('megaTest')
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],
   ['configure.fire.firelineIntensity', ['firelineIntensity', 'flameLength'][1]],
@@ -173,7 +174,7 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
     ['crown.fire.initiation.type', true]
   ])
   const inputNodes = dag.requiredInputNodes()
-  displayUnrequiredNodes(dag)
+  // displayUnrequiredNodes(dag)
   console.log(DagJest.arrayList(inputNodes, 'Combined Inputs'))
   expect(inputNodes.length).toEqual(32)
   expect(inputNodes).toContain(primaryKey)

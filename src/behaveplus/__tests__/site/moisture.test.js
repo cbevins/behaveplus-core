@@ -1,11 +1,11 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest } from '../../../index.js'
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
-const dag = new Bpx.Dag('windDirection')
+const dag = new BpxDag('windDirection')
 
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],

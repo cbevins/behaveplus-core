@@ -77,6 +77,19 @@
       "<rootDir>/src/explorer/delayed__tests__",
       "<rootDir>/src/utils/delayed__tests__",
       "<rootDir>/src/variants/delayed__tests__"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "**/*Deprecated.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**",
+      "!**/index.js",
+      "!**/utils/**",
+      "!**/dist/**",
+      "!**/coverage/**",
+      "!**/delayed__tests__/",
+      "!app.js",
+      "!rollup.config.js"
     ]
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
+/* eslint-disable no-prototype-builtins, no-unused-vars */
 /**
  * @file Tests the Bpx scorch height module DAG configurations
  * @copyright 2020 Systems for Environmental Management
@@ -6,7 +6,9 @@
  * @license OSL-3.0 Open Software License v. 3.0
  * @version 0.1.0
  */
-import { Bpx, DagJest, TreeMortality } from '../../../index.js'
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
+import * as TreeMortality from '../../../equations/TreeMortality.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
@@ -45,7 +47,7 @@ const Results = {
   // page 2 ...
 }
 
-const dag = Bpx.Dag('bpxScorchHeight')
+const dag = BpxDag('bpxScorchHeight')
 dag.runConfigs([
   ['configure.module', 'surfaceFire'],
   ['configure.fire.firelineIntensity', ['firelineIntensity', 'flameLength'][0]],

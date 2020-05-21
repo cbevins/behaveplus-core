@@ -1,12 +1,14 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
-import { Bpx, DagJest, BpxConfigPalette } from '../../../index.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../../BpxDag.js'
+import * as DagJest from '../../../utils/matchers.js'
+import { ConfigDefault } from '../../BpxConfigPalette.js'
 
 const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
 test('1: Slope direction and steepness', () => {
-  const dag = Bpx.Dag('slope')
+  const dag = BpxDag('slope')
   dag.runConfigs(ConfigDefault)
 
   const cfgSlp = dag.get('configure.slope.steepness')
@@ -188,7 +190,7 @@ test('1: Slope direction and steepness', () => {
 })
 
 test('2: Slope from map', () => {
-  const dag = Bpx.Dag('slopeFromMap')
+  const dag = BpxDag('slopeFromMap')
   dag.runConfigs(ConfigDefault)
   dag.runConfigs([
     ['configure.slope.steepness', ['ratio', 'degrees', 'map'][2]]
