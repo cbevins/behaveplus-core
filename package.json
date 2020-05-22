@@ -71,6 +71,7 @@
       "^.+\\.mjs?$": "babel-jest"
     },
     "testPathIgnorePatterns": [
+      "<rootDir>/archive",
       "<rootDir>/src/behaveplus/delayed__tests__",
       "<rootDir>/src/dag/delayed__tests__",
       "<rootDir>/src/equations/delayed__tests__",
