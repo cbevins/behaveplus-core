@@ -1,6 +1,5 @@
 # behaveplus-core
-A total rewrite of the BehavePlus V6 Wildland Fire Modeling System core engine in ES6 Node Javascript
 
-# To Do
-- Add utility to dump GenomeArray.js
-- Remove deprecated projects
+[![Build Status](https://travis-ci.org/cbevins/behaveplus-core.svg?branch=master)](https://travis-ci.org/cbevins/behaveplus-core)  [![Coverage Status](https://coveralls.io/repos/github/cbevins/behaveplus-core/badge.svg?branch=master)](https://coveralls.io/github/cbevins/behaveplus-core?branch=master)
+
+The *behaveplus-core* package is a total rewrite of the BehavePlus V6 Wildland Fire Modeling System core engine in ES6 Node Javascript
