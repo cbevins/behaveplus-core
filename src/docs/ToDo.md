@@ -10,6 +10,11 @@
 
 - Add file headers
 
-- FuelCatalog keyMap([
+- FuelCatalog aliasMap([
   ['10', '10'],['fm10', '10'], ['ten', '10'],
 ])
+
+- example/
+  - surfaceFire.js
+  - fireEllipse.js
+  - etc
