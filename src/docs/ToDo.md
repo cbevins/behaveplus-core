@@ -1,5 +1,7 @@
 # behaveplus-core To Do List
 
+- Separate Variant, Dag, and Equation from Bpx
+
 - Translation Table
 
 - Add utility to dump GenomeArray.js & test as input

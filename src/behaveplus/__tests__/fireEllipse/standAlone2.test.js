@@ -8,104 +8,104 @@ const sig = DagJest.sig
 const value = DagJest.value
 expect.extend({ value, sig })
 
+const dag = BpxDag('fireEllipseStandAlone')
+dag.runConfigs(ConfigDefault)
+
+// Inputs
+const spreadRate = 10
+const elapsedTime = 60
+const aspect = 225
+const fireHeadingFromUpslope = 45
+const fireHeadingFromNorth = 90
+const fireVectorFromHead = 45
+const fireVectorFromUpslope = 90
+const fireVectorFromNorth = 135
+const firelineIntensity = 5000
+const lengthToWidthRatio = 3
+const mapScale = 24000
+const midflameWind = 880
+const airTemp = 95
+
+const Inputs = [
+  ['site.fire.observed.spreadRate', [10]],
+  ['site.fire.time.sinceIgnition', [60]],
+  ['site.slope.direction.aspect', [225]], // upslopeNo=45, fireHeadNo=90, vectorNo=135
+  ['site.fire.observed.heading.fromUpslope', [45]], // fireHeadUp=45, upslope=45, fireHeadNo=90
+  ['site.fire.observed.heading.fromNorth', [90]], // fireHeadUp=45, upslope=45, fireHeadNo=90
+  ['site.fire.vector.fromHead', [45]], // vectorHd=45, vectorUp=90, vectorNo=135
+  ['site.fire.vector.fromUpslope', [90]], // beta and psi vector from fire head
+  ['site.fire.vector.fromNorth', [135]], // beta and psi vector from fire head
+  ['site.fire.observed.firelineIntensity', [5000]],
+  ['site.fire.observed.lengthToWidthRatio', [3]],
+  ['site.map.scale', [24000]],
+  ['site.wind.speed.atMidflame', [880]],
+  ['site.temperature.air', [95]]
+]
+
+// Expected values
+const headRos = spreadRate
+const headDist = headRos * elapsedTime
+const headMap = headDist / mapScale
+const headFli = firelineIntensity
+const headFlame = SurfaceFire.flameLength(headFli)
+const headScorch = SurfaceFire.scorchHeight(headFli, midflameWind, airTemp)
+
+const ecc = FireEllipse.eccentricity(lengthToWidthRatio)
+
+const backRos = FireEllipse.backingSpreadRate(headRos, ecc)
+const backDist = backRos * elapsedTime
+const backMap = backDist / mapScale
+const backFli = FireEllipse.fliAtAzimuth(headFli, headRos, backRos)
+const backFlame = SurfaceFire.flameLength(backFli)
+const backScorch = SurfaceFire.scorchHeight(backFli, midflameWind, airTemp)
+
+const major = FireEllipse.majorSpreadRate(headRos, backRos)
+const minor = FireEllipse.minorSpreadRate(major, lengthToWidthRatio)
+const f = FireEllipse.fSpreadRate(major)
+const g = FireEllipse.gSpreadRate(major, backRos)
+const h = FireEllipse.hSpreadRate(minor)
+
+const flankRos = FireEllipse.flankingSpreadRate(minor)
+const flankDist = flankRos * elapsedTime
+const flankMap = flankDist / mapScale
+const flankFli = FireEllipse.fliAtAzimuth(headFli, headRos, flankRos)
+const flankFlame = SurfaceFire.flameLength(flankFli)
+const flankScorch = SurfaceFire.scorchHeight(flankFli, midflameWind, airTemp)
+
+const length = FireEllipse.spreadDistance(major, elapsedTime)
+const lengthMap = length / mapScale
+const width = FireEllipse.spreadDistance(minor, elapsedTime)
+const widthMap = width / mapScale
+const perimeter = FireEllipse.perimeter(length, width)
+const perimeterMap = perimeter / mapScale
+const area = FireEllipse.area(length, lengthToWidthRatio)
+const areaMap = area / mapScale / mapScale
+
+const beta5Ros = FireEllipse.betaSpreadRate(fireVectorFromHead, headRos, ecc)
+const beta5Dist = beta5Ros * elapsedTime
+const beta5Map = beta5Dist / mapScale
+const beta5Fli = FireEllipse.fliAtAzimuth(headFli, headRos, beta5Ros)
+const beta5Flame = SurfaceFire.flameLength(beta5Fli)
+const beta5Scorch = SurfaceFire.scorchHeight(beta5Fli, midflameWind, airTemp)
+
+const betaRos = FireEllipse.betaSpreadRate(fireVectorFromHead, headRos, ecc)
+const betaDist = betaRos * elapsedTime
+const betaMap = betaDist / mapScale
+const betaTheta = FireEllipse.thetaFromBeta(fireVectorFromHead, f, g, h)
+const betaPsi = FireEllipse.psiFromTheta(betaTheta, f, h)
+const betaRosPsi = FireEllipse.psiSpreadRate(betaPsi, f, g, h)
+const betaFli = FireEllipse.fliAtAzimuth(headFli, headRos, betaRosPsi)
+const betaFlame = SurfaceFire.flameLength(betaFli)
+const betaScorch = SurfaceFire.scorchHeight(betaFli, midflameWind, airTemp)
+
+const psiRos = FireEllipse.psiSpreadRate(fireVectorFromHead, f, g, h)
+const psiDist = psiRos * elapsedTime
+const psiMap = psiDist / mapScale
+const psiFli = FireEllipse.fliAtAzimuth(headFli, headRos, psiRos)
+const psiFlame = SurfaceFire.flameLength(psiFli)
+const psiScorch = SurfaceFire.scorchHeight(psiFli, midflameWind, airTemp)
+
 test('1: Stand-alone fire ellipse', () => {
-  const dag = BpxDag('fireEllipseStandAlone')
-  dag.runConfigs(ConfigDefault)
-
-  // Inputs
-  const spreadRate = 10
-  const elapsedTime = 60
-  const aspect = 225
-  const fireHeadingFromUpslope = 45
-  const fireHeadingFromNorth = 90
-  const fireVectorFromHead = 45
-  const fireVectorFromUpslope = 90
-  const fireVectorFromNorth = 135
-  const firelineIntensity = 5000
-  const lengthToWidthRatio = 3
-  const mapScale = 24000
-  const midflameWind = 880
-  const airTemp = 95
-
-  const Inputs = [
-    ['site.fire.observed.spreadRate', [10]],
-    ['site.fire.time.sinceIgnition', [60]],
-    ['site.slope.direction.aspect', [225]], // upslopeNo=45, fireHeadNo=90, vectorNo=135
-    ['site.fire.observed.heading.fromUpslope', [45]], // fireHeadUp=45, upslope=45, fireHeadNo=90
-    ['site.fire.observed.heading.fromNorth', [90]], // fireHeadUp=45, upslope=45, fireHeadNo=90
-    ['site.fire.vector.fromHead', [45]], // vectorHd=45, vectorUp=90, vectorNo=135
-    ['site.fire.vector.fromUpslope', [90]], // beta and psi vector from fire head
-    ['site.fire.vector.fromNorth', [135]], // beta and psi vector from fire head
-    ['site.fire.observed.firelineIntensity', [5000]],
-    ['site.fire.observed.lengthToWidthRatio', [3]],
-    ['site.map.scale', [24000]],
-    ['site.wind.speed.atMidflame', [880]],
-    ['site.temperature.air', [95]]
-  ]
-
-  // Expected
-  const headRos = spreadRate
-  const headDist = headRos * elapsedTime
-  const headMap = headDist / mapScale
-  const headFli = firelineIntensity
-  const headFlame = SurfaceFire.flameLength(headFli)
-  const headScorch = SurfaceFire.scorchHeight(headFli, midflameWind, airTemp)
-
-  const ecc = FireEllipse.eccentricity(lengthToWidthRatio)
-
-  const backRos = FireEllipse.backingSpreadRate(headRos, ecc)
-  const backDist = backRos * elapsedTime
-  const backMap = backDist / mapScale
-  const backFli = FireEllipse.fliAtAzimuth(headFli, headRos, backRos)
-  const backFlame = SurfaceFire.flameLength(backFli)
-  const backScorch = SurfaceFire.scorchHeight(backFli, midflameWind, airTemp)
-
-  const major = FireEllipse.majorSpreadRate(headRos, backRos)
-  const minor = FireEllipse.minorSpreadRate(major, lengthToWidthRatio)
-  const f = FireEllipse.fSpreadRate(major)
-  const g = FireEllipse.gSpreadRate(major, backRos)
-  const h = FireEllipse.hSpreadRate(minor)
-
-  const flankRos = FireEllipse.flankingSpreadRate(minor)
-  const flankDist = flankRos * elapsedTime
-  const flankMap = flankDist / mapScale
-  const flankFli = FireEllipse.fliAtAzimuth(headFli, headRos, flankRos)
-  const flankFlame = SurfaceFire.flameLength(flankFli)
-  const flankScorch = SurfaceFire.scorchHeight(flankFli, midflameWind, airTemp)
-
-  const length = FireEllipse.spreadDistance(major, elapsedTime)
-  const lengthMap = length / mapScale
-  const width = FireEllipse.spreadDistance(minor, elapsedTime)
-  const widthMap = width / mapScale
-  const perimeter = FireEllipse.perimeter(length, width)
-  const perimeterMap = perimeter / mapScale
-  const area = FireEllipse.area(length, lengthToWidthRatio)
-  const areaMap = area / mapScale / mapScale
-
-  const beta5Ros = FireEllipse.betaSpreadRate(fireVectorFromHead, headRos, ecc)
-  const beta5Dist = beta5Ros * elapsedTime
-  const beta5Map = beta5Dist / mapScale
-  const beta5Fli = FireEllipse.fliAtAzimuth(headFli, headRos, beta5Ros)
-  const beta5Flame = SurfaceFire.flameLength(beta5Fli)
-  const beta5Scorch = SurfaceFire.scorchHeight(beta5Fli, midflameWind, airTemp)
-
-  const betaRos = FireEllipse.betaSpreadRate(fireVectorFromHead, headRos, ecc)
-  const betaDist = betaRos * elapsedTime
-  const betaMap = betaDist / mapScale
-  const betaTheta = FireEllipse.thetaFromBeta(fireVectorFromHead, f, g, h)
-  const betaPsi = FireEllipse.psiFromTheta(betaTheta, f, h)
-  const betaRosPsi = FireEllipse.psiSpreadRate(betaPsi, f, g, h)
-  const betaFli = FireEllipse.fliAtAzimuth(headFli, headRos, betaRosPsi)
-  const betaFlame = SurfaceFire.flameLength(betaFli)
-  const betaScorch = SurfaceFire.scorchHeight(betaFli, midflameWind, airTemp)
-
-  const psiRos = FireEllipse.psiSpreadRate(fireVectorFromHead, f, g, h)
-  const psiDist = psiRos * elapsedTime
-  const psiMap = psiDist / mapScale
-  const psiFli = FireEllipse.fliAtAzimuth(headFli, headRos, psiRos)
-  const psiFlame = SurfaceFire.flameLength(psiFli)
-  const psiScorch = SurfaceFire.scorchHeight(psiFli, midflameWind, airTemp)
-
   dag.runConfigs([
     // IMPORTANT
     ['configure.module', 'fireEllipse'],
@@ -441,427 +441,6 @@ test('1: Stand-alone fire ellipse', () => {
     ['site.temperature.air', [airTemp]],
     ['site.wind.speed.atMidflame', midflameWind]
   ])
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 1 of 9: wind.direction==='upslope', fire.vector==='fromHead'
-  // So far, the configuration has been: wind Upslope, fireVectorFromHead
-  //  ['configure.wind.direction', ['sourceFromNorth', 'headingFromUpslope', 'upslope'][2]],
-  //  ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][0]],
-
-  // ----------------------------------------------------------------------------
-  // 2 of 9 wind.direction==='headingFromUpslope', fire.vector==='fromHead'
-  // Requires no input changes
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][1]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][0]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(8)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 1, 2, 3 input site.fire.vector.fromHead
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromHead'))
-  dag.runInputs([['site.fire.vector.fromHead', [fireVectorFromHead]]])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(dag.get('surface.fire.ellipse.beta.spreadRate').value.current).toEqual(
-    betaRos
-  )
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 3 of 9: wind.direction==='sourceFromNorth', fire.vector==='fromHead'
-  // Requires no changes
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][0]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][0]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(8)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromHead'))
-  dag.runInputs([['site.fire.vector.fromHead', [fireVectorFromHead]]])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(dag.get('surface.fire.ellipse.beta.spreadRate').value.current).toEqual(
-    betaRos
-  )
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 4 of 9: wind.direction==='upslope', fire.vector==='fromUpslope'
-  // Changes input from vector.fromHead to vector.fromUpslope
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][2]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][1]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(9)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 4, 5, 6 input fire.vector.fromUpslope
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromUpslope'))
-  // Case 4, 5, 7, 8 require fire.observed.heading.fromUpslope
-  expect(inputNodes).toContain(
-    dag.get('site.fire.observed.heading.fromUpslope')
-  )
-  dag.runInputs([
-    ['site.fire.vector.fromUpslope', [fireVectorFromUpslope]],
-    ['site.fire.observed.heading.fromUpslope', [fireHeadingFromUpslope]]
-  ])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(dag.get('surface.fire.ellipse.beta.spreadRate').value.current).toEqual(
-    betaRos
-  )
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 5 of 9: wind.direction==='headingFromUpslope', fire.vector==='fromUpslope'
-  // Requires additional input: fire.observed.heading.fromUpslope
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][1]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][1]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(9)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 4, 5, 6 input fire.vector.fromUpslope
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromUpslope'))
-  // Case 4, 5, 7, 8 require observed.heading.fromUpslope
-  expect(inputNodes).toContain(
-    dag.get('site.fire.observed.heading.fromUpslope')
-  )
-
-  dag.runInputs([
-    ['site.fire.vector.fromUpslope', [fireVectorFromUpslope]],
-    ['site.fire.observed.heading.fromUpslope', [fireHeadingFromUpslope]]
-  ])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(dag.get('surface.fire.ellipse.beta.spreadRate').value.current).toEqual(
-    betaRos
-  )
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 6 of 9: wind.direction==='sourceFromNorth', fire.vector==='fromUpslope'
-  // Requires additional input: site.slope.direction.aspect
-  // Instead of observed.heading.fromUpslope, need observed.heading.fromNorth
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][0]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][1]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(10)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 4, 5, 6 input fire.vector.fromUpslope
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromUpslope'))
-  // Case 6, 9 required observed.heading.fromNorth and slope.direction.aspect
-  expect(inputNodes).toContain(dag.get('site.fire.observed.heading.fromNorth'))
-  expect(inputNodes).toContain(dag.get('site.slope.direction.aspect'))
-
-  dag.runInputs([
-    ['site.fire.vector.fromUpslope', [fireVectorFromUpslope]],
-    ['site.fire.observed.heading.fromNorth', [fireHeadingFromNorth]],
-    ['site.slope.direction.aspect', [aspect]]
-  ])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(dag.get('surface.fire.ellipse.beta.spreadRate').value.current).toEqual(
-    betaRos
-  )
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 7 of 9: wind.direction==='upslope', fire.vector==='fromNorth'
-  // Changes input from vector.fromHead to vector.fromUpslope
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][2]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][2]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(10)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 7, 8, 9 require fire.vector.fromNorth AND slope.direction.aspect
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromNorth'))
-  expect(inputNodes).toContain(dag.get('site.slope.direction.aspect'))
-  // Case 4, 5, 7, 8 requires fire.observed.heading.fromUpslope
-  expect(inputNodes).toContain(
-    dag.get('site.fire.observed.heading.fromUpslope')
-  )
-  dag.runInputs([
-    ['site.fire.vector.fromNorth', [fireVectorFromNorth]],
-    ['site.slope.direction.aspect', [aspect]],
-    ['site.fire.observed.heading.fromUpslope', [fireHeadingFromUpslope]]
-  ])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(dag.get('surface.fire.ellipse.beta.spreadRate').value.current).toEqual(
-    betaRos
-  )
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 8 of 9: wind.direction==='headingFromUpslope', fire.vector==='fromNorth'
-  // Changes input from vector.fromHead to vector.fromUpslope
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][1]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][2]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(10)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 7, 8, 9 require fire.vector.fromNorth AND slope.direction.aspect
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromNorth'))
-  expect(inputNodes).toContain(dag.get('site.slope.direction.aspect'))
-  // Cases 4, 5, 7, 8 require fire.observed.heading.fromUpslope
-  expect(inputNodes).toContain(
-    dag.get('site.fire.observed.heading.fromUpslope')
-  )
-  dag.runInputs([
-    ['site.fire.vector.fromNorth', [fireVectorFromNorth]],
-    ['site.slope.direction.aspect', [aspect]],
-    ['site.fire.observed.heading.fromUpslope', [fireHeadingFromUpslope]]
-  ])
-
-  // These should be the same
-  expect(
-    dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(headScorch)
-  expect(
-    dag.get('surface.fire.ellipse.back.scorchHeight').value.current
-  ).toEqual(backScorch)
-  expect(
-    dag.get('surface.fire.ellipse.flank.scorchHeight').value.current
-  ).toEqual(flankScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta.scorchHeight').value.current
-  ).toEqual(betaScorch)
-  expect(
-    dag.get('surface.fire.ellipse.beta5.scorchHeight').value.current
-  ).toEqual(beta5Scorch)
-  expect(
-    dag.get('surface.fire.ellipse.psi.scorchHeight').value.current
-  ).toEqual(psiScorch)
-
-  // ----------------------------------------------------------------------------
-  // 9 of 9: wind.direction==='sourceFromNorth', fire.vector==='fromNorth'
-  // Changes input from vector.fromHead to vector.fromUpslope
-  dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][0]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][2]]
-  ])
-  inputNodes = dag.requiredInputNodes()
-  // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
-  expect(inputNodes.length).toEqual(10)
-  expect(inputNodes).toContain(dag.get('site.fire.observed.spreadRate'))
-  expect(inputNodes).toContain(dag.get('site.fire.time.sinceIgnition'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.lengthToWidthRatio'))
-  expect(inputNodes).toContain(dag.get('site.map.scale'))
-  expect(inputNodes).toContain(dag.get('site.fire.observed.firelineIntensity'))
-  expect(inputNodes).toContain(dag.get('site.temperature.air'))
-  expect(inputNodes).toContain(dag.get('site.wind.speed.atMidflame'))
-  // Cases 7, 8, 9 require fire.vector.fromNorth AND slope.direction.aspect
-  expect(inputNodes).toContain(dag.get('site.fire.vector.fromNorth'))
-  expect(inputNodes).toContain(dag.get('site.slope.direction.aspect'))
-  // Cases 6, 9 requires fire.observed.heading.fromNorth
-  expect(inputNodes).toContain(dag.get('site.fire.observed.heading.fromNorth'))
-  dag.runInputs([
-    ['site.fire.vector.fromNorth', [fireVectorFromNorth]],
-    ['site.slope.direction.aspect', [aspect]],
-    ['site.fire.observed.heading.fromNorth', [fireHeadingFromNorth]]
-  ])
-
-  // These should be the same
   expect(
     dag.get('surface.fire.ellipse.head.scorchHeight').value.current
   ).toEqual(headScorch)
