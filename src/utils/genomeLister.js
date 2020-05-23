@@ -65,4 +65,4 @@ function write (str, fileName) {
 
 const dag = new BpxDag('genomeList')
 const genome = genomeDef(dag)
-write(genome, 'BpxGenome.js')
+write(genome, 'BpxFullGenome.js')
