@@ -1,12 +1,12 @@
 # behaveplus-core To Do List
 
-- Add utility to dump GenomeArray.js
+- Translation Table
+
+- Add utility to dump GenomeArray.js & test as input
 
 - Remove deprecated projects
 
 - Why is the spot location initial value === null?
-
-- Translation Table
 
 - Add file headers
 
