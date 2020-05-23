@@ -14,12 +14,7 @@ dag.runConfigs(ConfigDefault)
 // Inputs
 const spreadRate = 10
 const elapsedTime = 60
-const aspect = 225
-const fireHeadingFromUpslope = 45
-const fireHeadingFromNorth = 90
 const fireVectorFromHead = 45
-const fireVectorFromUpslope = 90
-const fireVectorFromNorth = 135
 const firelineIntensity = 5000
 const lengthToWidthRatio = 3
 const mapScale = 24000

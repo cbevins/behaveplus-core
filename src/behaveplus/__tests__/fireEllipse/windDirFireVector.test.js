@@ -173,11 +173,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 2 of 9 wind.direction==='headingFromUpslope', fire.vector==='fromHead'
   // Requires no input changes
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][1]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][0]]
+    ['configure.wind.direction', 'headingFromUpslope'],
+    ['configure.fire.vector', 'fromHead']
   ])
 
   inputNodes = dag.requiredInputNodes()
@@ -205,11 +202,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 3 of 9: wind.direction==='sourceFromNorth', fire.vector==='fromHead'
   // Requires no changes
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][0]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][0]]
+    ['configure.wind.direction', 'sourceFromNorth'],
+    ['configure.fire.vector', 'fromHead']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
@@ -235,11 +229,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 4 of 9: wind.direction==='upslope', fire.vector==='fromUpslope'
   // Changes input from vector.fromHead to vector.fromUpslope
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][2]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][1]]
+    ['configure.wind.direction', 'upslope'],
+    ['configure.fire.vector', 'fromUpslope']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
@@ -273,11 +264,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 5 of 9: wind.direction==='headingFromUpslope', fire.vector==='fromUpslope'
   // Requires additional input: fire.observed.heading.fromUpslope
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][1]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][1]]
+    ['configure.wind.direction', 'headingFromUpslope'],
+    ['configure.fire.vector', 'fromUpslope']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
@@ -313,11 +301,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // Requires additional input: site.slope.direction.aspect
   // Instead of observed.heading.fromUpslope, need observed.heading.fromNorth
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][0]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][1]]
+    ['configure.wind.direction', 'sourceFromNorth'],
+    ['configure.fire.vector', 'fromUpslope']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
@@ -352,11 +337,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 7 of 9: wind.direction==='upslope', fire.vector==='fromNorth'
   // Changes input from vector.fromHead to vector.fromUpslope
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][2]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][2]]
+    ['configure.wind.direction', 'upslope'],
+    ['configure.fire.vector', 'fromNorth']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
@@ -392,11 +374,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 8 of 9: wind.direction==='headingFromUpslope', fire.vector==='fromNorth'
   // Changes input from vector.fromHead to vector.fromUpslope
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][1]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][2]]
+    ['configure.wind.direction', 'headingFromUpslope'],
+    ['configure.fire.vector', 'fromNorth']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
@@ -432,11 +411,8 @@ test('1: wind.direction - fire.vector combination tests', () => {
   // 9 of 9: wind.direction==='sourceFromNorth', fire.vector==='fromNorth'
   // Changes input from vector.fromHead to vector.fromUpslope
   dag.runConfigs([
-    [
-      'configure.wind.direction',
-      ['sourceFromNorth', 'headingFromUpslope', 'upslope'][0]
-    ],
-    ['configure.fire.vector', ['fromHead', 'fromUpslope', 'fromNorth'][2]]
+    ['configure.wind.direction', 'sourceFromNorth'],
+    ['configure.fire.vector', 'fromNorth']
   ])
   inputNodes = dag.requiredInputNodes()
   // console.log(DagJest.arrayList(inputNodes, 'Inputs'))
