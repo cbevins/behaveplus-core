@@ -104,16 +104,16 @@ test('1: Scorch height linked to surface fire', () => {
   expect(primaryFli.value.current).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.primary.fuel.fire.firelineIntensity').value.current
-  ).toEqual(expectedFli)
+  ).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.weighted.fire.firelineIntensity').value.current
-  ).toEqual(expectedFli)
+  ).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.fire.ellipse.head.firelineIntensity').value.current
-  ).toEqual(expectedFli)
+  ).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(expectedSht)
+  ).toBeCloseTo(expectedSht, 9)
 
   // And NOT through the surface.weighted.fire.scorchHeight
   expect(
@@ -127,14 +127,14 @@ test('1: Scorch height linked to surface fire', () => {
   expect(
     dag.get('surface.weighted.fire.scorchHeight').status.isRequired
   ).toEqual(true)
-  expect(dag.get('surface.weighted.fire.scorchHeight').value.current).toEqual(
-    expectedSht
-  )
+  expect(
+    dag.get('surface.weighted.fire.scorchHeight').value.current
+  ).toBeCloseTo(expectedSht, 9)
 
   dag.runSelected([['surface.weighted.fire.flameLength', true]])
   expect(
     dag.get('surface.primary.fuel.fire.flameLength').value.current
-  ).toEqual(expectedFlame)
+  ).toBeCloseTo(expectedFlame, 9)
 })
 
 test('2: Scorch height linked to fire ellipse and its firelineIntensity', () => {
@@ -158,13 +158,13 @@ test('2: Scorch height linked to fire ellipse and its firelineIntensity', () => 
     [windSpeed, [88 * 9]],
     [observedFli, [expectedFli]]
   ])
-  expect(observedFli.value.current).toEqual(expectedFli)
+  expect(observedFli.value.current).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.fire.ellipse.head.firelineIntensity').value.current
-  ).toEqual(expectedFli)
+  ).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.fire.ellipse.head.scorchHeight').value.current
-  ).toEqual(expectedSht)
+  ).toBeCloseTo(expectedSht, 9)
 })
 
 test('3: Scorch height linked to fire ellipse and its flameLength', () => {
@@ -188,7 +188,7 @@ test('3: Scorch height linked to fire ellipse and its flameLength', () => {
     [windSpeed, [88 * 9]],
     [observedFlame, [expectedFlame]]
   ])
-  expect(observedFlame.value.current).toEqual(expectedFlame)
+  expect(observedFlame.value.current).toBeCloseTo(expectedFlame, 9)
   expect(
     dag.get('surface.fire.ellipse.head.firelineIntensity').value.current
   ).sig(expectedFli, 11)
@@ -256,7 +256,7 @@ test('5: Scorch height stand-alone with flameLength input', () => {
     [windSpeed, [88 * 9]],
     [observedFlame, [expectedFlame]]
   ])
-  expect(observedFlame.value.current).toEqual(expectedFlame)
+  expect(observedFlame.value.current).toBeCloseTo(expectedFlame, 9)
   expect(observedFli.value.current).sig(expectedFli, 11)
   expect(scorchHt.value.current).sig(expectedSht, 11)
   expect(
