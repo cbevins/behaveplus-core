@@ -1,4 +1,3 @@
-/* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 /**
  * @file Tests the Bpx spotting module DAG configurations
  * @copyright 2020 Systems for Environmental Management
