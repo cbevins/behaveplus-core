@@ -101,7 +101,7 @@ test('1: Scorch height linked to surface fire', () => {
 
   dag.runInputs(Inputs)
   // The link to surfaceFire is via the surface.weighted.fire.firelineIntensity
-  expect(primaryFli.value.current).toEqual(expectedFli)
+  expect(primaryFli.value.current).toBeCloseTo(expectedFli, 9)
   expect(
     dag.get('surface.primary.fuel.fire.firelineIntensity').value.current
   ).toEqual(expectedFli)
