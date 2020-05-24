@@ -70,7 +70,9 @@
       "^.+\\.[t|j]sx?$": "babel-jest",
       "^.+\\.mjs?$": "babel-jest"
     },
-    "testTimeout": 10000,
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/archive",
       "<rootDir>/src/behaveplus/delayed__tests__",
