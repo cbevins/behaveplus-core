@@ -232,4 +232,22 @@ export class Dag {
   sortedNodes () {
     return this.sorted.nodes
   }
+
+  /**
+   * String translation utility.
+   *
+   * @param {string} key Translation table lookup key
+   * @param {string} lang Language string, such as 'en_US'
+   * @return If the translation Map has translation key <key>.<lang>,
+   * the translation key's value is returned.  If not,
+   * the 'dflt' argument string is returned, unless it is null,
+   * in which case the 'key' string argument is returned.
+   */
+  tr (key, lang, dflt = null) {
+    const trKey = key + '.' + lang
+    if (this.translation.map.has(trKey)) {
+      return this.translation.map.get(trKey)
+    }
+    return dflt === null ? key : dflt
+  }
 }

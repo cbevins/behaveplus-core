@@ -4,7 +4,7 @@ import { MethodMap } from '../../equations/index.js'
 import { BpxVariantMap } from '../../behaveplus/index.js'
 import { Dag } from '../Dag.js'
 
-test('Error - duplicate genome key', () => {
+test('1: Error - duplicate genome key', () => {
   const bad = [
     [
       'surface.primary.fuel.fire.slope.ratio',
@@ -28,7 +28,7 @@ test('Error - duplicate genome key', () => {
   )
 })
 
-test('Error - bad Variant key', () => {
+test('2: Error - bad Variant key', () => {
   const bad = [
     [
       'surface.primary.fuel.fire.slope.ratio',
@@ -45,7 +45,7 @@ test('Error - bad Variant key', () => {
   )
 })
 
-test('Error - no updater options', () => {
+test('3: Error - no updater options', () => {
   const bad = [
     ['surface.primary.fuel.fire.slope.ratio', [['Variant.SlopeSteepness'], []]]
   ]
@@ -56,7 +56,7 @@ test('Error - no updater options', () => {
   )
 })
 
-test('Error - bad configKey', () => {
+test('4: Error - bad configKey', () => {
   const bad = [
     [
       'surface.primary.fuel.fire.windSpeedAdjustmentFactor',
@@ -89,7 +89,7 @@ test('Error - bad configKey', () => {
   )
 })
 
-test('Error - bad methodKey', () => {
+test('5: Error - bad methodKey', () => {
   const bad = [
     [
       'surface.primary.fuel.fire.windSpeedAdjustmentFactor',
@@ -112,4 +112,63 @@ test('Error - bad methodKey', () => {
   }).toThrow(
     "GenomeArray Node 'surface.primary.fuel.fire.windSpeedAdjustmentFactor' updater 0 has unknown method 'BAD.windSpeedAdjustmentFactor"
   )
+})
+
+test('6: Error - bad config value', () => {
+  const bad = [
+    [
+      'configure.fuel.windSpeedAdjustmentFactor',
+      [['Variant.ConfigWindSpeedAdjustmentFactor'], [['finally', 'Dag.config']]]
+    ],
+    [
+      'surface.primary.fuel.fire.windSpeedAdjustmentFactor',
+      [
+        ['Variant.WindSpeedAdjustmentFraction'],
+        [
+          [
+            'when',
+            'configure.fuel.windSpeedAdjustmentFactor',
+            'equals',
+            'BAD_CONFIG_VALUE',
+            'Dag.bind',
+            'site.windSpeedAdjustmentFactor'
+          ],
+          ['finally', 'Dag.input']
+        ]
+      ]
+    ]
+  ]
+  expect(() => {
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
+  }).toThrow(
+    "GenomeArray Node 'surface.primary.fuel.fire.windSpeedAdjustmentFactor' updater 0 config Node 'configure.fuel.windSpeedAdjustmentFactor' references invalid value 'BAD_CONFIG_VALUE'"
+  )
+})
+
+test('7: Error - bad updater condition', () => {
+  const bad = [
+    [
+      'surface.primary.fuel.fire.slope.ratio',
+      [
+        ['Variant.SlopeSteepness'],
+        [['BAD_CONDITION', 'Dag.bind', 'site.slope.steepness.ratio']]
+      ]
+    ]
+  ]
+  expect(() => {
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
+  }).toThrow(
+    "GenomeArray Node 'surface.primary.fuel.fire.slope.ratio' updater 0 has invalid condition 'BAD_CONDITION'"
+  )
+})
+
+test('8: Error - cyclical dependency', () => {
+  const bad = [
+    ['a', [['Variant.Text'], [['finally', 'Dag.bind', 'b']]]],
+    ['b', [['Variant.Text'], [['finally', 'Dag.bind', 'c']]]],
+    ['c', [['Variant.Text'], [['finally', 'Dag.bind', 'a']]]]
+  ]
+  expect(() => {
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
+  }).toThrow('Cyclical dependency detected:')
 })

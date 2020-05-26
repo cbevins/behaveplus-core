@@ -108,7 +108,7 @@ function createNode (genome) {
   // Updater information
   const updaterArray = info[1]
   const updaters = []
-  updaterArray.forEach(option => {
+  updaterArray.forEach((option, idx) => {
     const updater = new Updater()
     const [condition, ...conditionArgs] = option
     if (condition === 'when') {
@@ -118,6 +118,10 @@ function createNode (genome) {
     } else if (condition === 'finally') {
       const [methodKey, ...methodParms] = conditionArgs
       updater.method = { key: methodKey, parms: methodParms, ref: null }
+    } else {
+      throw new Error(
+        `GenomeArray Node '${nodeKey}' updater ${idx} has invalid condition '${condition}'`
+      )
     }
     updaters.push(updater)
   })
@@ -291,7 +295,7 @@ function consumerDepth (node, visited) {
       if (visited.includes(consumer.node.key)) {
         visited.push(consumer.node.key)
         throw new Error(
-          `Cyclical dependency detected:\n${visited.join(' requires->\n')}`
+          `Cyclical dependency detected:\n${visited.join(' required by ->\n')}`
         )
       }
       visited.push(consumer.node.key)

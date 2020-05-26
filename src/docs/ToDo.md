@@ -1,22 +1,15 @@
 # behaveplus-core To Do List
 
-- Separate Variant, Dag, and Equation from Bpx
+- coverage: DagPrivate danglers, cyclical Dag
 
-- Translation Table
+- Test Full GenomeArray as input to BpxDag
 
-- Add utility to dump GenomeArray.js & test as input
-
-- Remove deprecated projects
+- Create an examples/behaveplus that will also be in the 'test' project
 
 - Why is the spot location initial value === null?
 
-- Add file headers
+- Add file headers to all files
 
 - FuelCatalog aliasMap([
   ['10', '10'],['fm10', '10'], ['ten', '10'],
 ])
-
-- example/
-  - surfaceFire.js
-  - fireEllipse.js
-  - etc

@@ -17,7 +17,9 @@ import * as TreeMortality from './TreeMortality.js'
 import * as WesternAspen from './WesternAspenFuel.js'
 import * as Wind from './Wind.js'
 
-function tbd () {}
+function tbd () {
+  return true
+}
 
 // \todo Have the Dag add its Dag.* methods directly
 export const MethodArray = [
