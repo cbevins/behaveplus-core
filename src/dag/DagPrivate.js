@@ -53,11 +53,6 @@ export function clone (dag, genomeArray) {
   // Step 2 - validate configKeys and methodKeys
   dag.node.map.forEach(my => {
     // Ensure all updater method names are valid
-    if (!my.updaters.length) {
-      throw new Error(
-        `GenomeArray Node '${my.node.key}' has no updater method options`
-      )
-    }
     my.updaters.forEach((updater, idx) => {
       // Ensure the configKey is valid
       if (updater.config.key !== null) {
@@ -108,6 +103,7 @@ function createNode (genome) {
   // Updater information
   const updaterArray = info[1]
   const updaters = []
+  let foundFinally = false
   updaterArray.forEach((option, idx) => {
     const updater = new Updater()
     const [condition, ...conditionArgs] = option
@@ -116,6 +112,7 @@ function createNode (genome) {
       updater.config = { key: configKey, op: op, value: value, ref: null }
       updater.method = { key: methodKey, parms: methodParms, ref: null }
     } else if (condition === 'finally') {
+      foundFinally = true
       const [methodKey, ...methodParms] = conditionArgs
       updater.method = { key: methodKey, parms: methodParms, ref: null }
     } else {
@@ -125,6 +122,14 @@ function createNode (genome) {
     }
     updaters.push(updater)
   })
+  if (!updaters.length) {
+    throw new Error(
+      `GenomeArray Node '${nodeKey}' has no updater method options`
+    )
+  }
+  if (!foundFinally) {
+    throw new Error(`GenomeArray Node '${nodeKey}' has no 'finally' condition`)
+  }
   return new Node(nodeKey, variantKey, updaters)
 }
 
@@ -179,13 +184,14 @@ function resetNodeMethods (dag, node) {
   // const track = node.node.key === trackNode
   // let str = ''
   // if (track) str += `Tracking Node '${trackNode}'...\n`
+
+  // Step 1 - find an Updater that meets current configuration
   let found = false
   const len = node.updaters.length
   for (let i = 0; i < len; i += 1) {
     const { config, method } = node.updaters[i]
-    // Always apply an updater with a null config.key
+    // Always apply an Updater with a null config.key, and therefore a 'finally' condition
     if (config.key === null) {
-      // 'finally'
       node.method = { ...method }
       found = true
       break
@@ -201,40 +207,39 @@ function resetNodeMethods (dag, node) {
       }
     }
   }
-  if (found) {
-    // if (track) {
-    //   str += `  Found updater method '${node.method.key}()' with ${node.method.parms.length} parms...\n`
-    // }
-    // Replace any nodeKey parms with their Node reference, and ensure they are enabled
-    node.method.parms.forEach((parm, idx) => {
-      if (typeof parm === 'string' && dag.node.map.has(parm)) {
-        // is this a Node key?
-        const parmNode = dag.node.map.get(parm) // get its reference
-        // if (track) {
-        //   str += `  Parm ${idx} is Node Key '${parmNode.node.key}' isEnabled=${parmNode.status.isEnabled}\n`
-        // }
-        if (!parmNode.status.isEnabled) {
-          found = false // can't use this updater since it requires a disabled Node value
-        }
-        node.method.parms[idx] = parmNode
-        // } else if (parm instanceof Node) {
-        //   if (track) { str += `  Parm ${idx} is Node Ref '${parm.node.key}' isEnabled=${parm.status.isEnabled}\n` }
-        // } else {
-        //   if (track) str += `  Parm ${idx} NOT a Node: '${parm}'\n`
-      }
-    })
-    // } else {
-    //   if (track) str += '  DID NOT FIND AN UPDATER METHOD\n'
-  }
+
+  // DagPrivate.clone() should have caught the following error case, but still...
   if (!found) {
-    // if (track) str += '  Using Dag.dangler\n'
-    node.method = {
-      key: 'Dag.dangler',
-      parms: [],
-      ref: dag.method.map.get('Dag.dangler')
-    }
+    // The following statement should never be executed
+    throw new Error(`Unable to find an Updater for Node '${node.node.key}'`)
   }
-  // if (track) console.log(str)
+  // Step 2 - if an Updater was found, transform its parameters
+  node.method.parms.forEach((parm, idx) => {
+    // Replace any nodeKey parms with their Node reference
+    let parmNode = null
+    if (parm instanceof Node) {
+      parmNode = parm
+    } else if (typeof parm === 'string' && dag.node.map.has(parm)) {
+      parmNode = dag.node.map.get(parm)
+    }
+
+    if (parmNode) {
+      // parm is a Node Key, so store its reference as the actual parameter
+      if (!parmNode.status.isEnabled) {
+        // can't use this updater since it requires a disabled Node value
+        node.method = {
+          key: 'Dag.dangler',
+          parms: [],
+          ref: dag.method.map.get('Dag.dangler')
+        }
+      } else {
+        node.method.parms[idx] = parmNode
+      }
+    } else {
+      // parm is some other string, numeric, boolean, or object, so use it as a fixed parameter
+      node.method.parms[idx] = parm
+    }
+  })
 }
 
 // Determines the DAG topology given current Node enabled/disabled status,

@@ -172,3 +172,33 @@ test('8: Error - cyclical dependency', () => {
     new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
   }).toThrow('Cyclical dependency detected:')
 })
+
+test('9: Error - no finally', () => {
+  const bad = [
+    [
+      'configure.fuel.windSpeedAdjustmentFactor',
+      [['Variant.ConfigWindSpeedAdjustmentFactor'], [['finally', 'Dag.config']]]
+    ],
+    [
+      'surface.primary.fuel.fire.windSpeedAdjustmentFactor',
+      [
+        ['Variant.WindSpeedAdjustmentFraction'],
+        [
+          [
+            'when',
+            'configure.fuel.windSpeedAdjustmentFactor',
+            'equals',
+            'BAD_CONFIG_VALUE',
+            'Dag.bind',
+            'site.windSpeedAdjustmentFactor'
+          ]
+        ]
+      ]
+    ]
+  ]
+  expect(() => {
+    new Dag(null, 'badDag', bad, new BpxVariantMap(), MethodMap)
+  }).toThrow(
+    "GenomeArray Node 'surface.primary.fuel.fire.windSpeedAdjustmentFactor' has no 'finally' condition"
+  )
+})

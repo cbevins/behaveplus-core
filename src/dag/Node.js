@@ -111,7 +111,9 @@ export class Node {
       return (this.value.current = this.method.parms[0].value.current)
     }
     // If the Node is an input, DagPrivate.updateRecursive() handles value iteration
+    // so the following block should never be entered
     if (this.method.key === 'Dag.input' || this.method.key === 'Dag.dangler') {
+      // The following statement should never be executed
       return this.current.value
     }
     // Otherwise lookup the updater method, evaluate its parms, and invoke it it
@@ -121,15 +123,13 @@ export class Node {
       if (parm instanceof Node) {
         // if the parm is a Node reference, use its value as the arg
         arg = parm.value.current
-      } else if (typeof parm === 'function') {
-        // use function result as the arg
-        // arg = parm.call(null)
-        arg = parm(null)
       }
       args.push(arg)
     })
     // Call the method with the args and return its value
+    // DagPrivate.clone() should have caught all invalid method refs, but still...
     if (typeof this.method.ref === 'undefined') {
+      // The following statement should never be executed
       throw new Error(`undefined method ref for '${this.method.key}'`)
     }
     return (this.value.current = this.method.ref.apply(null, args))

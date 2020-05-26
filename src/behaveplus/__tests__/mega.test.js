@@ -8,7 +8,7 @@
  * @version 0.1.0
  */
 import * as fs from 'fs'
-import { BpxDag, configModule } from '../BpxDag.js'
+import { BpxDag, configModule, NodeMapSize } from '../BpxDag.js'
 import * as DagJest from '../../utils/matchers.js'
 
 const sig = DagJest.sig
@@ -118,6 +118,15 @@ test('1 Psi mortality requires 680 Nodes with 19 inputs', () => {
 
   const requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(684)
+
+  let enabledNodes = dag.enabledNodes()
+  expect(enabledNodes.length).toEqual(NodeMapSize)
+
+  enabledNodes = dag.enabledNodes(true)
+  expect(enabledNodes.length).toEqual(NodeMapSize)
+
+  enabledNodes = dag.enabledNodes(false)
+  expect(enabledNodes.length).toEqual(0)
 })
 
 test('2 Crown fraction burned requires 818 Nodes with 16 inputs', () => {
@@ -175,7 +184,7 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
     ['mortality.rate', true],
     ['ignition.lightningStrike.probability', true]
   ])
-  const inputNodes = dag.requiredInputNodes()
+  let inputNodes = dag.requiredInputNodes()
   // displayUnrequiredNodes(dag)
   // console.log(DagJest.arrayList(inputNodes, 'Combined Inputs'))
   expect(inputNodes.length).toEqual(35)
@@ -222,28 +231,36 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
   configModule(dag, 'surfaceFire')
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(1043)
+  let danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
 
   configModule(dag, 'fireEllipse')
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(82)
+  danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
 
   configModule(dag, 'scorchHeight')
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(16)
+  danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
 
   configModule(dag, 'treeMortality')
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(8)
+  danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
 
   configModule(dag, 'surfaceSpotting')
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(20)
-
-  configModule(dag, 'crownFire')
-  requiredNodes = dag.requiredNodes()
-  expect(requiredNodes.length).toEqual(308)
+  danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
 
   configModule(dag, 'crownSpotting')
+  danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(13)
 
@@ -252,8 +269,38 @@ test('3 Combined requires 1041 of 1208 Nodes with 22 selected and 32 input Nodes
   expect(requiredNodes.length).toEqual(45)
 
   configModule(dag, 'ignitionProbability')
+  danglerNodes = dag.danglerNodes()
+  expect(danglerNodes.length).toEqual(0)
   requiredNodes = dag.requiredNodes()
   expect(requiredNodes.length).toEqual(7)
+
+  configModule(dag, 'crownFire')
+  danglerNodes = dag.danglerNodes()
+  // console.log(DagJest.arrayList(danglerNodes, 'Crown Fire standalone danglers'))
+  expect(danglerNodes.length).toEqual(3)
+  expect(danglerNodes).toContain(dag.get('crown.fire.final.rSa'))
+  // because rSa required disabled primary fuel Nodes ros0, waf, windB, windK, slopePhi
+
+  expect(danglerNodes).toContain(
+    dag.get('crown.fire.final.crownFractionBurned')
+  )
+  // because CFB requires disabled Node 'surface.primary.fuel.fire.spreadRate',
+
+  expect(danglerNodes).toContain(dag.get('crown.fire.final.spreadRate'))
+  // because final ros requires disabled Node 'surface.primary.fuel.fire.spreadRate',
+
+  inputNodes = dag.requiredInputNodes()
+  expect(inputNodes.length).toEqual(17)
+  // console.log(
+  //   DagJest.arrayList(inputNodes, 'Crown Fire standalone dangler inputs')
+  // )
+  // The dangler Nodes are inputs...
+  expect(inputNodes).toContain(dag.get('crown.fire.final.rSa'))
+  expect(inputNodes).toContain(dag.get('crown.fire.final.crownFractionBurned'))
+  expect(inputNodes).toContain(dag.get('crown.fire.final.spreadRate'))
+
+  requiredNodes = dag.requiredNodes()
+  expect(requiredNodes.length).toEqual(307) // was 308
 })
 
 function displayUnrequiredNodes (dag) {

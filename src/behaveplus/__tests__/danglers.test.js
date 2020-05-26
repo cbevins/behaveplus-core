@@ -5,7 +5,6 @@ import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig
 expect.extend({ sig })
 
-// console.log('1: Creating Dag ===============================')
 const dag = BpxDag('megaTest')
 const windSpeed = dag.get('site.wind.speed.atMidflame')
 const deadMois = dag.get('site.moisture.dead.category')
@@ -24,11 +23,8 @@ const Inputs = [
 ]
 
 test('Dag danglers', () => {
-  // console.log('2: dag.setConfigs(ConfigMinimalInput) ===========')
   dag.setConfigs(ConfigMinimalInput)
-  // console.log('3: dag.setConfigs([[configure.model, surfaceFire]]) ===========')
   dag.setConfigs([['configure.module', 'surfaceFire']])
-  // console.log('4: dag.runSelected([[ros, ture]]) ===========')
   dag.runSelected([[ros, true]])
   let danglerNodes = dag.danglerNodes()
   expect(danglerNodes.length).toEqual(0)
@@ -41,25 +37,33 @@ test('Dag danglers', () => {
   expect(inputNodes).toContain(slope)
   expect(inputNodes).toContain(windSpeed)
 
-  // console.log('5: dag.runInputs(Inputs) ========================')
   dag.runInputs(Inputs)
 
+  // DISABLE site.moisture
   expect(tl1h.status.isEnabled).toEqual(true)
-  // console.log(
-  //   '6: dag.runEnabled(site.moisture, false) ========================'
-  // )
   dag.runEnabled('site.moisture', false)
   const disabledNodes = dag.enabledNodes(false)
   expect(disabledNodes.length).toEqual(7)
   expect(tl1h.status.isEnabled).toEqual(false)
 
   danglerNodes = dag.danglerNodes()
-  expect(danglerNodes.length).toEqual(0)
-  inputNodes = dag.requiredInputNodes()
-  expect(inputNodes.length).toEqual(3) // 3
-  expect(tl1h.status.isEnabled).toEqual(false)
+  // console.log(DagJest.arrayList(danglerNodes, 'Danglers'))
+  // 9 primary moisture content particle bindings,
+  // 9 secondary moisture content particle bindings,
+  // 6 crown canopy moisture content particle bindings,
+  // 2 primary and secondary cured herb fraction method calls,
+  // 2 ignition probability method calls,
+  expect(danglerNodes.length).toEqual(28)
 
-  // console.log('7: dag.runInputs(Inputs) ========================')
+  inputNodes = dag.requiredInputNodes()
+  expect(inputNodes.length).toEqual(13)
+  //  5 inputs before disabled
+  // -2 the site.moisture.* disabled inputs
+  // +9 surface.primary.fueld.bed....moistureContent inputs
+  // +1 cured herb fraction input
+  console.log(DagJest.arrayList(inputNodes, 'Dangler inputs'))
+
+  // Setting the moisture inputs should just be ignored
+  // Coverage test...
   dag.runInputs(Inputs)
-  expect(tl1h.status.isEnabled).toEqual(false)
 })
