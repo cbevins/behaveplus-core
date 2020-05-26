@@ -14,9 +14,9 @@ import { AbstractVariant } from './AbstractVariant.js'
  */
 export class Option extends AbstractVariant {
   constructor (validOptionsArray, defaultOptionIndex = 0) {
-    if (typeof validOptionsArray === 'undefined') {
+    if (!(validOptionsArray instanceof Array)) {
       throw new Error(
-        `new Variant.Option(${validOptionsArray}) options array is undefined`
+        `new Variant.Option(${validOptionsArray}) options array is not an array`
       )
     } else if (
       defaultOptionIndex < 0 ||

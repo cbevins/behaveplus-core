@@ -413,7 +413,7 @@ export class SpottingFirebrandObject extends Variant.Blob {
 }
 export class SpottingSourceLocationOption extends Variant.Option {
   constructor () {
-    super(Lib.Spotting.Location)
+    super(Lib.Spotting.locations())
   }
 }
 export class TorchingTreeSpeciesOption extends Variant.Option {

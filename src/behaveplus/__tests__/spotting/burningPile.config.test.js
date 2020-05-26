@@ -55,6 +55,9 @@ dag.runConfigs([
 ])
 
 test('1: Burning pile spotting distance configuration', () => {
+  const location = dag.get('site.terrain.spotSourceLocation')
+  expect(location.value.current).toEqual('midslopeWindward')
+
   // Selecting downwind canopy applied ht requires its 2 inputs
   dag.runSelected([['site.canopy.downwind.appliedHeight', true]])
   let inputNodes = dag.requiredInputNodes()
