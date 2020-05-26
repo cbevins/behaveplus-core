@@ -74,6 +74,29 @@ export class Dag {
     }
   }
 
+  danglerNodes () {
+    const ar = []
+    this.node.map.forEach(node => {
+      if (node.method.key === 'Dag.dangler') {
+        ar.push(node)
+      }
+    })
+    return ar
+  }
+
+  /**
+   * @return An array of all enabled (or disabled) Nodes in topological order.
+   */
+  enabledNodes (isEnabled = true) {
+    const ar = []
+    this.node.map.forEach(node => {
+      if (node.status.isEnabled === isEnabled) {
+        ar.push(node)
+      }
+    })
+    return ar
+  }
+
   /**
    * @param {string} nodeKey
    * @return A reference to the Node with the Node.node.key matching `nodeKey`
@@ -126,6 +149,11 @@ export class Dag {
     Private.update(this)
   }
 
+  runEnabled (keyPrefix, isEnabled) {
+    this.setEnabled(keyPrefix, isEnabled)
+    Private.update(this)
+  }
+
   /**
    * Returns an array of result run indices that satisfy the input-value pair specs
    * @param {*} inputValues An array of input nodeKey => value specifications
@@ -165,6 +193,16 @@ export class Dag {
   runSelected (keyValuePairs) {
     this.setSelected(keyValuePairs)
     Private.update(this)
+  }
+
+  setEnabled (keyPrefix, isEnabled) {
+    this.node.map.forEach((node, nodeKey) => {
+      if (nodeKey.startsWith(keyPrefix)) {
+        node.status.isEnabled = isEnabled
+      }
+    })
+    Private.resetMethods(this)
+    Private.resetTopology(this)
   }
 
   setModeCasewise () {

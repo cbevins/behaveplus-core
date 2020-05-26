@@ -1,5 +1,6 @@
-import { Genome } from '../../dist/bundle.esm.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag } from '../behaveplus/index.js'
 
-const root = new Genome.BpxDag('caseWise')
+const dag = new BpxDag('caseWise')
 
 console.log('debug finished')

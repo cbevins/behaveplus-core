@@ -1,5 +1,8 @@
 # behaveplus-core To Do List
 
+- DagPrivate.resetNodeMthods()
+  - is _asNodeOrKey()
+
 - coverage: DagPrivate danglers, cyclical Dag
 
 - Test Full GenomeArray as input to BpxDag

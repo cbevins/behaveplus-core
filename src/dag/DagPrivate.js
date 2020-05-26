@@ -174,6 +174,11 @@ export function resetMethods (dag) {
  * @param {*} my
  */
 function resetNodeMethods (dag, node) {
+  // const trackNode =
+  //   'surface.primary.fuel.bed.dead.particle.class1.moistureContent'
+  // const track = node.node.key === trackNode
+  // let str = ''
+  // if (track) str += `Tracking Node '${trackNode}'...\n`
   let found = false
   const len = node.updaters.length
   for (let i = 0; i < len; i += 1) {
@@ -197,25 +202,39 @@ function resetNodeMethods (dag, node) {
     }
   }
   if (found) {
+    // if (track) {
+    //   str += `  Found updater method '${node.method.key}()' with ${node.method.parms.length} parms...\n`
+    // }
     // Replace any nodeKey parms with their Node reference, and ensure they are enabled
     node.method.parms.forEach((parm, idx) => {
       if (typeof parm === 'string' && dag.node.map.has(parm)) {
         // is this a Node key?
         const parmNode = dag.node.map.get(parm) // get its reference
+        // if (track) {
+        //   str += `  Parm ${idx} is Node Key '${parmNode.node.key}' isEnabled=${parmNode.status.isEnabled}\n`
+        // }
         if (!parmNode.status.isEnabled) {
           found = false // can't use this updater since it requires a disabled Node value
         }
         node.method.parms[idx] = parmNode
+        // } else if (parm instanceof Node) {
+        //   if (track) { str += `  Parm ${idx} is Node Ref '${parm.node.key}' isEnabled=${parm.status.isEnabled}\n` }
+        // } else {
+        //   if (track) str += `  Parm ${idx} NOT a Node: '${parm}'\n`
       }
     })
+    // } else {
+    //   if (track) str += '  DID NOT FIND AN UPDATER METHOD\n'
   }
   if (!found) {
+    // if (track) str += '  Using Dag.dangler\n'
     node.method = {
       key: 'Dag.dangler',
       parms: [],
       ref: dag.method.map.get('Dag.dangler')
     }
   }
+  // if (track) console.log(str)
 }
 
 // Determines the DAG topology given current Node enabled/disabled status,
