@@ -4,9 +4,9 @@ import * as fs from 'fs'
 
 console.log('genomeLister()...')
 
-function genomeDef (dag) {
+function genomeDef (nodeArray) {
   const ar = []
-  dag.node.map.forEach((node, key) => {
+  nodeArray.forEach(node => {
     ar.push(nodeDef(node))
   })
   return 'export const BpxGenome = [\n' + ar.join(',\n') + '\n]\n'
@@ -27,6 +27,7 @@ function updaterDef (updater) {
   if (config.key === null) {
     ar.push("'finally'")
   } else {
+    ar.push("'when'")
     ar.push(`'${config.key}'`)
     ar.push(`'${config.op}'`)
     if (config.op === 'includes') {
@@ -64,5 +65,14 @@ function write (str, fileName) {
 }
 
 const dag = new BpxDag('genomeList')
-const genome = genomeDef(dag)
-write(genome, 'BpxFullGenome.js')
+// Example 1: generate a genome from the Dag.node.map
+const genome1 = genomeDef(Array.from(dag.node.map.values()))
+write(genome1, 'BpxFullGenome1.js')
+
+// Example 2: generate a genome from the Dag.sorted.nodes array
+const genome2 = genomeDef(dag.sortedNodes())
+write(genome2, 'BpxFullGenome2.js')
+
+// Example 3: generate a genome from the Dag.node.map
+const genome3 = genomeDef(dag.requiredNodes())
+write(genome3, 'BpxFullGenome3.js')
