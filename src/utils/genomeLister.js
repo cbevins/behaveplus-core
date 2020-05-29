@@ -1,15 +1,17 @@
-import { BpxDag } from '../behaveplus/BpxDag.js'
+/* eslint-disable no-unused-vars */
+import { BpxDag, configModule } from '../behaveplus/BpxDag.js'
 import { Node } from '../dag/Node.js'
 import * as fs from 'fs'
 
 console.log('genomeLister()...')
 
-function genomeDef (nodeArray) {
+function genomeDef (nodeArray, title) {
   const ar = []
   nodeArray.forEach(node => {
     ar.push(nodeDef(node))
   })
-  return 'export const BpxGenome = [\n' + ar.join(',\n') + '\n]\n'
+  const header = `// ${title} (${nodeArray.length} nodes)\nexport const BpxGenome = [\n`
+  return header + ar.join(',\n') + '\n]\n'
 }
 
 function nodeDef (node) {
@@ -64,15 +66,65 @@ function write (str, fileName) {
   })
 }
 
-const dag = new BpxDag('genomeList')
-// Example 1: generate a genome from the Dag.node.map
-const genome1 = genomeDef(Array.from(dag.node.map.values()))
-write(genome1, 'BpxFullGenome1.js')
+// Example 1
+function behavePlusFullGenomeInsertionOrder () {
+  const dag = new BpxDag('genomeList')
+  const title = 'Full BehavePlus Genome in Dag.node.map insertion order'
+  const genome = genomeDef(Array.from(dag.node.map.values()), title)
+  write(genome, 'BpxFullGenomeInsertionOrder.js')
+}
 
-// Example 2: generate a genome from the Dag.sorted.nodes array
-const genome2 = genomeDef(dag.sortedNodes())
-write(genome2, 'BpxFullGenome2.js')
+// Example 2
+function behavePlusFullGenomeToplogicalOrder () {
+  const dag = new BpxDag('genomeList')
+  const title = 'Full BehavePlus Genome in Dag topoplogical order'
+  const genome = genomeDef(dag.sortedNodes(), title)
+  write(genome, 'BpxFullGenomeTopologicalOrder.js')
+}
 
-// Example 3: generate a genome from the Dag.node.map
-const genome3 = genomeDef(dag.requiredNodes())
-write(genome3, 'BpxFullGenome3.js')
+// Example 3
+function scorchGenome () {
+  const dag = new BpxDag('scorchGenome')
+  const title = 'Scorch Module Genome'
+  // configModule(dag, 'scorchHeight')
+  dag.clearSelected()
+  dag.runConfigs([
+    ['configure.module', 'scorchHeight'],
+    ['configure.fire.firelineIntensity', 'flameLength']
+  ])
+  dag.runSelected([[dag.get('mortality.scorchHeight'), true]])
+  const genome = genomeDef(
+    dag.requiredNodes().sort((n1, n2) => (n1.node.key > n2.node.key ? 1 : -1)),
+    title
+  )
+  write(genome, 'BpxScorchGenome.js')
+}
+
+// Example 3
+function scorchMortalityGenome () {
+  const dag = new BpxDag('scorchMortalityGnome')
+  const title = 'Scorch-Mortality Module Genome'
+  // configModule(dag, 'scorchHeight')
+  dag.clearSelected()
+  dag.runConfigs([
+    ['configure.module', 'scorchHeight'],
+    ['configure.fire.firelineIntensity', 'flameLength']
+  ])
+  dag.runSelected([
+    [dag.get('mortality.rate'), true],
+    [dag.get('mortality.scorchHeight'), true],
+    [dag.get('site.canopy.tree.barkThickness'), true],
+    [dag.get('mortality.crownLengthScorched'), true],
+    [dag.get('mortality.crownVolumeScorched'), true]
+  ])
+  const genome = genomeDef(
+    dag.requiredNodes().sort((n1, n2) => (n1.node.key > n2.node.key ? 1 : -1)),
+    title
+  )
+  write(genome, 'BpxScorchMortalityGenome.js')
+}
+
+behavePlusFullGenomeInsertionOrder()
+behavePlusFullGenomeToplogicalOrder()
+scorchGenome()
+scorchMortalityGenome()

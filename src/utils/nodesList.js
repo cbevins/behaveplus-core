@@ -31,5 +31,5 @@ function write (str, fileName) {
   })
 }
 
-alphaOrder('BpxGenomeAlphabetical.js')
-topoOrder('BpxGenomeTopological.js')
+alphaOrder('BpxFullNodesAlphabeticalOrder.js')
+topoOrder('BpxFullNodeTopologicalOrder.js')

@@ -3,4 +3,4 @@ coverage
 dist
 node_modules
 docs
-src/utils/BpxFullGenome*
+src/utils/Bpx*
