@@ -1,8 +1,14 @@
 /* eslint-disable no-unused-vars */
+/**
+ * Export 3 functions that create a Javascript file:
+ * - genomeArray(nodeArray, title, fileName))
+ * - methodArray(nodeArray, title, fileName))
+ * - variantArray(nodeArray, title, fileName))
+ */
 import { Node } from '../dag/Node.js'
 import * as fs from 'fs'
 
-export function generateGenomeArray (nodeArray, title, fileName) {
+export function genomeArray (nodeArray, title, fileName) {
   const ar = []
   nodeArray.forEach(node => {
     ar.push(generateNodeArray(node))
@@ -64,4 +70,36 @@ function writeGenomeArray (str, title, fileName) {
     if (err) throw err
     console.log(`'${title}' written to file '${fileName}'`)
   })
+}
+
+function setToArray (arrayName, set) {
+  let str = `export const ${arrayName} = [\n`
+  const ar = Array.from(set).sort((n1, n2) => (n1 > n2 ? 1 : -1))
+  ar.forEach(key => {
+    str += `  ['${key}'],\n`
+  })
+  str += ']\n'
+  return str
+}
+
+export function methodArray (nodeArray, title, fileName) {
+  const methods = new Set()
+  nodeArray.forEach(node => {
+    methods.add(node.method.key)
+  })
+  const str =
+    `// ${title} (${methods.size} methods)\n` +
+    setToArray('MethodArray', methods)
+  writeGenomeArray(str, title, fileName)
+}
+
+export function variantArray (nodeArray, title, fileName) {
+  const variants = new Set()
+  nodeArray.forEach(node => {
+    variants.add(node.variant.key)
+  })
+  const str =
+    `// ${title} (${variants.size} variants)\n` +
+    setToArray('VariantArray', variants)
+  writeGenomeArray(str, title, fileName)
 }

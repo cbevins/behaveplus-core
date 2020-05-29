@@ -1,4 +1,4 @@
-// Scorch Module Genome (11 nodes)
+// Scorch Genome Array (11 nodes)
 export const GenomeArray = [
   ['configure.fire.firelineIntensity', [['Variant.ConfigFirelineIntensity'], [
     ['finally', 'Dag.config']]]],

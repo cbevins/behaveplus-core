@@ -1,5 +1,5 @@
 import { BpxDag } from '../../behaveplus/BpxDag.js'
-import { generateGenomeArray } from '../GenomeArrayGenerator.js'
+import * as Generate from '../GenomeArrayGenerator.js'
 
 const dag = new BpxDag('scorchGenome')
 
@@ -10,8 +10,20 @@ dag.runConfigs([
 
 dag.runSelected([[dag.get('mortality.scorchHeight'), true]])
 
-generateGenomeArray(
+Generate.genomeArray(
   dag.requiredNodes().sort((n1, n2) => (n1.node.key > n2.node.key ? 1 : -1)),
-  'Scorch Module Genome',
+  'Scorch Genome Array',
   'ScorchGenome.js'
+)
+
+Generate.methodArray(
+  dag.requiredNodes(),
+  'Scorch Method Array',
+  'ScorchMethods.js'
+)
+
+Generate.variantArray(
+  dag.requiredNodes(),
+  'Scorch Variant Array',
+  'ScorchVariants.js'
 )
