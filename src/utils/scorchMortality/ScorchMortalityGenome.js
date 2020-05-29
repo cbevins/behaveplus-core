@@ -1,5 +1,5 @@
 // Scorch-Mortality Module Genome (19 nodes)
-export const BpxGenome = [
+export const GenomeArray = [
   ['configure.fire.firelineIntensity', [['Variant.ConfigFirelineIntensity'], [
     ['finally', 'Dag.config']]]],
   ['configure.module', [['Variant.ConfigModule'], [

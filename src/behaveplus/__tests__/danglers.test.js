@@ -59,9 +59,9 @@ test('Dag danglers', () => {
   expect(inputNodes.length).toEqual(13)
   //  5 inputs before disabled
   // -2 the site.moisture.* disabled inputs
-  // +9 surface.primary.fueld.bed....moistureContent inputs
+  // +9 surface.primary.fuel.bed....moistureContent inputs
   // +1 cured herb fraction input
-  console.log(DagJest.arrayList(inputNodes, 'Dangler inputs'))
+  // console.log(DagJest.arrayList(inputNodes, 'Dangler inputs'))
 
   // Setting the moisture inputs should just be ignored
   // Coverage test...

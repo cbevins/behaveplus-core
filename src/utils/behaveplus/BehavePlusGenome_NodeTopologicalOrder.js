@@ -1,5 +1,5 @@
-// Full BehavePlus Genome in Dag topoplogical order (1208 nodes)
-export const BpxGenome = [
+// BehavePlus Genome in Node topological order (1208 nodes)
+export const GenomeArray = [
   ['surface.primary.fuel.model.catalogKey', [['Variant.FuelModelKeyOption'], [
     ['finally', 'Dag.input']]]],
   ['surface.primary.fuel.model.chaparral.parms.observed.totalLoad', [['Variant.FuelOvendryLoad'], [

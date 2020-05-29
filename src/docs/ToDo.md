@@ -1,17 +1,16 @@
 # behaveplus-core To Do List
 
-- Test Full GenomeArray as input to BpxDag
+- GenomeArray for:
+  - Fire Ellipse - Scorch - Mortality
+  - Crown Fire - Crown SPotting
+  - Crown Spotting
+  - Ignition Probability
+  - Scorch Height *DONE*
+  - Scorch Height - Tree Mortality *DONE*
 
-- Refactor genomeLister.js
-  - accept an array of Nodes such as:
-    - dag.node.map
-    - dag.requiredNodes
-  - only writes out the requested Nodes that are enabled
-  - can be used to auto-generate submodels from a configured Dag!!!
+- Add Method and Variant Lists
 
 - Create an examples/behaveplus that will also be in the 'test' project
-
-- Why is the spot location initial value === null?
 
 - Add file headers to all files
 

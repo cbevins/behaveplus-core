@@ -1,4 +1,4 @@
-import { BpxDag } from '../behaveplus/BpxDag.js'
+import { BpxDag } from '../../behaveplus/BpxDag.js'
 import * as fs from 'fs'
 
 const dag = new BpxDag('genomeList')
@@ -31,5 +31,5 @@ function write (str, fileName) {
   })
 }
 
-alphaOrder('BpxFullNodesAlphabeticalOrder.js')
-topoOrder('BpxFullNodeTopologicalOrder.js')
+alphaOrder('BehavePlusNodesAlphabeticalOrder.js')
+topoOrder('BehavePlusNodesTopologicalOrder.js')

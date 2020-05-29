@@ -1,0 +1,22 @@
+import { BpxDag } from '../../behaveplus/BpxDag.js'
+import { generateGenomeArray } from '../GenomeArrayGenerator.js'
+
+const dag = new BpxDag('genomeList')
+
+generateGenomeArray(
+  Array.from(dag.node.map.values()),
+  'BehavePlus Genome in Dag.node.map Node insertion order',
+  'BehavePlusGenome_NodeInsertionOrder.js'
+)
+
+generateGenomeArray(
+  dag.sortedNodes(),
+  'BehavePlus Genome in Node topological order',
+  'BehavePlusGenome_NodeTopologicalOrder.js'
+)
+
+generateGenomeArray(
+  dag.sortedNodes().sort((n1, n2) => (n1.node.key > n2.node.key ? 1 : -1)),
+  'BehavePlus Genome in Node key order',
+  'BehavePlusGenome_NodeKeyOrder.js'
+)

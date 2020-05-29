@@ -1,5 +1,5 @@
-// Full BehavePlus Genome in Dag.node.map insertion order (1208 nodes)
-export const BpxGenome = [
+// BehavePlus Genome in Dag.node.map Node insertion order (1208 nodes)
+export const GenomeArray = [
   ['configure.fuel.primary', [['Variant.ConfigPrimaryFuels'], [
     ['finally', 'Dag.config']]]],
   ['configure.fuel.secondary', [['Variant.ConfigSecondaryFuels'], [
