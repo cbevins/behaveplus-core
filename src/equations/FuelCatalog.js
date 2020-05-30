@@ -6,189 +6,189 @@
  * @license MIT
  */
 
-import { FuelCatalogData } from './FuelCatalogData.js'
+import * as Fuel from './FuelCatalogData.js'
 export { Domains } from './FuelCatalogData.js'
 
-export function domain (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain
+/**
+ * @return A sorted array of all the fuel model alias Map key strings.
+ */
+export function aliases () {
+  return Array.from(Fuel.Alias.keys()).sort()
 }
 
-export function ensureKey (key) {
-  if (!hasKey(key)) {
-    throw new Error(`Fuel catalog does not have key '${key}'`)
-  }
+export function code (alias) {
+  return model(alias).code
 }
 
+export function domain (alias) {
+  return model(alias).domain
+}
+
+/**
+ * @param {string} alias The Fuel.Alias map key string
+ */
+export function hasAlias (alias) {
+  return Fuel.Alias.has(alias)
+}
+
+/**
+ * @param {string} key The Fuel.Model map key string
+ */
 export function hasKey (key) {
-  return Object.prototype.hasOwnProperty.call(FuelCatalogData, key)
+  return Fuel.Model.has(key)
 }
 
+/**
+ * @return A sorted array of all the fuel catalog model Map key strings.
+ */
 export function keys () {
-  return Object.keys(FuelCatalogData).sort()
+  return Array.from(Fuel.Model.keys()).sort()
 }
 
+/**
+ * @return A sorted array of fuel catalog model [number, code, label]
+ */
 export function list () {
-  return Object.keys(FuelCatalogData)
+  return Array.from(Fuel.Model.keys())
     .sort()
-    .map(key => [key, FuelCatalogData[key].label])
+    .map(key => [number(key), code(key), label(key)])
 }
 
-export function label (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].label
+export function label (alias) {
+  return model(alias).label
 }
 
-export function behaveDead1Load (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].dead1Load
-    : 0
+/**
+ * @param {string} alias Alias map key string
+ * @return Reference to the Fuel.Model with the 'alias',
+ * or throws an Error if the alias does not exist.
+ */
+export function model (alias) {
+  if (!Fuel.Alias.has(alias)) {
+    throw new Error(
+      `Fuel catalog does not have fuel model key or alias '${alias}'`
+    )
+  }
+  return Fuel.Model.get(Fuel.Alias.get(alias))
 }
 
-export function behaveDead1Savr (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].dead1Savr
-    : 1
+/**
+ * @return An array of all the fuel catalog model objects.
+ */
+export function models () {
+  return Array.from(Fuel.Model.values())
 }
 
-export function behaveDead10Load (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].dead10Load
-    : 0
+export function number (alias) {
+  return model(alias).number
 }
 
-export function behaveDead100Load (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].dead100Load
-    : 0
+export function behaveDead1Load (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.dead1Load : 0
 }
 
-export function behaveDeadHeat (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].deadHeat
-    : 0
+export function behaveDead1Savr (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.dead1Savr : 1
 }
 
-export function behaveDeadMext (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].deadMext
-    : 0.01
+export function behaveDead10Load (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.dead10Load : 0
 }
 
-export function behaveDepth (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].depth
-    : 0.01
+export function behaveDead100Load (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.dead100Load : 0
 }
 
-export function behaveLiveHeat (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].liveHeat
-    : 0
+export function behaveDeadHeat (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.deadHeat : 0
 }
 
-export function behaveLiveHerbSavr (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].liveHerbSavr
-    : 1
+export function behaveDeadMext (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.deadMext : 0.01
 }
 
-export function behaveLiveStemLoad (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].liveStemLoad
-    : 0
+export function behaveDepth (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.depth : 0.01
 }
 
-export function behaveLiveStemSavr (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].liveStemSavr
-    : 1
+export function behaveLiveHeat (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.liveHeat : 0
 }
 
-export function behaveTotalHerbLoad (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'behave'
-    ? FuelCatalogData[key].totalHerbLoad
-    : 0
+export function behaveLiveHerbSavr (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.liveHerbSavr : 1
 }
 
-export function chaparralDeadFraction (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'chaparral'
-    ? FuelCatalogData[key].deadFraction
-    : 0
+export function behaveLiveStemLoad (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.liveStemLoad : 0
 }
 
-export function chaparralDepth (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'chaparral'
-    ? FuelCatalogData[key].depth
-    : 0.01
+export function behaveLiveStemSavr (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.liveStemSavr : 1
 }
 
-export function chaparralFuelType (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'chaparral'
-    ? FuelCatalogData[key].fuelType
-    : 'none'
+export function behaveTotalHerbLoad (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'behave' ? fuel.totalHerbLoad : 0
 }
 
-export function chaparralTotalLoad (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'chaparral'
-    ? FuelCatalogData[key].totalLoad
-    : 0
+export function chaparralDeadFraction (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'chaparral' ? fuel.deadFraction : 0
 }
 
-export function pgAge (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'palmettoGallberry'
-    ? FuelCatalogData[key].age
-    : 0
+export function chaparralDepth (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'chaparral' ? fuel.depth : 0.01
 }
 
-export function pgBasalArea (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'palmettoGallberry'
-    ? FuelCatalogData[key].basalArea
-    : 0
+export function chaparralFuelType (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'chaparral' ? fuel.fuelType : 'none'
 }
 
-export function pgCover (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'palmettoGallberry'
-    ? FuelCatalogData[key].cover
-    : 'none'
+export function chaparralTotalLoad (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'chaparral' ? fuel.totalLoad : 0
 }
 
-export function pgHeight (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'palmettoGallberry'
-    ? FuelCatalogData[key].height
-    : 0
+export function pgAge (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'palmettoGallberry' ? fuel.age : 0
 }
 
-export function westernAspenCuringLevel (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'westernAspen'
-    ? FuelCatalogData[key].curingLevel
-    : 0
+export function pgBasalArea (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'palmettoGallberry' ? fuel.basalArea : 0
 }
 
-export function westernAspenFuelType (key) {
-  ensureKey(key)
-  return FuelCatalogData[key].domain === 'westernAspen'
-    ? FuelCatalogData[key].fuelType
-    : 'none'
+export function pgCover (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'palmettoGallberry' ? fuel.cover : 'none'
+}
+
+export function pgHeight (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'palmettoGallberry' ? fuel.height : 0
+}
+
+export function westernAspenCuringLevel (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'westernAspen' ? fuel.curingLevel : 0
+}
+
+export function westernAspenFuelType (alias) {
+  const fuel = model(alias)
+  return fuel.domain === 'westernAspen' ? fuel.fuelType : 'none'
 }
