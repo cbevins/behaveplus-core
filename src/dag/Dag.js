@@ -282,7 +282,7 @@ export class Dag {
    * in which case the 'key' string argument is returned.
    */
   tr (key, lang, dflt = null) {
-    const trKey = key + '.' + lang
+    const trKey = key + '@' + lang
     if (this.translation.map.has(trKey)) {
       return this.translation.map.get(trKey)
     }

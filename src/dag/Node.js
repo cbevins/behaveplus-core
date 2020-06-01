@@ -1,3 +1,5 @@
+import { Numeric } from '../variants/index.js'
+
 /**
  * Updater class hold data for a single configuration-method pair for a Node.
  * Nodes may have one or more Updater.  When the DAG is reconfigured,
@@ -83,6 +85,10 @@ export class Node {
 
   displayRunString (idx) {
     return this.variant.ref.displayString(this.value.run[idx])
+  }
+
+  isNumeric () {
+    return this.variant.ref instanceof Numeric
   }
 
   /**
