@@ -1,4 +1,4 @@
-import { Numeric } from '../variants/index.js'
+import * as Variant from '../variants/index.js'
 
 /**
  * Updater class hold data for a single configuration-method pair for a Node.
@@ -88,7 +88,15 @@ export class Node {
   }
 
   isNumeric () {
-    return this.variant.ref instanceof Numeric
+    return this.variant.ref instanceof Variant.Numeric
+  }
+
+  isOption () {
+    return this.variant.ref instanceof Variant.Option
+  }
+
+  isQuantity () {
+    return this.variant.ref instanceof Variant.Quantity
   }
 
   /**
@@ -97,6 +105,10 @@ export class Node {
    */
   isInput () {
     return this.method.key === 'Dag.input' || this.method.key === 'Dag.dangler'
+  }
+
+  options () {
+    return this.isOption() ? this.variant.ref.options : null
   }
 
   /**

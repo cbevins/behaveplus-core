@@ -1,15 +1,23 @@
 export const Palette = [
   ['palette/label@en_US', 'Please select a Variable palette'],
-  ['palette.value.common/label@en_US', 'most commonly used variables'],
+  ['palette/option=common/label@en_US', 'most commonly used variables'],
   [
-    'palette.value.intermediate/label@en_US',
+    'palette/option=intermediate/label@en_US',
     'more technical, intermediate variables'
   ],
-  ['palette.value.advanced/label@en_US', 'most advanced, wonky variables']
+  ['palette/option=advanced/label@en_US', 'most advanced, wonky variables']
 ]
 
 export const Selector = [
   ['selector.graph.x.variable/label@en_US', 'Select the graph X variable'],
+  [
+    'selector.graph.x.variable/option=range/label@en_US',
+    'Enter x-axis min and max values, and number of data points'
+  ],
+  [
+    'selector.graph.x.variable/option=menu/label@en_US',
+    'Select the x variable values'
+  ],
   ['selector.graph.y.variable/label@en_US', 'Select the graph Y variable'],
   [
     'selector.graph.z.variable/label@en_US',
@@ -19,34 +27,34 @@ export const Selector = [
 
 export const Module = [
   ['module/label@en_US', 'Please select a BehavePlus module'],
-  ['module.value.surfaceFire/label@en_US', 'Surface Fire'],
-  ['module.value.fireEllipse/label@en_US', 'Fire Ellipse'],
-  ['module.value.scorchHeight/label@en_US', 'Scorch Height'],
-  ['module.value.treeMortality/label@en_US', 'Tree Mortality'],
-  ['module.value.crownFire/label@en_US', 'Crown Fire'],
-  ['module.value.spottingDistance/label@en_US', 'Spotting Distance'],
-  ['module.value.ignitionProbability/label@en_US', 'Ignition Probability']
+  ['module/option=surfaceFire/label@en_US', 'Surface Fire'],
+  ['module/option=fireEllipse/label@en_US', 'Fire Ellipse'],
+  ['module/option=scorchHeight/label@en_US', 'Scorch Height'],
+  ['module/option=treeMortality/label@en_US', 'Tree Mortality'],
+  ['module/option=crownFire/label@en_US', 'Crown Fire'],
+  ['module/option=spottingDistance/label@en_US', 'Spotting Distance'],
+  ['module/option=ignitionProbability/label@en_US', 'Ignition Probability']
 ]
 
 export const Product = [
   ['product/label@en_US', 'Please select a product'],
-  ['product.value.graph/label@en_US', 'Graph'],
+  ['product/option=graph/label@en_US', 'Graph'],
   [
-    'product.value.list/label@en_US',
+    'product/option=list/label@en_US',
     'Table with single values for all inputs and outputs'
   ],
   [
-    'product.value.oneWay/label@en_US',
+    'product/option=oneWay/label@en_US',
     'Table with output values for columns and 1 ranged input for rows'
   ],
   [
-    'product.value.twoWay/label@en_US',
+    'product/option=twoWay/label@en_US',
     'Table of output values for cells and 2 ranged inputs for rows and columns'
   ],
-  ['product.value.records/label@en_US', 'A set of data records'],
-  ['product.value.diagram/label@en_US', 'A diagram'],
-  ['product.value.cases/label@en_US', 'A set of case-wise comparisons'],
-  ['product.value.timeSeries/label@en_US', 'A time series']
+  ['product/option=records/label@en_US', 'A set of data records'],
+  ['product/option=diagram/label@en_US', 'A diagram'],
+  ['product/option=cases/label@en_US', 'A set of case-wise comparisons'],
+  ['product/option=timeSeries/label@en_US', 'A time series']
 ]
 
 export const Surface = [
@@ -86,15 +94,19 @@ export const Surface = [
     'surface.primary.fuel.bed.packingRatio/label@en_US',
     'Primary Fuel Bed Packing Ratio'
   ],
+  ['surface.primary.fuel.model.catalogKey', 'Primary Fuel Catalog Key'],
   [
     'surface.weighted.fire.arithmeticMean.spreadRate/label@en_US',
-    'Maximum Spread Rate'
+    'Surface Fire Maximum Spread Rate'
   ],
   [
     'surface.weighted.fire.heading.fromUpslope/label@en_US',
     'Direction of Maximum Spread from Upslope'
   ],
-  ['surface.weighted.fire.heatPerUnitArea/label@en_US', 'Heat per Unit Area']
+  [
+    'surface.weighted.fire.heatPerUnitArea/label@en_US',
+    'Surface Fire Heat per Unit Area'
+  ]
 ]
 
 export const Site = [
@@ -110,18 +122,21 @@ export const Configure = [
     'configure.fuel.primary/label@en_US',
     'Primary fuels are specified by entering'
   ],
-  ['configure.fuel.primary.value.catalog/label@en_US', 'a fuel catalog key'],
-  ['configure.fuel.primary.value.behave/label@en_US', 'Behave fuel parameters'],
+  ['configure.fuel.primary/option=catalog/label@en_US', 'a fuel catalog key'],
   [
-    'configure.fuel.primary.value.chaparral/label@en_US',
+    'configure.fuel.primary/option=behave/label@en_US',
+    'Behave fuel parameters'
+  ],
+  [
+    'configure.fuel.primary/option=chaparral/label@en_US',
     'chaparral dynamic stand parameters'
   ],
   [
-    'configure.fuel.primary.value.palmettoGallberry/label@en_US',
+    'configure.fuel.primary/option=palmettoGallberry/label@en_US',
     'palmetto-gallberry dynamic stand parameters'
   ],
   [
-    'configure.fuel.primary.value.westernAspen/label@en_US',
+    'configure.fuel.primary/option=westernAspen/label@en_US',
     'western aspen dynamic stand parameters'
   ],
   [
@@ -129,24 +144,24 @@ export const Configure = [
     'Secondary fuels are specified by entering'
   ],
   [
-    'configure.fuel.secondary.value.none/label@en_US',
+    'configure.fuel.secondary/option=none/label@en_US',
     'there is no secondary fuel'
   ],
-  ['configure.fuel.secondary.value.catalog/label@en_US', 'a fuel catalog key'],
+  ['configure.fuel.secondary/option=catalog/label@en_US', 'a fuel catalog key'],
   [
-    'configure.fuel.secondary.value.behave/label@en_US',
+    'configure.fuel.secondary/option=behave/label@en_US',
     'Behave fuel parameters'
   ],
   [
-    'configure.fuel.secondary.value.chaparral/label@en_US',
+    'configure.fuel.secondary/option=chaparral/label@en_US',
     'chaparral dynamic stand parameters'
   ],
   [
-    'configure.fuel.secondary.value.palmettoGallberry/label@en_US',
+    'configure.fuel.secondary/option=palmettoGallberry/label@en_US',
     'palmetto-gallberry dynamic stand parameters'
   ],
   [
-    'configure.fuel.secondary.value.westernAspen/label@en_US',
+    'configure.fuel.secondary/option=westernAspen/label@en_US',
     'western aspen dynamic stand parameters'
   ]
 ]

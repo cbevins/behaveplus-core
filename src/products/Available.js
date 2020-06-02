@@ -13,7 +13,8 @@ export const Variables = {
   surfaceFire: {
     common: [
       'surface.weighted.fire.arithmeticMean.spreadRate',
-      'surface.weighted.fire.heading.fromUpslope'
+      'surface.weighted.fire.heading.fromUpslope',
+      'surface.primary.fuel.model.catalogKey'
     ],
     intermediate: ['surface.weighted.fire.heatPerUnitArea'],
     advanced: ['surface.primary.fuel.bed.packingRatio']

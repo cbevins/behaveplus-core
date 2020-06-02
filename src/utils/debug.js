@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { BpxDag } from '../behaveplus/index.js'
+import { Product } from '../products/Product.js'
 
-const dag = new BpxDag('caseWise')
-
-configModule(dag, 'crownFire')
-const danglerNodes = dag.danglerNodes()
+const product = new Product()
+const text = product._getLabel('product')
 
 console.log('debug finished')

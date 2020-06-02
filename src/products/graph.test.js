@@ -11,78 +11,120 @@ import { Product } from './Product.js'
  * - this.graph.z.lines.values = []
  */
 
-test('Graph', () => {
+const catalogKey = 'surface.primary.fuel.model.catalogKey'
+const hpua = 'surface.weighted.fire.heatPerUnitArea'
+const beta = 'surface.primary.fuel.bed.packingRatio'
+const ros = 'surface.weighted.fire.arithmeticMean.spreadRate'
+const configFuelPrimary = 'configure.fuel.primary'
+const midflameWind = 'site.wind.speed.atMidflame'
+const moisDead1 = 'site.moisture.dead.tl1h'
+const zero10 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+test('Graph with numeric x axis', () => {
   const product = new Product()
   expect(product.lang).toEqual('en_US')
 
-  // Step 1
+  // Step 1 - select a product
   const products = product.requestProduct()
-  expect(products.selector).toEqual('radio')
-  expect(products.single).toEqual(true)
-  expect(products.label).toEqual('Please select a product')
-  expect(products.options.length).toEqual(8)
+  expect(products).toHaveProperty('selector', 'radio')
+  expect(products).toHaveProperty('selections', 1)
+  expect(products).toHaveProperty('prompt', 'Please select a product')
+  expect(products).toHaveProperty('options')
+  expect(Object.keys(products.options)).toHaveLength(8)
+  expect(products.options).toHaveProperty('graph')
+
   product.setProduct('graph')
   expect(product.product).toEqual('graph')
 
-  // Step 2
+  // Step 2 - select a fire module
   const modules = product.requestModule()
-  expect(modules.selector).toEqual('radio')
-  expect(modules.single).toEqual(true)
-  expect(modules.label).toEqual('Please select a BehavePlus module')
-  expect(modules.options.length).toEqual(7)
+  expect(modules).toHaveProperty('selector', 'radio')
+  expect(modules).toHaveProperty('selections', 1)
+  expect(modules).toHaveProperty('prompt', 'Please select a BehavePlus module')
+  expect(Object.keys(modules.options)).toHaveLength(7)
+  expect(modules.options).toHaveProperty('surfaceFire')
+
   product.setModule('surfaceFire')
   expect(product.module).toEqual('surfaceFire')
 
-  // Step 3
+  // Step 3 - select a module node palette
   const palettes = product.requestPalette()
-  expect(palettes.selector).toEqual('radio')
-  expect(palettes.single).toEqual(true)
-  expect(palettes.label).toEqual('Please select a Variable palette')
-  expect(palettes.options.length).toEqual(3)
-  expect(palettes.options[0][0]).toEqual('common')
-  expect(palettes.options[1][0]).toEqual('intermediate')
-  expect(palettes.options[2][0]).toEqual('advanced')
+  expect(palettes).toHaveProperty('selector', 'radio')
+  expect(palettes).toHaveProperty('selections', 1)
+  expect(palettes).toHaveProperty('prompt', 'Please select a Variable palette')
+  expect(Object.keys(palettes.options)).toHaveLength(3)
+  expect(palettes.options).toHaveProperty('common')
+  expect(palettes.options.common).toHaveProperty('label')
+  expect(palettes.options).toHaveProperty('intermediate')
+  expect(palettes.options.intermediate).toHaveProperty('label')
+  expect(palettes.options).toHaveProperty('advanced')
+  expect(palettes.options.intermediate).toHaveProperty('label')
+
   product.setPalette('advanced')
   expect(product.palette).toEqual('advanced')
 
-  // Step 4
+  // Step 4 - select a y variable
   const y = product.requestGraphYVariable()
-  expect(y.selector).toEqual('menu')
-  expect(y.single).toEqual(false)
-  expect(y.label).toEqual('Select the graph Y variable')
-  let keys = []
-  let units = []
-  const rosKey = 'surface.weighted.fire.arithmeticMean.spreadRate'
-  let rosIdx = -1
-  y.options.forEach((item, idx) => {
-    keys.push(item[0])
-    units.push(y.units[idx])
-    if (item[0] === rosKey) rosIdx = idx
-  })
-  expect(keys).toContain(rosKey)
-  expect(y.units[rosIdx]).toContain('ft/min')
-  expect(y.units[rosIdx]).toContain('ch/h')
-  expect(y.units[rosIdx]).toContain('m/min')
-  product.setGraphYVariable(rosKey, 'ft/min')
-  expect(product.graph.y.node.node.key).toEqual(rosKey)
+  expect(y).toHaveProperty('selector', 'menu')
+  expect(y).toHaveProperty('selections', 1)
+  expect(y).toHaveProperty('prompt', 'Select the graph Y variable')
+  // Should contain the common variable ros and its units
+  expect(y).toHaveProperty('options')
+  // NOTE: Because Node keys contain dot separators,
+  // they MUST be accessed via Object bracket notation.
+  // The following two tests fail as they return 'undefined':
+  // expect(Object.hasOwnProperty(ros)).toEqual(true)
+  // expect(y.options).toHaveProperty(ros)
+  // BUT, bracket notaqtion works fine:
+  let keys = Object.keys(y.options)
+  expect(keys).toHaveLength(4)
+  expect(keys).toContain(ros)
+  expect(y.options[ros]).toHaveProperty(
+    'label',
+    'Surface Fire Maximum Spread Rate'
+  )
+  expect(y.options[ros]).toHaveProperty('units')
+  expect(y.options[ros].units).toContain('ft/min')
+  expect(y.options[ros].units).toContain('ch/h')
+  expect(y.options[ros].units).toContain('m/min')
+  // Keys should also contain this intermediate palette variable
+  expect(keys).toContain(hpua)
+  expect(y.options[hpua]).toHaveProperty(
+    'label',
+    'Surface Fire Heat per Unit Area'
+  )
+  expect(y.options[hpua]).toHaveProperty('units')
+  expect(y.options[hpua].units).toContain('btu/ft2')
+  // Keys should contain this advanced palette variable
+  expect(keys).toContain(beta)
+  expect(y.options[beta]).toHaveProperty('label')
+  expect(y.options[beta]).toHaveProperty('units')
+  // Should NOT contain any discrete variables
+  expect(keys).not.toContain(catalogKey)
+
+  product.setGraphYVariable(ros, 'ft/min')
+  expect(product.graph.y.node.node.key).toEqual(ros)
   expect(product.graph.y.units).toEqual('ft/min')
   const selectedNodes = product.dag.selectedNodes()
   expect(selectedNodes.length).toEqual(1)
 
-  // Step 6
+  // Step 5 - select configuration options
   const configs = product.requestConfigurationOptions()
-  expect(configs.length).toEqual(10)
-  const primaryKey = 'configure.fuel.primary'
-  let primaryIdx = -1
-  configs.forEach((config, idx) => {
-    if (config.key === primaryKey) primaryIdx = idx
-  })
-  const primary = configs[primaryIdx]
-  expect(primary.selector).toEqual('menu')
-  expect(primary.single).toEqual(true)
-  expect(primary.label).toEqual('Primary fuels are specified by entering')
-  expect(primary.options[0][0]).toEqual('catalog')
-  expect(primary.options[0][1]).toEqual('a fuel catalog key')
+  // For ros, there are 10 applicable configuration selectors
+  keys = Object.keys(configs)
+  expect(keys.length).toEqual(10)
+  expect(keys).toContain(configFuelPrimary)
+  const config = configs[configFuelPrimary]
+  expect(config).toHaveProperty('selector', 'menu')
+  expect(config).toHaveProperty('selections', 1)
+  expect(config).toHaveProperty(
+    'prompt',
+    'Primary fuels are specified by entering'
+  )
+  expect(config).toHaveProperty('options')
+  expect(config.options).toHaveProperty('catalog')
+  expect(config.options.catalog).toHaveProperty('label', 'a fuel catalog key')
+
   product.setConfigurationOptions([
     ['configure.fuel.primary', 'catalog'],
     ['configure.fuel.secondary', 'none'],
@@ -96,65 +138,67 @@ test('Graph', () => {
     ['configure.fire.effectiveWindSpeedLimit', 'applied']
   ])
 
-  // Step 7
+  // Step 6 - select an x-axis variable from required inputs
   const x = product.requestGraphXVariable()
-  expect(x.selector).toEqual('menu')
-  expect(x.single).toEqual(true)
-  expect(x.label).toEqual('Select the graph X variable')
-  expect(x.options.length).toEqual(8)
+  expect(x).toHaveProperty('selector', 'menu')
+  expect(x).toHaveProperty('selections', 1)
+  expect(x).toHaveProperty('prompt', 'Select the graph X variable')
+  // Should contain the common variable ros and its units
+  expect(x).toHaveProperty('options')
   // catalogKey, 5 fuel moistures, slope, midflame
-  keys = []
-  units = []
-  const midflameKey = 'site.wind.speed.atMidflame'
-  let midflameIdx = -1
-  x.options.forEach((item, idx) => {
-    keys.push(item[0])
-    units.push(x.units[idx])
-    if (item[0] === midflameKey) midflameIdx = idx
-  })
-  expect(keys).toContain(midflameKey)
-  expect(x.units[midflameIdx]).toContain('ft/min')
-  expect(x.units[midflameIdx]).toContain('mi/h')
+  keys = Object.keys(x.options)
+  expect(keys.length).toEqual(8)
+  expect(keys).toContain(midflameWind)
+  expect(x.options[midflameWind]).toHaveProperty('label')
+  expect(x.options[midflameWind]).toHaveProperty('units')
+  expect(x.options[midflameWind].units).toContain('ft/min')
+  expect(x.options[midflameWind].units).toContain('mi/h')
 
-  product.setGraphXVariable(midflameKey, 'ft/min')
-  expect(product.graph.x.node.node.key).toEqual(midflameKey)
+  product.setGraphXVariable(midflameWind, 'ft/min')
+  expect(product.graph.x.node.node.key).toEqual(midflameWind)
   expect(product.graph.x.units).toEqual('ft/min')
 
-  // Step 9
+  // Step 7 -request X axis values
+  const xval = product.requestGraphXValues()
+  expect(xval).toHaveProperty('selector', 'range') // 'menu' for discrete
+  expect(xval).toHaveProperty('selections', 3) // 5 for discrete
+  expect(xval).toHaveProperty('units', 'ft/min')
+  expect(xval).toHaveProperty('initial')
+  expect(xval.initial).toHaveProperty('minVal')
+  expect(xval.initial).toHaveProperty('maxVal')
+  expect(xval.initial).toHaveProperty('stepVal')
+  expect(xval).toHaveProperty('options', null)
+  expect(xval).toHaveProperty(
+    'prompt',
+    'Enter x-axis min and max values, and number of data points'
+  )
+
+  product.setGraphXValues([0, 10, 1])
+  expect(product.graph.x.data).toEqual(zero10)
+
+  // Step 8 - request graph Z variable
   const z = product.requestGraphZVariable()
-  expect(z.selector).toEqual('menu')
-  expect(z.single).toEqual(true)
-  expect(z.label).toEqual('Optionally select the graph Z variable')
-  // expect(z.options.length).toEqual(8)
-  keys = []
-  units = []
-  const catalogKey = 'surface.primary.fuel.model.catalogKey'
-  let catalogIdx = -1
-  z.options.forEach((item, idx) => {
-    keys.push(item[0])
-    units.push(z.units[idx])
-    if (item[0] === catalogKey) catalogIdx = idx
-  })
-  console.log(keys)
+  expect(z).toHaveProperty('selector', 'menu')
+  expect(z).toHaveProperty('selections', 1)
+  expect(z).toHaveProperty('prompt', 'Optionally select the graph Z variable')
+  expect(z).toHaveProperty('options')
+  // catalogKey, 5 fuel moistures, slope, midflame
+  keys = Object.keys(z.options)
+  // console.log(keys)
+  expect(keys.length).toEqual(8)
+  expect(keys).not.toContain(midflameWind)
+  expect(keys).toContain(moisDead1)
   expect(keys).toContain('none')
   expect(keys).toContain(catalogKey)
-  expect(z.units[catalogIdx]).toEqual(null)
+  expect(z.options[catalogKey]).toHaveProperty('units', null)
 
   product.setGraphZVariable(catalogKey)
   expect(product.graph.z.node.node.key).toEqual(catalogKey)
   expect(product.graph.z.units).toEqual(null)
 
-  //   // Step 10
-  //   const zNode = product.requestGraphZProperties()
-  //   expect(zNode).toEqual(catalogKey)
-  //   // lines = [[value, units, lineColor, lineWidth, lineStyle]]
-  //   const lines = [
-  //     ['10', null, 'red', 1, 'solid'],
-  //     ['124', null, 'blue', 1, 'solid']
-  //   ]
-  //   product.setGraphZProperties(lines)
+  // Step 9 - request graph Z values
 
-  //   // Step 11
+  // Step 10 - Request remaining input values
   //   const singleInputs = product.requestRemainingInputs()
   //   expect(singleInputs.length).toEqual(5)
   //   // inputs = [[nodeRef, value, units]]
