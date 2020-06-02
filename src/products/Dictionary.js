@@ -10,7 +10,11 @@ export const Palette = [
 
 export const Selector = [
   ['selector.graph.x.variable/label@en_US', 'Select the graph X variable'],
-  ['selector.graph.y.variable/label@en_US', 'Select the graph Y variable']
+  ['selector.graph.y.variable/label@en_US', 'Select the graph Y variable'],
+  [
+    'selector.graph.z.variable/label@en_US',
+    'Optionally select the graph Z variable'
+  ]
 ]
 
 export const Module = [

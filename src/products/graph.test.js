@@ -50,8 +50,8 @@ test('Graph', () => {
   expect(y.selector).toEqual('menu')
   expect(y.single).toEqual(false)
   expect(y.label).toEqual('Select the graph Y variable')
-  const keys = []
-  const units = []
+  let keys = []
+  let units = []
   const rosKey = 'surface.weighted.fire.arithmeticMean.spreadRate'
   let rosIdx = -1
   y.options.forEach((item, idx) => {
@@ -96,22 +96,53 @@ test('Graph', () => {
     ['configure.fire.effectiveWindSpeedLimit', 'applied']
   ])
 
-  //   // Step 7
-  //   const xVariableNodes = product.requestGraphXVariable()
-  //   const midflame = dag.get('site.wind.speed.atMidflame')
-  //   expect(xVariableNodes).toContain(midflame)
-  //   product.setGraphXVariable(midflame, 'ft/min')
+  // Step 7
+  const x = product.requestGraphXVariable()
+  expect(x.selector).toEqual('menu')
+  expect(x.single).toEqual(true)
+  expect(x.label).toEqual('Select the graph X variable')
+  expect(x.options.length).toEqual(8)
+  // catalogKey, 5 fuel moistures, slope, midflame
+  keys = []
+  units = []
+  const midflameKey = 'site.wind.speed.atMidflame'
+  let midflameIdx = -1
+  x.options.forEach((item, idx) => {
+    keys.push(item[0])
+    units.push(x.units[idx])
+    if (item[0] === midflameKey) midflameIdx = idx
+  })
+  expect(keys).toContain(midflameKey)
+  expect(x.units[midflameIdx]).toContain('ft/min')
+  expect(x.units[midflameIdx]).toContain('mi/h')
 
-  //   // Step 8
-  //   const xNode = product.requestGraphXProperties()
-  //   expect(xNode).toEqual(midflame)
-  //   product.setGraphXProperties(0, 20 * 88, 1 * 88)
+  product.setGraphXVariable(midflameKey, 'ft/min')
+  expect(product.graph.x.node.node.key).toEqual(midflameKey)
+  expect(product.graph.x.units).toEqual('ft/min')
 
-  //   // Step 9
-  //   const zVariableNodes = product.requestGraphZVariable()
-  //   const catalogKey = dag.get('surface.primary.fuel.model.catalogKey')
-  //   expect(zVariableNodes).toContain(catalogKey)
-  //   product.setGraphZVariable(catalogKey)
+  // Step 9
+  const z = product.requestGraphZVariable()
+  expect(z.selector).toEqual('menu')
+  expect(z.single).toEqual(true)
+  expect(z.label).toEqual('Optionally select the graph Z variable')
+  // expect(z.options.length).toEqual(8)
+  keys = []
+  units = []
+  const catalogKey = 'surface.primary.fuel.model.catalogKey'
+  let catalogIdx = -1
+  z.options.forEach((item, idx) => {
+    keys.push(item[0])
+    units.push(z.units[idx])
+    if (item[0] === catalogKey) catalogIdx = idx
+  })
+  console.log(keys)
+  expect(keys).toContain('none')
+  expect(keys).toContain(catalogKey)
+  expect(z.units[catalogIdx]).toEqual(null)
+
+  product.setGraphZVariable(catalogKey)
+  expect(product.graph.z.node.node.key).toEqual(catalogKey)
+  expect(product.graph.z.units).toEqual(null)
 
   //   // Step 10
   //   const zNode = product.requestGraphZProperties()

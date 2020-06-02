@@ -140,6 +140,7 @@ export class Product {
   setGraphYVariable (nodeKey, units) {
     this.graph.y.node = this.dag.get(nodeKey)
     this.graph.y.units = units
+    this.graph.y.data = []
     this.dag.clearSelected()
     this.dag.runSelected([[this.graph.y.node, true]])
   }
@@ -181,35 +182,70 @@ export class Product {
 
   // Step 7
   requestGraphXVariable () {
-    return this.dag.requiredInputNodes()
+    const ar = []
+    this.dag.requiredInputNodes().forEach(node => {
+      const key = node.node.key
+      ar.push([key, this.dag.tr(`${key}/label`, this.lang, key)])
+    })
+    const units = []
+    ar.forEach(key => {
+      const node = this.dag.get(key[0])
+      const variant = node.variant.ref
+      units.push(variant instanceof Variant.Quantity ? variant.uomKeys() : null)
+    })
+    return {
+      selector: 'menu',
+      single: true,
+      label: this.dag.tr(
+        'selector.graph.x.variable/label',
+        this.lang,
+        'X Variable'
+      ),
+      options: ar,
+      units
+    }
   }
 
-  setGraphXVariable (nodeRef, units = null) {
-    this.graph.x = { node: nodeRef, axisLabel: nodeRef.node.key, units: units }
-  }
-
-  // Step 8
-  requestGraphXProperties () {
-    return this.graph.x.node
-  }
-
-  setGraphXProperties (minValue, maxValue, stepValue) {
-    this.graph.x.minValue = minValue
-    this.graph.x.maxValue = maxValue
-    this.graph.x.stepValue = stepValue
+  setGraphXVariable (nodeKey, units = null) {
+    this.graph.x.node = this.dag.get(nodeKey)
+    this.graph.x.units = units
+    this.graph.x.data = []
   }
 
   // Step 9
   requestGraphZVariable () {
-    return this.dag
+    const ar = []
+    const remaining = this.dag
       .requiredInputNodes()
       .filter(node => node !== this.graph.x.node)
+    remaining.forEach(node => {
+      const key = node.node.key
+      ar.push([key, this.dag.tr(`${key}/label`, this.lang, key)])
+    })
+    const units = []
+    ar.forEach(key => {
+      const node = this.dag.get(key[0])
+      const variant = node.variant.ref
+      units.push(variant instanceof Variant.Quantity ? variant.uomKeys() : null)
+    })
+    return {
+      selector: 'menu',
+      single: true,
+      label: this.dag.tr(
+        'selector.graph.z.variable/label',
+        this.lang,
+        'Z Variable'
+      ),
+      options: [['none', 'none']].concat(ar),
+      units: [null].concat(units)
+    }
   }
 
-  setGraphZVariable (nodeRef, units = null) {
-    this.graph.z = nodeRef
-      ? { node: nodeRef, axisLabel: nodeRef.node.key, units: units }
-      : { node: null, axisLabel: '', units: null }
+  setGraphZVariable (nodeKey, units = null) {
+    this.graph.z.node = nodeKey ? this.dag.get(nodeKey) : null
+    this.graph.z.units = units
+    this.graph.z.data = []
+    this.graph.z.atValues = []
   }
 
   // Step 10
