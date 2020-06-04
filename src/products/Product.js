@@ -37,7 +37,7 @@ export class Product {
   }
 
   // Returns an object of Available selector options
-  // from the Available.items and Dictionary text
+  // from the Available.<itemsList> and Dictionary text
   // @return An object of [key]: {label: 'string'} properties
   _availableItems (availableItems, key) {
     const options = {}
@@ -68,7 +68,7 @@ export class Product {
       selector: 'radio',
       selections: 1,
       prompt: this._keyLabel('product'),
-      options: this._availableItems(Available.Products, 'product') // [[key, label]]
+      options: this._availableItems(Available.ProductsList, 'product') // [[key, label]]
     }
   }
 
@@ -91,7 +91,7 @@ export class Product {
       selector: 'radio',
       selections: 1,
       prompt: this._keyLabel('module'),
-      options: this._availableItems(Available.Modules, 'module') // [[key, label]]
+      options: this._availableItems(Available.ModulesList, 'module') // [[key, label]]
     }
   }
 
@@ -115,7 +115,7 @@ export class Product {
       selector: 'radio',
       selections: 1,
       prompt: this._keyLabel('palette'),
-      options: this._availableItems(Available.Palettes, 'palette') // [[key, label]]
+      options: this._availableItems(Available.PalettesList, 'palette') // [[key, label]]
     }
   }
 
@@ -130,7 +130,7 @@ export class Product {
   /**
    * Helper function for requestGraphYVariable
    * Builds options[] and units[] arrays
-   * @param {object} palette Reference to the Available.Variable.<module>.<palette>
+   * @param {object} palette Reference to the Available.VariablesList.<module>.<palette>
    * @param {object} options Reference to the options object to be mutated
    * @returns An object of [nodeKey]: {label: 'string', units: [array]} properties
    * Only numeric variables will be pushed onto the mutated options object
@@ -154,7 +154,7 @@ export class Product {
    */
   requestGraphYVariable () {
     const options = {}
-    const module = Available.Variables[this.module]
+    const module = Available.VariablesList[this.module]
     this._yVariables(module.common, options)
     if (this.palette === 'intermediate' || this.palette === 'advanced') {
       this._yVariables(module.intermediate, options)

@@ -1,4 +1,4 @@
-import { BpxDag } from '../behaveplus/BpxDag.js'
+import { BpxDag } from '../../behaveplus/BpxDag.js'
 
 test('Node.isNumeric()', () => {
   const dag = BpxDag('products')

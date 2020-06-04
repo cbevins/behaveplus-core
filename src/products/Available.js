@@ -1,4 +1,4 @@
-export const Products = [
+export const ProductsList = [
   'graph',
   'list',
   'oneWay',
@@ -9,7 +9,7 @@ export const Products = [
   'timeSeries'
 ]
 
-export const Variables = {
+export const VariablesList = {
   surfaceFire: {
     common: [
       'surface.weighted.fire.arithmeticMean.spreadRate',
@@ -59,5 +59,5 @@ export const Variables = {
   }
 }
 
-export const Modules = Object.keys(Variables)
-export const Palettes = Object.keys(Variables.surfaceFire)
+export const ModulesList = Object.keys(VariablesList)
+export const PalettesList = Object.keys(VariablesList.surfaceFire)

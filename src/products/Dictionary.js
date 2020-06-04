@@ -1,4 +1,4 @@
-export const Palette = [
+export const PaletteText = [
   ['palette/label@en_US', 'Please select a Variable palette'],
   ['palette/option=common/label@en_US', 'most commonly used variables'],
   [
@@ -8,7 +8,7 @@ export const Palette = [
   ['palette/option=advanced/label@en_US', 'most advanced, wonky variables']
 ]
 
-export const Selector = [
+export const SelectorText = [
   ['selector.graph.x.variable/label@en_US', 'Select the graph X variable'],
   [
     'selector.graph.x.variable/option=range/label@en_US',
@@ -25,7 +25,7 @@ export const Selector = [
   ]
 ]
 
-export const Module = [
+export const ModuleText = [
   ['module/label@en_US', 'Please select a BehavePlus module'],
   ['module/option=surfaceFire/label@en_US', 'Surface Fire'],
   ['module/option=fireEllipse/label@en_US', 'Fire Ellipse'],
@@ -36,7 +36,7 @@ export const Module = [
   ['module/option=ignitionProbability/label@en_US', 'Ignition Probability']
 ]
 
-export const Product = [
+export const ProductText = [
   ['product/label@en_US', 'Please select a product'],
   ['product/option=graph/label@en_US', 'Graph'],
   [
@@ -57,7 +57,7 @@ export const Product = [
   ['product/option=timeSeries/label@en_US', 'A time series']
 ]
 
-export const Surface = [
+export const SurfaceFireText = [
   [
     'surface.fire.ellipse.axis.lengthToWidthRatio/label@en_US',
     'Fire Ellipse Length-toWidth Ratio'
@@ -109,7 +109,7 @@ export const Surface = [
   ]
 ]
 
-export const Site = [
+export const SiteMoistureText = [
   ['site.moisture.dead.tl1h/label@en_US', 'Dead 1-h Fuel Moisture'],
   ['site.moisture.dead.tl10h/label@en_US', 'Dead 10-h Fuel Moisture'],
   ['site.moisture.dead.tl100h/label@en_US', 'Dead 100-h Fuel Moisture'],
@@ -117,7 +117,7 @@ export const Site = [
   ['site.moisture.live.stem/label@en_US', 'Live Stem Fuel Moisture']
 ]
 
-export const Configure = [
+export const ConfigureFuelText = [
   [
     'configure.fuel.primary/label@en_US',
     'Primary fuels are specified by entering'
@@ -167,11 +167,11 @@ export const Configure = [
 ]
 
 export const TranslationMap = new Map([
-  ...Module,
-  ...Palette,
-  ...Product,
-  ...Selector,
-  ...Configure,
-  ...Site,
-  ...Surface
+  ...ModuleText,
+  ...PaletteText,
+  ...ProductText,
+  ...SelectorText,
+  ...ConfigureFuelText,
+  ...SiteMoistureText,
+  ...SurfaceFireText
 ])
