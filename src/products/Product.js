@@ -24,9 +24,9 @@ export class Product {
     )
     this.dag = this.root.addDag('Products')
     this.lang = language
-    this.product = null // 'graph', 'oneWayTable', etc
-    this.module = null // 'surfaceFire', 'fireEllipse', etc
-    this.palette = 'common' // 'common', 'technical', 'advanced'
+    this.product = 'graph' // 'graph', 'oneWayTable', etc
+    this.module = 'surfaceFire' // 'surfaceFire', 'fireEllipse', etc
+    this.palette = 'common' // 'common', 'intermediate', 'advanced'
     this.decoration = {}
     this.inputs = {}
     this.graph = {

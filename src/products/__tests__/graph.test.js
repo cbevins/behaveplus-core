@@ -28,7 +28,7 @@ test('Graph with numeric x axis', () => {
   const products = product.requestProduct()
   expect(products).toHaveProperty('selector', 'radio')
   expect(products).toHaveProperty('selections', 1)
-  expect(products).toHaveProperty('prompt', 'Please select a product')
+  expect(products).toHaveProperty('prompt', 'Product')
   expect(products).toHaveProperty('options')
   expect(Object.keys(products.options)).toHaveLength(8)
   expect(products.options).toHaveProperty('graph')
@@ -40,7 +40,7 @@ test('Graph with numeric x axis', () => {
   const modules = product.requestModule()
   expect(modules).toHaveProperty('selector', 'radio')
   expect(modules).toHaveProperty('selections', 1)
-  expect(modules).toHaveProperty('prompt', 'Please select a BehavePlus module')
+  expect(modules).toHaveProperty('prompt', 'BehavePlus Module')
   expect(Object.keys(modules.options)).toHaveLength(7)
   expect(modules.options).toHaveProperty('surfaceFire')
 
@@ -51,7 +51,7 @@ test('Graph with numeric x axis', () => {
   const palettes = product.requestPalette()
   expect(palettes).toHaveProperty('selector', 'radio')
   expect(palettes).toHaveProperty('selections', 1)
-  expect(palettes).toHaveProperty('prompt', 'Please select a Variable palette')
+  expect(palettes).toHaveProperty('prompt', 'Variable Palette')
   expect(Object.keys(palettes.options)).toHaveLength(3)
   expect(palettes.options).toHaveProperty('common')
   expect(palettes.options.common).toHaveProperty('label')
@@ -67,7 +67,7 @@ test('Graph with numeric x axis', () => {
   const y = product.requestGraphYVariable()
   expect(y).toHaveProperty('selector', 'menu')
   expect(y).toHaveProperty('selections', 1)
-  expect(y).toHaveProperty('prompt', 'Select the graph Y variable')
+  expect(y).toHaveProperty('prompt', 'Graph Y variable')
   // Should contain the common variable ros and its units
   expect(y).toHaveProperty('options')
   // NOTE: Because Node keys contain dot separators,
@@ -142,7 +142,7 @@ test('Graph with numeric x axis', () => {
   const x = product.requestGraphXVariable()
   expect(x).toHaveProperty('selector', 'menu')
   expect(x).toHaveProperty('selections', 1)
-  expect(x).toHaveProperty('prompt', 'Select the graph X variable')
+  expect(x).toHaveProperty('prompt', 'Graph X variable')
   // Should contain the common variable ros and its units
   expect(x).toHaveProperty('options')
   // catalogKey, 5 fuel moistures, slope, midflame
@@ -180,7 +180,7 @@ test('Graph with numeric x axis', () => {
   const z = product.requestGraphZVariable()
   expect(z).toHaveProperty('selector', 'menu')
   expect(z).toHaveProperty('selections', 1)
-  expect(z).toHaveProperty('prompt', 'Optionally select the graph Z variable')
+  expect(z).toHaveProperty('prompt', 'Graph Z variable')
   expect(z).toHaveProperty('options')
   // catalogKey, 5 fuel moistures, slope, midflame
   keys = Object.keys(z.options)

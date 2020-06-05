@@ -1,15 +1,15 @@
 export const PaletteText = [
-  ['palette/label@en_US', 'Please select a Variable palette'],
-  ['palette/option=common/label@en_US', 'most commonly used variables'],
+  ['palette/label@en_US', 'Variable Palette'],
+  ['palette/option=common/label@en_US', 'just the most commonly used variables'],
   [
     'palette/option=intermediate/label@en_US',
-    'more technical, intermediate variables'
+    'plus the more technical, intermediate variables'
   ],
-  ['palette/option=advanced/label@en_US', 'most advanced, wonky variables']
+  ['palette/option=advanced/label@en_US', 'plus the most advanced, wonky variables']
 ]
 
 export const SelectorText = [
-  ['selector.graph.x.variable/label@en_US', 'Select the graph X variable'],
+  ['selector.graph.x.variable/label@en_US', 'Graph X variable'],
   [
     'selector.graph.x.variable/option=range/label@en_US',
     'Enter x-axis min and max values, and number of data points'
@@ -18,15 +18,15 @@ export const SelectorText = [
     'selector.graph.x.variable/option=menu/label@en_US',
     'Select the x variable values'
   ],
-  ['selector.graph.y.variable/label@en_US', 'Select the graph Y variable'],
+  ['selector.graph.y.variable/label@en_US', 'Graph Y variable'],
   [
     'selector.graph.z.variable/label@en_US',
-    'Optionally select the graph Z variable'
+    'Graph Z variable'
   ]
 ]
 
 export const ModuleText = [
-  ['module/label@en_US', 'Please select a BehavePlus module'],
+  ['module/label@en_US', 'BehavePlus Module'],
   ['module/option=surfaceFire/label@en_US', 'Surface Fire'],
   ['module/option=fireEllipse/label@en_US', 'Fire Ellipse'],
   ['module/option=scorchHeight/label@en_US', 'Scorch Height'],
@@ -37,7 +37,7 @@ export const ModuleText = [
 ]
 
 export const ProductText = [
-  ['product/label@en_US', 'Please select a product'],
+  ['product/label@en_US', 'Product'],
   ['product/option=graph/label@en_US', 'Graph'],
   [
     'product/option=list/label@en_US',
