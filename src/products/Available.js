@@ -1,11 +1,11 @@
 export const ProductsList = [
   'graph',
-  'list',
-  'oneWay',
-  'twoWay',
-  'records',
+  'table0Ranges',
+  'table1Range',
+  'table2Ranges',
+  'runRecords',
   'diagram',
-  'cases',
+  'caseComparison',
   'timeSeries'
 ]
 

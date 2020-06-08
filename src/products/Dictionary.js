@@ -1,11 +1,13 @@
 export const PaletteText = [
   ['palette/label@en_US', 'Variable Palette'],
-  ['palette/option=common/label@en_US', 'just the most commonly used variables'],
+  ['palette/option=common/label@en_US',
+    'just the most commonly used variables'],
   [
     'palette/option=intermediate/label@en_US',
-    'plus the more technical, intermediate variables'
+    'commonly used PLUS more technical variables'
   ],
-  ['palette/option=advanced/label@en_US', 'plus the most advanced, wonky variables']
+  ['palette/option=advanced/label@en_US',
+    'commonly used, technical, PLUS advanced variables']
 ]
 
 export const SelectorText = [
@@ -40,21 +42,24 @@ export const ProductText = [
   ['product/label@en_US', 'Product'],
   ['product/option=graph/label@en_US', 'Graph'],
   [
-    'product/option=list/label@en_US',
-    'Table with single values for all inputs and outputs'
+    'product/option=table0Ranges/label@en_US',
+    'Table with no multi-valued inputs'
   ],
   [
-    'product/option=oneWay/label@en_US',
-    'Table with output values for columns and 1 ranged input for rows'
+    'product/option=table1Range/label@en_US',
+    'Table with 1 multi-valued input'
   ],
   [
-    'product/option=twoWay/label@en_US',
-    'Table of output values for cells and 2 ranged inputs for rows and columns'
+    'product/option=table2Ranges/label@en_US',
+    'Table with 2 multi-valued inptus'
   ],
-  ['product/option=records/label@en_US', 'A set of data records'],
+  ['product/option=runRecords/label@en_US',
+    'Set of data records (any number of multi-valued inputs)'],
   ['product/option=diagram/label@en_US', 'A diagram'],
-  ['product/option=cases/label@en_US', 'A set of case-wise comparisons'],
-  ['product/option=timeSeries/label@en_US', 'A time series']
+  ['product/option=caseComparison/label@en_US',
+    'A set of case-wise comparisons between discrete cases'],
+  ['product/option=timeSeries/label@en_US',
+    'A table or graph of conditions over time']
 ]
 
 export const SurfaceFireText = [

@@ -78,6 +78,7 @@ export class Product {
    */
   setProduct (product) {
     this.product = product
+    return this
   }
 
   /**
@@ -101,6 +102,7 @@ export class Product {
    */
   setModule (module) {
     this.module = module
+    return this
   }
 
   /**
@@ -125,6 +127,7 @@ export class Product {
    */
   setPalette (palette) {
     this.palette = palette
+    return this
   }
 
   /**
@@ -181,6 +184,7 @@ export class Product {
     this.graph.y.data = []
     this.dag.clearSelected()
     this.dag.runSelected([[this.graph.y.node, true]])
+    return this
   }
 
   /**
@@ -216,6 +220,7 @@ export class Product {
    */
   setConfigurationOptions (configs) {
     this.dag.runConfigs(configs)
+    return this
   }
 
   /**
@@ -253,6 +258,7 @@ export class Product {
     this.graph.x.node = this.dag.get(nodeKey)
     this.graph.x.units = units
     this.graph.x.data = []
+    return this
   }
 
   /**
@@ -296,6 +302,7 @@ export class Product {
     } else {
       this.graph.x.data = values
     }
+    return this
   }
 
   // Step 8
@@ -312,6 +319,7 @@ export class Product {
     this.graph.z.units = units
     this.graph.z.data = []
     this.graph.z.atValues = []
+    return this
   }
 
   // Step 9 - request Graph Z variable values
@@ -326,6 +334,7 @@ export class Product {
   // inputs = [[nodeRef, value, units]]
   setRemainingInputs (inputs) {
     this.inputs = inputs
+    return this
   }
 
   // Step 11
@@ -339,6 +348,7 @@ export class Product {
       agency: agency,
       timestamp: timestamp
     }
+    return this
   }
 
   // Step 12
@@ -365,10 +375,11 @@ export class Product {
         this.dag.runInputs([[z.node, line.value]])
         this.graph.series.push([...this.graph.y.node.value.run])
       })
-      return
+      return this
     }
 
     // Otherwise, we already have the single line series
     this.graph.series.push([...this.graph.y.node.value.run])
+    return this
   }
 }
