@@ -20,3 +20,9 @@ Generate.genomeArray(
   'BehavePlus Genome in Node key order',
   'BehavePlusGenome_NodeKeyOrder.js'
 )
+
+let chars = 0
+dag.sorted.nodes.forEach(node => {
+  chars += node.node.key.length
+})
+console.log(`The total length of all keys = ${chars}`)

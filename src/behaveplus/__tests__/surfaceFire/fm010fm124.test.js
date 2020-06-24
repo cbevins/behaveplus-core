@@ -4,7 +4,7 @@ import * as DagJest from '../../../utils/matchers.js'
 import {
   ConfigFm010Fm124Config,
   ConfigFm010Fm124Input
-} from '../../BpxConfigPalette.js'
+} from '../BpxConfigPalette.js'
 import * as Test from './testData.js'
 
 const sig = DagJest.sig

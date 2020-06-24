@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { BpxDag, NodeMapSize, MethodMapSize } from '../BpxDag.js'
-import { ConfigMinimalInput } from '../BpxConfigPalette.js'
+import { ConfigMinimalInput } from './BpxConfigPalette.js'
 import { generateArray } from '../../dag/DagPrivate.js'
 
 test('BpxDag constructor', () => {

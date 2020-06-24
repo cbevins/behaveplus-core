@@ -1,11 +1,8 @@
 /* eslint-disable no-undef, no-unused-vars, no-prototype-builtins */
 import { Root } from '../index.js'
 import { MethodMap } from '../../equations/index.js'
-import {
-  ConfigMinimalInput,
-  BpxGenome,
-  BpxVariantMap
-} from '../../behaveplus/index.js'
+import { ConfigMinimalInput } from '../../behaveplus/__tests__/BpxConfigPalette.js'
+import { BpxGenome, BpxVariantMap } from '../../behaveplus/index.js'
 
 import * as DagJest from '../../utils/matchers.js'
 const sig = DagJest.sig

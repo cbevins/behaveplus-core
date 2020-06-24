@@ -1,6 +1,6 @@
 import { BpxDag } from '../../BpxDag.js'
 import * as DagJest from '../../../utils/matchers.js'
-import { ConfigMinimalInput } from '../../BpxConfigPalette.js'
+import { ConfigMinimalInput } from '../BpxConfigPalette.js'
 
 const value = DagJest.value
 expect.extend({ value })

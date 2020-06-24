@@ -17,7 +17,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 11,
+    "ecmaVersion": 2019,
     "sourceType": "module"
   },
   "plugins": ["react"],

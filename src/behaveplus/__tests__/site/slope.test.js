@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { BpxDag } from '../../BpxDag.js'
 import * as DagJest from '../../../utils/matchers.js'
-import { ConfigDefault } from '../../BpxConfigPalette.js'
+import { ConfigDefault } from '../BpxConfigPalette.js'
 
 const sig = DagJest.sig
 const value = DagJest.value

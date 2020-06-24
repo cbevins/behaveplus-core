@@ -1,4 +1,5 @@
-import { Module } from './BpxConfigOptions.js'
+/* eslint-disable jest/no-export */
+import { Module } from '../BpxConfigOptions.js'
 
 export const ConfigDefault = [
   ['configure.fire.effectiveWindSpeedLimit', ['applied', 'ignored'][0]],
@@ -144,3 +145,7 @@ export const ConfigFm010Fm124Input = [
   ['surface.secondary.fuel.model.catalogKey', ['124']],
   ['surface.weighted.fire.primaryCover', [0.6]]
 ]
+
+test('Modules', () => {
+  expect(Module.length).toEqual(10)
+})
