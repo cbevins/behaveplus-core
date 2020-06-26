@@ -271,10 +271,10 @@ The 'configure.module' value affects the update method and providers of 13 Nodes
     <td>surface.weighted.fire.spreadRate</td>
   </tr>
   <tr>
-    <td>site.fire.observed.spreadRate</td>
+    <td></td>
     <td>otherwise</td>
     <td>Dag.bind</td>
-    <td></td>
+    <td>site.fire.observed.spreadRate</td>
   </tr>
   <tr>
     <td>surface.fire.ellipse.heading.fromUpslope</td>
@@ -286,7 +286,7 @@ The 'configure.module' value affects the update method and providers of 13 Nodes
     <td></td>
     <td>otherwise</td>
     <td>Dag.bind</td>
-    <td>Dag.bind site.fire.observed.heading.fromUpslope</td>
+    <td>site.fire.observed.heading.fromUpslope</td>
   </tr>
   <tr>
     <td>surface.fire.ellipse.wind.speed.atMidflame</td>
@@ -301,3 +301,115 @@ The 'configure.module' value affects the update method and providers of 13 Nodes
     <td>site.wind.speed.atMidflame</td>
   </tr>
 </table>
+
+---
+# BehavePlus Style Linkages
+
+- &#9745; Surface Fire
+    - &#9745; Crown Fire
+        - &#9745; Crown Fire Spotting
+    - &#9745; Fire Ellipse
+        - &#9744; Fire Containment
+    - &#9745; Surface Fire Spotting
+    - &#9745; Scorch Height
+        - &#9745; Tree Mortality
+- &#9745; Spotting from Burning Pile or Torching Trees
+- &#9745; Ignition Probability
+
+<table border>
+<tr><th>Link</th><th>Variable</th><th>Enabled</th><th>Disabled</th></tr>
+  <tr><td>link.surfaceFire.crownFire</td>
+        <td>crown.fire.surface.firelineIntensity</td>
+          <td>surface.weighted.fire.firelineIntensity</td>
+          <td>site.fire.observed.firelineIntensity</td>
+  </tr>
+  <tr><td></td>
+        <td>crown.fire.surface.flameLength</td>
+          <td>surface.weighted.fire.flameLength</td>
+          <td>site.fire.observed.flameLength</td>
+  </tr>
+  <tr><td></td>
+        <td>crown.fire.surface.heatPerUnitArea</td>
+          <td>surface.weighted.fire.heatPerUnitArea</td>
+          <td>site.fire.observed.heatPerUnitArea</td>
+  </tr>
+
+  <tr><td>link.surfaceFire.scorchHeight</td>
+        <td>scorch.firelineIntensity</td>
+          <td>surface.weighted.fire.firelineIntensity</td>
+          <td>site.fire.observed.firelineIntensity</td>
+  </tr>
+
+  <tr><td></td>
+        <td>scorch.wind.speed</td>
+          <td>surface.weighted.fire.wind.speed.atMidflame</td>
+          <td>site.wind.speed.atMidflame</td>
+  </tr>
+
+  <tr><td>link.scorchHeight.treeMortality</td>
+        <td>mortality.scorchHeight</td>
+          <td>scorch.height</td>
+          <td>site.fire.observed.scorchHeight</td>
+  </tr>
+
+  <tr><td>link.crownFire.crownSpotting</td>
+        <td>spotting.crownFire.firelineIntensity</td>
+          <td>crown.fire.active.firelineIntensity</td>
+          <td>firelineIntensityThomas( site.fire.crown.flameLength )</td>
+  </tr>
+
+  <tr><td>link.surfaceFire.surfaceSpotting</td>
+        <td>spotting.surfaceFire.firelineIntensity</td>
+          <td>surface.weighted.fire.firelineIntensity</td>
+          <td>site.fire.observed.firelineIntensity</td>
+  </tr>
+
+  <tr><td>link.surfaceFire.fireEllipse</td>
+        <td>surface.fire.ellipse.axis.effectiveWindSpeed</td>
+          <td>surface.weighted.fire.effectiveWindSpeed</td>
+          <td>site.fire.observed.effectiveWindSpeed</td>
+  </tr>
+
+  <tr><td></td>
+        <td>surface.fire.ellipse.axis.lengthToWidthRatio</td>
+          <td>surface.weighted.fire.lengthToWidthRatio</td>
+          <td>site.fire.observed.lengthToWidthRatio</td>
+  </tr>
+
+  <tr><td></td>
+        <td>surface.fire.ellipse.head.firelineIntensity</td>
+          <td>surface.weighted.fire.firelineIntensity</td>
+          <td>site.fire.observed.firelineIntensity</td>
+  </tr>
+
+  <tr><td></td>
+        <td>surface.fire.ellipse.head.flameLength</td>
+          <td>surface.weighted.fire.flameLength</td>
+          <td>site.fire.observed.flameLength</td>
+  </tr>
+
+  <tr><td></td>
+        <td>surface.fire.ellipse.head.spreadRate</td>
+          <td>surface.weighted.fire.spreadRate</td>
+          <td>site.fire.observed.spreadRate</td>
+  </tr>
+
+  <tr><td></td>
+        <td>surface.fire.ellipse.heading.fromUpslope</td>
+          <td>surface.weighted.fire.heading.fromUpslope</td>
+          <td>site.fire.observed.heading.fromUpslope</td>
+  </tr>
+
+  <tr><td></td>
+        <td>surface.fire.ellipse.wind.speed.atMidflame</td>
+          <td>surface.weighted.fire.wind.speed.atMidflame</td>
+          <td>site.wind.speed.atMidflame</td>
+  </tr>
+</table>
+
+# To Do
+  - Add Nodes:
+    - scorch.height
+    - scorch.wind.speed
+  - Add link.<from>.<to> Nodes
+  - Replace configure.module
