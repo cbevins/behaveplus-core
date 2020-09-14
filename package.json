@@ -96,6 +96,7 @@
       "!**/vendor/**",
       "!**/delayed__tests__/",
       "!app.js",
+      "!checkLint.js",
       "!rollup.config.js",
       "!**/Contain.js"
     ]
